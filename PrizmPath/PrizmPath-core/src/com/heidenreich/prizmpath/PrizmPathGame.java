@@ -16,13 +16,14 @@ public class PrizmPathGame extends Game {
 	public static byte[] levelData;
 	public static byte[] optionData;
 	public static Music[][] soundpacks;
+	public static Sprite splash;
 	public static Sprite[] backgrounds;
 	public static Sprite[][][] colorpacks;
 	public static final String log = "PrizmPath";
 	public static final String version = "Alpha 1.0";
 
 	/*
-	 * TO DO LIST: - Write loadData() - Write loadResources() - Write savaData()
+	 * TO DO LIST: Write loadData() - Write loadResources() - Write savaData() 
 	 */
 	// Creates the game
 	public void create() {
