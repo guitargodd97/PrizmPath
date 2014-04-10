@@ -15,6 +15,9 @@ public class PrizmPathGame extends Game {
 	public static boolean sfxMute;
 	public static byte[] levelData;
 	public static byte[] optionData;
+	public static int curBackground;
+	public static int curColorpack;
+	public static int curSoundpack;
 	public static Music[][] soundpacks;
 	public static Sprite splash;
 	public static Sprite[] backgrounds;
