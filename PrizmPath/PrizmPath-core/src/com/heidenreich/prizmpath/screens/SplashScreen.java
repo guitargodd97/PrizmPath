@@ -136,3 +136,4 @@ public class SplashScreen implements Screen {
 	}
 
 }
+//© Hunter Heidenreich 2014
