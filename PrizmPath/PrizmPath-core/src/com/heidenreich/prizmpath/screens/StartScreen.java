@@ -1,9 +1,12 @@
 package com.heidenreich.prizmpath.screens;
 
+import java.util.Random;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
@@ -30,13 +33,14 @@ public class StartScreen implements Screen {
 	private TextButton quit;
 	private TextButton shop;
 	private TextButton start;
-	private Vector2 buttonSize;*
-	private Vector2 buttonLocation;*
+	private Vector2 buttonSize;
+	private Vector2 buttonLocation;
 
 	// Constructs StartScreen
 	public StartScreen(PrizmPathGame p) {
 		this.p = p;
 		Gdx.app.log(PrizmPathGame.getLog(), "Start started");
+		Gdx.app.exit();
 	}
 
 	// Updates the screen
@@ -72,7 +76,7 @@ public class StartScreen implements Screen {
 		TextButtonStyle tbs = new TextButtonStyle();
 		tbs.up = skin.getDrawable("buttonnormal");
 		tbs.down = skin.getDrawable("buttonpressed");
-		tbs.font = b;
+		// tbs.font = b;
 
 		// Start Button
 		start = new TextButton("Start", tbs);
@@ -160,8 +164,8 @@ public class StartScreen implements Screen {
 		});
 
 		// Title label
-		LabelStyle ls = new LabelStyle(f, Color.WHITE);
-		title = new Label("PrizmPath", ls);
+		// LabelStyle ls = new LabelStyle(f, Color.WHITE);
+		// title = new Label("PrizmPath", ls);
 		title.setX(0);
 		// title.setY(400);
 		title.setWidth(Gdx.graphics.getWidth());
@@ -176,14 +180,24 @@ public class StartScreen implements Screen {
 		stage.addActor(title);
 	}
 
-	//Called when the screen is shown
+	// Called when the screen is shown
 	public void show() {
 		batch = new SpriteBatch();
-		
-		buttonAtlas = PrizmPathGame.getAssets().get(BUTTON_TEXTURE, TextureAtlas.class);
-		
-		skin = new Skin();
-		skin.addRegions(buttonAtlas);
+
+		/*
+		 * buttonAtlas = PrizmPathGame.getAssets().get(BUTTON_TEXTURE,
+		 * TextureAtlas.class);
+		 * 
+		 * b = new BitmapFont(Gdx.files.internal(fontB)); f = new
+		 * BitmapFont(Gdx.files.internal(fontW));
+		 * 
+		 * skin = new Skin(); skin.addRegions(buttonAtlas);
+		 */
+		Random ran = new Random();
+		int i = ran.nextInt(PrizmPathGame.soundpacks[0].length);
+		PrizmPathGame.soundpacks[PrizmPathGame.curSoundpack][i]
+				.setLooping(true);
+		PrizmPathGame.soundpacks[PrizmPathGame.curSoundpack][i].play();
 	}
 
 	public void hide() {

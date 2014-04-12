@@ -18,11 +18,9 @@ public class SplashScreen implements Screen {
 	private Music splash;
 	private PrizmPathGame p;
 	private SpriteBatch batch;
-	private final String MUSIC_SOUND = "";
-	private final String SFX_SOUND = "";
-	/*
-	 * TO DO LIST: Load actual resource files
-	 */
+	private final String MUSIC_SOUND = "data/sound/music/HeidenreichSound.wav";
+	private final String SFX_SOUND = "data/sound/sfx/yeahsfx.wav";
+
 	// Constructs the SplashScreen
 	public SplashScreen(PrizmPathGame p) {
 		this.p = p;
@@ -46,8 +44,7 @@ public class SplashScreen implements Screen {
 			batch.begin();
 			Color c = batch.getColor();
 			batch.setColor(c.r, c.b, c.g, 1);
-			// if (timer <= 2.85 || timer >= 3.15)
-			// PrizmPathGame.splash.draw(batch);
+			PrizmPathGame.splash.draw(batch);
 			c = batch.getColor();
 			batch.setColor(c.r, c.b, c.g, 1);
 			if (timer >= 2.85 && timer <= 3.15)
@@ -71,16 +68,16 @@ public class SplashScreen implements Screen {
 
 		Gdx.app.log(PrizmPathGame.getLog(), "Initialized images and sounds");
 		// Sets up the sprites
-		// PrizmPathGame.splash
-		// .setPosition((Gdx.graphics.getWidth() - PrizmPathGame.splash
-		// .getWidth()) / 2,
-		// (Gdx.graphics.getHeight() - PrizmPathGame.splash
-		// .getHeight()) / 2);
+		PrizmPathGame.splash
+				.setPosition((Gdx.graphics.getWidth() - PrizmPathGame.splash
+						.getWidth()) / 2,
+						(Gdx.graphics.getHeight() - PrizmPathGame.splash
+								.getHeight()) / 2);
 
 		// Initializes the sounds
-		// splash = Gdx.audio.newMusic(Gdx.files.internal(MUSIC_SOUND));
-		// splash.play();
-		// splash.setLooping(false);
+		splash = Gdx.audio.newMusic(Gdx.files.internal(MUSIC_SOUND));
+		splash.play();
+		splash.setLooping(false);
 	}
 
 	// Called on hide
@@ -101,22 +98,21 @@ public class SplashScreen implements Screen {
 	// Disposes of disposable assets
 	public void dispose() {
 		batch.dispose();
-		// splash.dispose();
+		splash.dispose();
 	}
 
 	// Plays the static noise
 	public void playSFX() {
 		// If the SFX hasn't been played yet
 		if (!hasPlayed) {
-			Gdx.app.log(PrizmPathGame.getLog(), "Playing SFX");
-			// Gdx.audio.newSound(Gdx.files.internal(SFX_SOUND)).play();
+			Gdx.audio.newSound(Gdx.files.internal(SFX_SOUND)).play();
 			hasPlayed = true;
 		}
 	}
 
 	// Updates the alpha of the images to create a fade-in fade-out
 	private void updateAlpha() {
-		// ((Batch) PrizmPathGame.splash).setColor(1, 1, 1, alpha);
+		PrizmPathGame.splash.setColor(1, 1, 1, alpha);
 		if (counter % 3 == 0) {
 			if (alpha < .99f && !reverse)
 				alpha += fade;
@@ -136,4 +132,4 @@ public class SplashScreen implements Screen {
 	}
 
 }
-//© Hunter Heidenreich 2014
+// © Hunter Heidenreich 2014

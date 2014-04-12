@@ -4,8 +4,12 @@ import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.heidenreich.prizmpath.screens.SplashScreen;
 
 public class PrizmPathGame extends Game {
@@ -18,21 +22,24 @@ public class PrizmPathGame extends Game {
 	public static int curBackground;
 	public static int curColorpack;
 	public static int curSoundpack;
+	private int loaded;
 	public static Music[][] soundpacks;
 	public static Sprite splash;
 	public static Sprite[] backgrounds;
 	public static Sprite[][][] colorpacks;
 	public static final String log = "PrizmPath";
+	public static final String TEXTURE_PATH = "data/textures/texture.atlas";
 	public static final String version = "Alpha 1.0";
 
 	/*
-	 * TO DO LIST: Write loadData() - Write loadResources() - Write savaData() 
+	 * TO DO LIST: Write loadData() - Write loadResources() - Write savaData()
 	 */
 	// Creates the game
 	public void create() {
 		// Logs the game type for control modification
 		appType = Gdx.app.getType();
 
+		loaded = 0;
 		// Loads data
 		loadData();
 
@@ -40,8 +47,6 @@ public class PrizmPathGame extends Game {
 		PrizmPathGame.setAssetManager(new AssetManager());
 		loadResources();
 
-		// Starts the game with the splashscreen
-		this.setScreen(new SplashScreen(this));
 	}
 
 	// Disposes of the game
@@ -54,6 +59,15 @@ public class PrizmPathGame extends Game {
 	// Updates the game
 	public void render() {
 		super.render();
+		if (loaded == 2) {
+			loaded++;
+			// Starts the game with the splashscreen
+			this.setScreen(new SplashScreen(this));
+		} else if (loaded == 1) {
+			setupResources();
+			loaded++;
+		} else if (PrizmPathGame.getAssets().update())
+			loaded++;
 	}
 
 	// Accounts for resizing of the window
@@ -76,10 +90,23 @@ public class PrizmPathGame extends Game {
 		/*
 		 * Brief Description: Loads all the resources into the AssetManager
 		 * 
-		 * NOTE - May need multiple instanes of AssetManagers for multiple file
+		 * NOTE - May need multiple instances of AssetManagers for multiple file
 		 * types, such as textures and audio.
 		 */
+		// Set the type of manager
+		PrizmPathGame.getAssets().setLoader(TiledMap.class,
+				new TmxMapLoader(new InternalFileHandleResolver()));
+		PrizmPathGame.getAssets().load(PrizmPathGame.TEXTURE_PATH,
+				TextureAtlas.class);
+		PrizmPathGame.getAssets().finishLoading();
 		Gdx.app.log(getLog(), "Resources loaded");
+	}
+
+	// Sets up the resources()
+	public void setupResources() {
+		PrizmPathGame.splash = PrizmPathGame.getAssets()
+				.get(PrizmPathGame.TEXTURE_PATH, TextureAtlas.class)
+				.createSprite("splash");
 	}
 
 	// Loads the data
