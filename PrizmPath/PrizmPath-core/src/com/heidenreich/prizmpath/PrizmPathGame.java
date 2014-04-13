@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.heidenreich.prizmpath.screens.SplashScreen;
+import com.heidenreich.prizmpath.screens.StartScreen;
 
 public class PrizmPathGame extends Game {
 	public static ApplicationType appType;
@@ -98,6 +99,8 @@ public class PrizmPathGame extends Game {
 				new TmxMapLoader(new InternalFileHandleResolver()));
 		PrizmPathGame.getAssets().load(PrizmPathGame.TEXTURE_PATH,
 				TextureAtlas.class);
+		PrizmPathGame.getAssets().load(StartScreen.BUTTON_TEXTURE,
+				TextureAtlas.class);
 		PrizmPathGame.getAssets().finishLoading();
 		Gdx.app.log(getLog(), "Resources loaded");
 	}
@@ -107,6 +110,10 @@ public class PrizmPathGame extends Game {
 		PrizmPathGame.splash = PrizmPathGame.getAssets()
 				.get(PrizmPathGame.TEXTURE_PATH, TextureAtlas.class)
 				.createSprite("splash");
+		backgrounds = new Sprite[1];
+		backgrounds[0] = PrizmPathGame.splash;
+		soundpacks = new Music[1][1];
+		soundpacks[0][0] = Gdx.audio.newMusic(Gdx.files.internal("data/sound/music/Pack1-0.wav"));
 	}
 
 	// Loads the data
@@ -116,6 +123,9 @@ public class PrizmPathGame extends Game {
 		 * the byte[]s levelData and option data. This data is then read into
 		 * the static variables.
 		 */
+		curBackground = 0;
+		curColorpack = 0;
+		curSoundpack = 0;
 		Gdx.app.log(getLog(), "Data loaded");
 	}
 

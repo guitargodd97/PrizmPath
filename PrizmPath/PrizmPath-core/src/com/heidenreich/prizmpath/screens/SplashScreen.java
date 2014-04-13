@@ -65,9 +65,10 @@ public class SplashScreen implements Screen {
 	public void show() {
 		// Initializes the batch
 		batch = new SpriteBatch();
-
+	
 		Gdx.app.log(PrizmPathGame.getLog(), "Initialized images and sounds");
 		// Sets up the sprites
+		PrizmPathGame.splash.setColor(1, 1, 1, 0);
 		PrizmPathGame.splash
 				.setPosition((Gdx.graphics.getWidth() - PrizmPathGame.splash
 						.getWidth()) / 2,

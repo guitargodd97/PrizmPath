@@ -23,24 +23,26 @@ import com.heidenreich.prizmpath.PrizmPathGame;
 
 public class StartScreen implements Screen {
 
+	private BitmapFont f;
 	private Label title;
 	private PrizmPathGame p;
 	private Skin skin;
 	private SpriteBatch batch;
 	private Stage stage;
+	public static final String BUTTON_TEXTURE = "data/textures/button.pack";
 	private TextButton credits;
 	private TextButton options;
 	private TextButton quit;
 	private TextButton shop;
 	private TextButton start;
+	private TextureAtlas buttonAtlas;
 	private Vector2 buttonSize;
-	private Vector2 buttonLocation;
 
 	// Constructs StartScreen
 	public StartScreen(PrizmPathGame p) {
 		this.p = p;
+		buttonSize = new Vector2(300, 75);
 		Gdx.app.log(PrizmPathGame.getLog(), "Start started");
-		Gdx.app.exit();
 	}
 
 	// Updates the screen
@@ -76,13 +78,13 @@ public class StartScreen implements Screen {
 		TextButtonStyle tbs = new TextButtonStyle();
 		tbs.up = skin.getDrawable("buttonnormal");
 		tbs.down = skin.getDrawable("buttonpressed");
-		// tbs.font = b;
+		tbs.font = f;
 
 		// Start Button
 		start = new TextButton("Start", tbs);
 		start.setSize(buttonSize.x, buttonSize.y);
 		start.setX(Gdx.graphics.getWidth() / 2 - buttonSize.x / 2);
-		// start.setY(y);
+		start.setY((4 * buttonSize.y) + 15);
 		start.addListener(new InputListener() {
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
@@ -99,7 +101,7 @@ public class StartScreen implements Screen {
 		shop = new TextButton("Shop", tbs);
 		shop.setSize(buttonSize.x, buttonSize.y);
 		shop.setX(Gdx.graphics.getWidth() / 2 - buttonSize.x / 2);
-		// shop.setY(y);
+		shop.setY((3 * buttonSize.y) + 15);
 		shop.addListener(new InputListener() {
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
@@ -116,7 +118,7 @@ public class StartScreen implements Screen {
 		options = new TextButton("Options", tbs);
 		options.setSize(buttonSize.x, buttonSize.y);
 		options.setX(Gdx.graphics.getWidth() / 2 - buttonSize.x / 2);
-		// options.setY(y);
+		options.setY((2 * buttonSize.y) + 15);
 		options.addListener(new InputListener() {
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
@@ -133,7 +135,7 @@ public class StartScreen implements Screen {
 		credits = new TextButton("Credits", tbs);
 		credits.setSize(buttonSize.x, buttonSize.y);
 		credits.setX(Gdx.graphics.getWidth() / 2 - buttonSize.x / 2);
-		// credits.setY(y);
+		credits.setY((1 * buttonSize.y) + 15);
 		credits.addListener(new InputListener() {
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
@@ -150,7 +152,7 @@ public class StartScreen implements Screen {
 		quit = new TextButton("Quit", tbs);
 		quit.setSize(buttonSize.x, buttonSize.y);
 		quit.setX(Gdx.graphics.getWidth() / 2 - buttonSize.x / 2);
-		// quit.setY(y);
+		quit.setY((0 * buttonSize.y) + 15);
 		quit.addListener(new InputListener() {
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
@@ -164,10 +166,10 @@ public class StartScreen implements Screen {
 		});
 
 		// Title label
-		// LabelStyle ls = new LabelStyle(f, Color.WHITE);
-		// title = new Label("PrizmPath", ls);
+		LabelStyle ls = new LabelStyle(f, Color.WHITE);
+		title = new Label("PrizmPath", ls);
 		title.setX(0);
-		// title.setY(400);
+		title.setY(430);
 		title.setWidth(Gdx.graphics.getWidth());
 		title.setAlignment(Align.center);
 
@@ -184,15 +186,14 @@ public class StartScreen implements Screen {
 	public void show() {
 		batch = new SpriteBatch();
 
-		/*
-		 * buttonAtlas = PrizmPathGame.getAssets().get(BUTTON_TEXTURE,
-		 * TextureAtlas.class);
-		 * 
-		 * b = new BitmapFont(Gdx.files.internal(fontB)); f = new
-		 * BitmapFont(Gdx.files.internal(fontW));
-		 * 
-		 * skin = new Skin(); skin.addRegions(buttonAtlas);
-		 */
+		buttonAtlas = PrizmPathGame.getAssets().get(BUTTON_TEXTURE,
+				TextureAtlas.class);
+
+		f = new BitmapFont(Gdx.files.internal("data/font.fnt"));
+
+		skin = new Skin();
+		skin.addRegions(buttonAtlas);
+
 		Random ran = new Random();
 		int i = ran.nextInt(PrizmPathGame.soundpacks[0].length);
 		PrizmPathGame.soundpacks[PrizmPathGame.curSoundpack][i]
@@ -229,3 +230,4 @@ public class StartScreen implements Screen {
 		p.setScreen(new ShopScreen(p));
 	}
 }
+// © Hunter Heidenreich 2014
