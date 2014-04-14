@@ -20,6 +20,7 @@ import com.heidenreich.prizmpath.PrizmPathGame;
 public class OptionScreen implements Screen {
 
 	private BitmapFont f;
+	private Label info;
 	private Label title;
 	private PrizmPathGame p;
 	private SpriteBatch batch;
@@ -140,11 +141,19 @@ public class OptionScreen implements Screen {
 		title.setWidth(Gdx.graphics.getWidth());
 		title.setAlignment(Align.center);
 
+		// Info label
+		info = new Label("Click to continue...", ls);
+		info.setX(0);
+		info.setY((1 * buttonSize.y) + 15);
+		info.setWidth(Gdx.graphics.getWidth());
+		info.setAlignment(Align.center);
+
 		// Adding things to stage
 		stage.addActor(background);
 		stage.addActor(muteSFX);
 		stage.addActor(muteMusic);
 		stage.addActor(title);
+		stage.addActor(info);
 	}
 
 	// When a button is clicked, update the rest
