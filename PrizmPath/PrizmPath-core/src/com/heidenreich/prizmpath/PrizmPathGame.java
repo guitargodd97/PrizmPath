@@ -1,5 +1,7 @@
 package com.heidenreich.prizmpath;
 
+import java.util.Random;
+
 import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -22,6 +24,7 @@ public class PrizmPathGame extends Game {
 	public static byte[] optionData;
 	public static int curBackground;
 	public static int curColorpack;
+	public static int curSong;
 	public static int curSoundpack;
 	private int loaded;
 	public static Music[][] soundpacks;
@@ -107,13 +110,29 @@ public class PrizmPathGame extends Game {
 
 	// Sets up the resources()
 	public void setupResources() {
+		// Sets up the textures
 		PrizmPathGame.splash = PrizmPathGame.getAssets()
 				.get(PrizmPathGame.TEXTURE_PATH, TextureAtlas.class)
 				.createSprite("splash");
-		backgrounds = new Sprite[1];
-		backgrounds[0] = PrizmPathGame.splash;
+		backgrounds = new Sprite[3];
+		backgrounds[0] = PrizmPathGame.getAssets()
+				.get(PrizmPathGame.TEXTURE_PATH, TextureAtlas.class)
+				.createSprite("background0");
+		backgrounds[1] = PrizmPathGame.getAssets()
+				.get(PrizmPathGame.TEXTURE_PATH, TextureAtlas.class)
+				.createSprite("background1");
+		backgrounds[2] = PrizmPathGame.getAssets()
+				.get(PrizmPathGame.TEXTURE_PATH, TextureAtlas.class)
+				.createSprite("background2");
 		soundpacks = new Music[1][1];
-		soundpacks[0][0] = Gdx.audio.newMusic(Gdx.files.internal("data/sound/music/Pack1-0.wav"));
+		soundpacks[0][0] = Gdx.audio.newMusic(Gdx.files
+				.internal("data/sound/music/Pack1-0.mp3"));
+
+		// Sets up the song
+		Random ran = new Random();
+		PrizmPathGame.curSong = ran.nextInt(PrizmPathGame.soundpacks[0].length);
+		PrizmPathGame.soundpacks[PrizmPathGame.curSoundpack][PrizmPathGame.curSong]
+				.setLooping(true);
 	}
 
 	// Loads the data
@@ -155,8 +174,8 @@ public class PrizmPathGame extends Game {
 	}
 
 	// Sets whether the music should be muted
-	public static void setMusicMute(boolean musicMute) {
-		PrizmPathGame.musicMute = musicMute;
+	public static void setMusicMute() {
+		PrizmPathGame.musicMute = !PrizmPathGame.musicMute;
 	}
 
 	// Gets whether the sound effects should be muted
@@ -165,8 +184,8 @@ public class PrizmPathGame extends Game {
 	}
 
 	// Sets whether the sound effects should be muted
-	public static void setSfxMute(boolean sfxMute) {
-		PrizmPathGame.sfxMute = sfxMute;
+	public static void setSfxMute() {
+		PrizmPathGame.sfxMute = !PrizmPathGame.sfxMute;
 	}
 
 	// Gets level data for determining various things involving the levels
@@ -227,6 +246,13 @@ public class PrizmPathGame extends Game {
 	// Gets the version
 	public static String getVersion() {
 		return version;
+	}
+
+	public static void nextBackground() {
+		if (PrizmPathGame.curBackground < PrizmPathGame.backgrounds.length - 1)
+			PrizmPathGame.curBackground++;
+		else
+			PrizmPathGame.curBackground = 0;
 	}
 
 }

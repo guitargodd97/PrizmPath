@@ -1,7 +1,5 @@
 package com.heidenreich.prizmpath.screens;
 
-import java.util.Random;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
@@ -42,7 +40,6 @@ public class StartScreen implements Screen {
 	public StartScreen(PrizmPathGame p) {
 		this.p = p;
 		buttonSize = new Vector2(300, 75);
-		Gdx.app.log(PrizmPathGame.getLog(), "Start started");
 	}
 
 	// Updates the screen
@@ -169,7 +166,7 @@ public class StartScreen implements Screen {
 		LabelStyle ls = new LabelStyle(f, Color.WHITE);
 		title = new Label("PrizmPath", ls);
 		title.setX(0);
-		title.setY(430);
+		title.setY(420);
 		title.setWidth(Gdx.graphics.getWidth());
 		title.setAlignment(Align.center);
 
@@ -194,38 +191,53 @@ public class StartScreen implements Screen {
 		skin = new Skin();
 		skin.addRegions(buttonAtlas);
 
-		Random ran = new Random();
-		int i = ran.nextInt(PrizmPathGame.soundpacks[0].length);
-		PrizmPathGame.soundpacks[PrizmPathGame.curSoundpack][i]
-				.setLooping(true);
-		PrizmPathGame.soundpacks[PrizmPathGame.curSoundpack][i].play();
+		// Deteremines whether the song should be played
+		if (PrizmPathGame.isMusicMute())
+			PrizmPathGame.soundpacks[PrizmPathGame.curSoundpack][PrizmPathGame.curSong]
+					.pause();
+		else
+			PrizmPathGame.soundpacks[PrizmPathGame.curSoundpack][PrizmPathGame.curSong]
+					.play();
 	}
 
+	// Called when the screen isn't showing
 	public void hide() {
 		dispose();
 	}
 
+	// Called when the screen is paused
 	public void pause() {
 	}
 
+	// Called when the screen is resumed
 	public void resume() {
 	}
 
+	// Disposes of elements
 	public void dispose() {
+		f.dispose();
+		skin.dispose();
+		batch.dispose();
+		stage.dispose();
+
 	}
 
+	// Sends to the OptionScreen
 	private void toOptions() {
 		p.setScreen(new OptionScreen(p));
 	}
 
+	// Sends to the CreditScreen
 	private void toCredits() {
 		p.setScreen(new CreditScreen(p));
 	}
 
+	// Sends to the LevelScreen
 	private void toLevels() {
 		p.setScreen(new LevelScreen(p));
 	}
 
+	// Sends to the ShopScreen
 	private void toShop() {
 		p.setScreen(new ShopScreen(p));
 	}

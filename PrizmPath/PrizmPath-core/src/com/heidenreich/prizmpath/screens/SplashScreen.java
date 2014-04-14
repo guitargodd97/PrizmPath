@@ -18,8 +18,8 @@ public class SplashScreen implements Screen {
 	private Music splash;
 	private PrizmPathGame p;
 	private SpriteBatch batch;
-	private final String MUSIC_SOUND = "data/sound/music/HeidenreichSound.wav";
-	private final String SFX_SOUND = "data/sound/sfx/yeahsfx.wav";
+	private final String MUSIC_SOUND = "data/sound/music/HeidenreichSound.mp3";
+	private final String SFX_SOUND = "data/sound/sfx/yeahsfx.mp3";
 
 	// Constructs the SplashScreen
 	public SplashScreen(PrizmPathGame p) {
@@ -30,7 +30,6 @@ public class SplashScreen implements Screen {
 		fade = 0.01f;
 		timer = 0;
 		counter = 0;
-		Gdx.app.log(PrizmPathGame.getLog(), "Splash started");
 	}
 
 	// Updates the screen
@@ -66,7 +65,6 @@ public class SplashScreen implements Screen {
 		// Initializes the batch
 		batch = new SpriteBatch();
 	
-		Gdx.app.log(PrizmPathGame.getLog(), "Initialized images and sounds");
 		// Sets up the sprites
 		PrizmPathGame.splash.setColor(1, 1, 1, 0);
 		PrizmPathGame.splash
@@ -128,7 +126,6 @@ public class SplashScreen implements Screen {
 	}
 
 	private void toStartScreen() {
-		Gdx.app.log(PrizmPathGame.getLog(), "Splash ended");
 		p.setScreen(new StartScreen(p));
 	}
 
