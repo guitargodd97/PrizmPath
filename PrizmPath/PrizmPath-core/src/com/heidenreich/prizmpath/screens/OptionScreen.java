@@ -209,6 +209,7 @@ public class OptionScreen implements Screen {
 	public void dispose() {
 		f.dispose();
 		stage.dispose();
+		batch.dispose();
 	}
 
 	// Checks if the screen should be exited

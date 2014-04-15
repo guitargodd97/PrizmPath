@@ -191,7 +191,7 @@ public class StartScreen implements Screen {
 		skin = new Skin();
 		skin.addRegions(buttonAtlas);
 
-		// Deteremines whether the song should be played
+		// Determines whether the song should be played
 		if (PrizmPathGame.isMusicMute())
 			PrizmPathGame.soundpacks[PrizmPathGame.curSoundpack][PrizmPathGame.curSong]
 					.pause();

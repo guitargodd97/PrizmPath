@@ -109,6 +109,7 @@ public class CreditScreen implements Screen {
 	public void dispose() {
 		f.dispose();
 		stage.dispose();
+		batch.dispose();
 	}
 
 	private void toStart() {
