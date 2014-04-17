@@ -30,6 +30,7 @@ public class PrizmPathGame extends Game {
 	public static Music[][] soundpacks;
 	public static Sprite splash;
 	public static Sprite[] backgrounds;
+	public static Sprite[] homeButtons;
 	public static Sprite[][][] colorpacks;
 	public static final String log = "PrizmPath";
 	public static final String TEXTURE_PATH = "data/textures/texture.atlas";
@@ -124,6 +125,14 @@ public class PrizmPathGame extends Game {
 		backgrounds[2] = PrizmPathGame.getAssets()
 				.get(PrizmPathGame.TEXTURE_PATH, TextureAtlas.class)
 				.createSprite("background2");
+		homeButtons = new Sprite[2];
+		homeButtons[0] = PrizmPathGame.getAssets()
+				.get(PrizmPathGame.TEXTURE_PATH, TextureAtlas.class)
+				.createSprite("homebuttonup");
+		homeButtons[1] = PrizmPathGame.getAssets()
+				.get(PrizmPathGame.TEXTURE_PATH, TextureAtlas.class)
+				.createSprite("homebuttondown");
+		
 		soundpacks = new Music[1][1];
 		soundpacks[0][0] = Gdx.audio.newMusic(Gdx.files
 				.internal("data/sound/music/Pack1-0.mp3"));

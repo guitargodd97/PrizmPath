@@ -11,17 +11,23 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton.ImageButtonStyle;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
+import com.badlogic.gdx.scenes.scene2d.utils.Align;
+import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.heidenreich.prizmpath.PrizmPathGame;
 
 public class LevelScreen implements Screen {
 
 	private BitmapFont f;
 	private ImageButton back;
+	private Label title;
 	private PrizmPathGame p;
 	private Skin skin;
 	private SpriteBatch batch;
@@ -34,8 +40,8 @@ public class LevelScreen implements Screen {
 	// Constructs the LevelScreen
 	public LevelScreen(PrizmPathGame p) {
 		this.p = p;
-		levels = new TextButton[1][1];
-		buttonSize = new Vector2(30, 30);
+		levels = new TextButton[5][12];
+		buttonSize = new Vector2(60, 60);
 	}
 
 	// Updates the screen
@@ -74,11 +80,17 @@ public class LevelScreen implements Screen {
 		// Level Buttons
 		for (int i = 0; i < levels.length; i++) {
 			for (int id = 0; id < levels[i].length; id++) {
-				levels[i][id] = new TextButton(
-						"" + (i * levels[i].length) + id, tbs);
+				levels[i][id] = new TextButton(""
+						+ (i * levels[i].length + id + 1), tbs);
+				levels[i][id].setName("" + (i * levels[i].length + id + 1));
 				levels[i][id].setSize(buttonSize.x, buttonSize.y);
-				levels[i][id].setX((id * (buttonSize.x + 5)) + 10);
-				levels[i][id].setY((i * (buttonSize.y + 5)) + 10);
+				levels[i][id].setX((id * (buttonSize.x + 5)) + 15);
+				levels[i][id].setY(Gdx.graphics.getHeight()
+						- ((i * (buttonSize.y + 5)) + buttonSize.y + 80));
+				if ((i * levels[i].length + id + 1) > 1) {
+					levels[i][id].setTouchable(Touchable.disabled);
+					levels[i][id].setVisible(false);
+				}
 				levels[i][id].addListener(new InputListener() {
 					public boolean touchDown(InputEvent event, float x,
 							float y, int pointer, int button) {
@@ -87,21 +99,22 @@ public class LevelScreen implements Screen {
 
 					public void touchUp(InputEvent event, float x, float y,
 							int pointer, int button) {
-						toGame();
+						toGame(Integer.parseInt(event.getListenerActor()
+								.getName()));
 					}
 				});
 			}
 		}
 
 		ImageButtonStyle imageStyle = new ImageButtonStyle();
-		//imageStyle.imageUp = new Drawable();
-		//imageStyle.imageDown = (Drawable) new Sprite();
-		
+		imageStyle.imageUp = new SpriteDrawable(PrizmPathGame.homeButtons[0]);
+		imageStyle.imageDown = new SpriteDrawable(PrizmPathGame.homeButtons[1]);
+
 		// Back button
 		back = new ImageButton(imageStyle);
 		back.setSize(buttonSize.x, buttonSize.y);
-		back.setX(0);
-		back.setY(0);
+		back.setX(Gdx.graphics.getWidth() - 64);
+		back.setY(Gdx.graphics.getHeight() - 75);
 		back.addListener(new InputListener() {
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
@@ -114,12 +127,22 @@ public class LevelScreen implements Screen {
 			}
 		});
 
+		// Title label
+		LabelStyle ls = new LabelStyle(f, Color.WHITE);
+		title = new Label("Levels", ls);
+		title.setX(0);
+		title.setY(420);
+		title.setWidth(Gdx.graphics.getWidth());
+		title.setAlignment(Align.center);
+
 		// Adds the levels to the stage
 		for (int i = 0; i < levels.length; i++) {
 			for (int id = 0; id < levels[i].length; id++) {
 				stage.addActor(levels[i][id]);
 			}
 		}
+		stage.addActor(title);
+		stage.addActor(back);
 	}
 
 	// Called when the screen is shown
@@ -170,8 +193,8 @@ public class LevelScreen implements Screen {
 	}
 
 	// Sets the screen to the GameScreen
-	private void toGame() {
-		p.setScreen(new GameScreen(p));
+	private void toGame(int i) {
+		p.setScreen(new GameScreen(p, i));
 	}
 }
 // © Hunter Heidenreich 2014

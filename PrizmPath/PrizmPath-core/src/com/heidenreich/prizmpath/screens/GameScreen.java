@@ -6,7 +6,8 @@ import com.heidenreich.prizmpath.PrizmPathGame;
 public class GameScreen implements Screen {
 
 	private PrizmPathGame p;
-	public GameScreen(PrizmPathGame p) {
+
+	public GameScreen(PrizmPathGame p, int level) {
 		this.p = p;
 	}
 
