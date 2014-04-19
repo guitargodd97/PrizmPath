@@ -31,7 +31,7 @@ public class PrizmPathGame extends Game {
 	public static Sprite splash;
 	public static Sprite[] backgrounds;
 	public static Sprite[] homeButtons;
-	public static Sprite[][][] colorpacks;
+	public static Sprite[][][][] colorpacks;
 	public static final String log = "PrizmPath";
 	public static final String TEXTURE_PATH = "data/textures/texture.atlas";
 	public static final String version = "Alpha 1.0";
@@ -125,6 +125,7 @@ public class PrizmPathGame extends Game {
 		backgrounds[2] = PrizmPathGame.getAssets()
 				.get(PrizmPathGame.TEXTURE_PATH, TextureAtlas.class)
 				.createSprite("background2");
+
 		homeButtons = new Sprite[2];
 		homeButtons[0] = PrizmPathGame.getAssets()
 				.get(PrizmPathGame.TEXTURE_PATH, TextureAtlas.class)
@@ -132,7 +133,14 @@ public class PrizmPathGame extends Game {
 		homeButtons[1] = PrizmPathGame.getAssets()
 				.get(PrizmPathGame.TEXTURE_PATH, TextureAtlas.class)
 				.createSprite("homebuttondown");
-		
+
+		colorpacks = new Sprite[1][1][5][3];
+		for (int i = 0; i < colorpacks[0][0].length; i++)
+			for (int id = 0; id < colorpacks[0][0][i].length; id++)
+				colorpacks[0][0][i][id] = PrizmPathGame.getAssets()
+						.get(PrizmPathGame.TEXTURE_PATH, TextureAtlas.class)
+						.createSprite("prizm0" + i, id);
+
 		soundpacks = new Music[1][1];
 		soundpacks[0][0] = Gdx.audio.newMusic(Gdx.files
 				.internal("data/sound/music/Pack1-0.mp3"));
@@ -243,8 +251,8 @@ public class PrizmPathGame extends Game {
 	}
 
 	// Gets a particular set of sprites
-	public static Sprite[][] getColorpack(int index) {
-		return colorpacks[index];
+	public static Sprite[] getColorpack(int pack, int type, int color) {
+		return colorpacks[pack][type][color];
 	}
 
 	// Gets the log for debugging and naming
