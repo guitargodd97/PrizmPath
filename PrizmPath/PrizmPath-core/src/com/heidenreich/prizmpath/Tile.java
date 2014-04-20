@@ -18,10 +18,10 @@ public class Tile {
 	public Tile(Vector2 location, boolean prizmActive) {
 		this.prizmActive = prizmActive;
 		this.location = location;
-		size = new Vector2(30, 30);
+		size = new Vector2(60, 60);
 		sprite = PrizmPathGame.getAssets()
 				.get(PrizmPathGame.TEXTURE_PATH, TextureAtlas.class)
-				.createSprite("tile1");
+				.createSprite("tile0");
 		sprite.setPosition(this.location.x, this.location.y);
 		prizm = new Prizm(0, 0, location);
 		rect = new Rectangle(location.x, location.y, size.x, size.y);
@@ -46,4 +46,16 @@ public class Tile {
 		prizm.changeColor();
 	}
 
+	public void setPrizm(int color, int type) {
+		prizmActive = true;
+		prizm.setup(color, type);
+	}
+
+	public int getType() {
+		return prizm.getType();
+	}
+
+	public boolean isPrizmActive() {
+		return prizmActive;
+	}
 }

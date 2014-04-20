@@ -8,6 +8,9 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
+import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.heidenreich.prizmpath.PrizmPathGame;
 import com.heidenreich.prizmpath.Tile;
 
@@ -15,7 +18,11 @@ public class GameScreen implements Screen {
 
 	private BitmapFont f;
 	private int clickBuffer;
+	private int curClick;
 	private int level;
+	private int maxClick;
+	private Label click;
+	private Label title;
 	private PrizmPathGame p;
 	private SpriteBatch batch;
 	private Stage stage;
@@ -26,11 +33,9 @@ public class GameScreen implements Screen {
 		this.p = p;
 		this.level = level;
 		clickBuffer = 0;
-		collection = new Tile[10][26];
-		for (int i = 0; i < collection.length; i++)
-			for (int id = 0; id < collection[i].length; id++)
-				collection[i][id] = new Tile(new Vector2((30 * id) + 10,
-						(30 * i) + 80), true);
+		collection = new Tile[5][13];
+		curClick = 0;
+		maxClick = 0;
 	}
 
 	// Updates the screen
@@ -57,8 +62,13 @@ public class GameScreen implements Screen {
 					- Gdx.input.getY());
 			for (int i = 0; i < collection.length; i++) {
 				for (int id = 0; id < collection[i].length; id++) {
-					if (collection[i][id].checkCollision(t))
+					if (collection[i][id].checkCollision(t)
+							&& collection[i][id].isPrizmActive()) {
 						collection[i][id].changeColor();
+						changePrizms(collection[i][id].getType(), i, id);
+						curClick++;
+						checkClicks(collection[i][id].getType());
+					}
 				}
 			}
 			clickBuffer++;
@@ -79,6 +89,25 @@ public class GameScreen implements Screen {
 			stage = new Stage();
 		stage.clear();
 		Gdx.input.setInputProcessor(stage);
+
+		// Title label
+		LabelStyle ls = new LabelStyle(f, Color.WHITE);
+		title = new Label("Level " + level, ls);
+		title.setX(0);
+		title.setY(420);
+		title.setWidth(Gdx.graphics.getWidth());
+		title.setAlignment(Align.center);
+
+		// Click Label
+		click = new Label("Clicks: " + curClick + "/" + maxClick, ls);
+		click.setX(400);
+		click.setY(420);
+		click.setWidth(Gdx.graphics.getWidth() / 2);
+		click.setAlignment(Align.center);
+
+		// Add things to the stage
+		stage.addActor(title);
+		stage.addActor(click);
 	}
 
 	// Called when the screen is shown
@@ -94,6 +123,7 @@ public class GameScreen implements Screen {
 		else
 			PrizmPathGame.soundpacks[PrizmPathGame.curSoundpack][PrizmPathGame.curSong]
 					.play();
+		constructLevel();
 	}
 
 	public void hide() {
@@ -110,6 +140,49 @@ public class GameScreen implements Screen {
 		f.dispose();
 		stage.dispose();
 		batch.dispose();
+	}
+
+	private void constructLevel() {
+		switch (level) {
+		case (1):
+			for (int i = 0; i < collection.length; i++)
+				for (int id = 0; id < collection[i].length; id++)
+					collection[i][id] = new Tile(new Vector2((60 * id) + 10,
+							(60 * i) + 80), false);
+			for (int i = 1; i < 4; i++)
+				for (int id = 5; id < 8; id++)
+					collection[i][id].setPrizm(3, 0);
+			collection[2][6].setPrizm(0, 0);
+			maxClick = 5;
+			break;
+		}
+	}
+
+	private void changePrizms(int type, int x, int y) {
+		switch (type) {
+		case (0):
+			collection[x][y - 1].changeColor();
+			collection[x][y + 1].changeColor();
+			collection[x - 1][y].changeColor();
+			collection[x + 1][y].changeColor();
+			break;
+		}
+	}
+
+	private void checkClicks(int theType) {
+		boolean completed = true;
+		for (int i = 0; i < collection.length; i++) {
+			for (int id = 0; id < collection[i].length; id++) {
+				if (collection[i][id].getType() != theType) {
+					completed = false;
+					id = collection[i].length;
+					i = collection.length;
+				}
+			}
+		}
+		//if (completed)
+			//toStart();
+		click.setText("Clicks: " + curClick + "/" + maxClick);
 	}
 
 	private void toStart() {

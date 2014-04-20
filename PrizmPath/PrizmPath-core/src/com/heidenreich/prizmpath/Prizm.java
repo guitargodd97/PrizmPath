@@ -19,27 +19,27 @@ public class Prizm {
 		this.type = type;
 		this.loco = loco;
 		curFrame = (int) (Math.random() * 3);
-		buffer = 0;
-		size = new Vector2(30, 30);
+		buffer = (int) (Math.random() * 45);
+		size = new Vector2(60, 60);
 		Sprite[] temp = PrizmPathGame.getColorpack(0, this.type, this.color);
 		sprites = new Sprite[temp.length];
 		for (int i = 0; i < sprites.length; i++)
 			sprites[i] = new Sprite(temp[i]);
 		for (int i = 0; i < sprites.length; i++)
-			sprites[i].setPosition(loco.x + sprites[i].getWidth() / 2, loco.y
-					+ sprites[i].getHeight() / 2);
+			sprites[i].setPosition(loco.x - sprites[i].getWidth() / 2 + size.x
+					/ 2, loco.y - sprites[i].getHeight() / 2 + size.y / 2);
 	}
 
 	public void changeColor() {
-		if (++color > 4)
+		if (++color > 5)
 			color = 0;
 		Sprite[] temp = PrizmPathGame.getColorpack(0, type, color);
 		sprites = new Sprite[temp.length];
 		for (int i = 0; i < sprites.length; i++)
 			sprites[i] = new Sprite(temp[i]);
 		for (int i = 0; i < sprites.length; i++)
-			sprites[i].setPosition(loco.x + sprites[i].getWidth() / 2, loco.y
-					+ sprites[i].getHeight() / 2);
+			sprites[i].setPosition(loco.x - sprites[i].getWidth() / 2 + size.x
+					/ 2, loco.y - sprites[i].getHeight() / 2 + size.y / 2);
 	}
 
 	public int getColor() {
@@ -59,5 +59,17 @@ public class Prizm {
 				curFrame = 0;
 			buffer = 0;
 		}
+	}
+
+	public void setup(int color, int type) {
+		this.type = type;
+		this.color = color;
+		Sprite[] temp = PrizmPathGame.getColorpack(0, type, color);
+		sprites = new Sprite[temp.length];
+		for (int i = 0; i < sprites.length; i++)
+			sprites[i] = new Sprite(temp[i]);
+		for (int i = 0; i < sprites.length; i++)
+			sprites[i].setPosition(loco.x - sprites[i].getWidth() / 2 + size.x
+					/ 2, loco.y - sprites[i].getHeight() / 2 + size.y / 2);
 	}
 }
