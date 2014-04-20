@@ -20,7 +20,8 @@ public class GameScreen implements Screen {
 	private int clickBuffer;
 	private int curClick;
 	private int level;
-	private int maxClick;
+	private int[] maxClick;
+	private int maxClickIndex;
 	private Label click;
 	private Label title;
 	private PrizmPathGame p;
@@ -35,7 +36,8 @@ public class GameScreen implements Screen {
 		clickBuffer = 0;
 		collection = new Tile[5][13];
 		curClick = 0;
-		maxClick = 0;
+		maxClickIndex = 0;
+		maxClick = new int[4];
 	}
 
 	// Updates the screen
@@ -67,7 +69,7 @@ public class GameScreen implements Screen {
 						collection[i][id].changeColor();
 						changePrizms(collection[i][id].getType(), i, id);
 						curClick++;
-						checkClicks(collection[i][id].getType());
+						checkClicks(collection[i][id].getColor());
 					}
 				}
 			}
@@ -99,7 +101,8 @@ public class GameScreen implements Screen {
 		title.setAlignment(Align.center);
 
 		// Click Label
-		click = new Label("Clicks: " + curClick + "/" + maxClick, ls);
+		click = new Label(
+				"Clicks: " + curClick + "/" + maxClick[maxClickIndex], ls);
 		click.setX(400);
 		click.setY(420);
 		click.setWidth(Gdx.graphics.getWidth() / 2);
@@ -153,7 +156,10 @@ public class GameScreen implements Screen {
 				for (int id = 5; id < 8; id++)
 					collection[i][id].setPrizm(3, 0);
 			collection[2][6].setPrizm(0, 0);
-			maxClick = 5;
+			maxClick[0] = 5;
+			maxClick[1] = (int) (maxClick[0] * 1.5);
+			maxClick[2] = (int) (maxClick[0] * 1.75);
+			maxClick[3] = (int) (maxClick[0] * 2);
 			break;
 		}
 	}
@@ -169,20 +175,27 @@ public class GameScreen implements Screen {
 		}
 	}
 
-	private void checkClicks(int theType) {
+	private void checkClicks(int theColor) {
 		boolean completed = true;
 		for (int i = 0; i < collection.length; i++) {
 			for (int id = 0; id < collection[i].length; id++) {
-				if (collection[i][id].getType() != theType) {
-					completed = false;
-					id = collection[i].length;
-					i = collection.length;
+				if (collection[i][id].isPrizmActive()) {
+					if (collection[i][id].getColor() != theColor) {
+						completed = false;
+						id = collection[i].length - 1;
+						i = collection.length - 1;
+					}
 				}
 			}
 		}
-		//if (completed)
-			//toStart();
-		click.setText("Clicks: " + curClick + "/" + maxClick);
+		if (completed)
+			toStart();
+		if (curClick >= maxClick[maxClickIndex]
+				&& maxClickIndex < maxClick.length - 1)
+			maxClickIndex++;
+		else if (curClick >= maxClick[3])
+			toStart(); // Gameover code
+		click.setText("Clicks: " + curClick + "/" + maxClick[maxClickIndex]);
 	}
 
 	private void toStart() {

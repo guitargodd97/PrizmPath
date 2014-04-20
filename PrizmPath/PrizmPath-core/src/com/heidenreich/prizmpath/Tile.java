@@ -55,6 +55,10 @@ public class Tile {
 		return prizm.getType();
 	}
 
+	public int getColor() {
+		return prizm.getColor();
+	}
+
 	public boolean isPrizmActive() {
 		return prizmActive;
 	}
