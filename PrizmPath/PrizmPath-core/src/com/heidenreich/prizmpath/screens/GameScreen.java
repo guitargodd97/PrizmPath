@@ -19,6 +19,7 @@ public class GameScreen implements Screen {
 	private BitmapFont f;
 	private int clickBuffer;
 	private int curClick;
+	private int gameState;
 	private int level;
 	private int[] maxClick;
 	private int maxClickIndex;
@@ -38,6 +39,9 @@ public class GameScreen implements Screen {
 		curClick = 0;
 		maxClickIndex = 0;
 		maxClick = new int[4];
+
+		// 0 = running, 1 = options, 2 = gameover, 3 = level won
+		gameState = 0;
 	}
 
 	// Updates the screen
@@ -59,44 +63,48 @@ public class GameScreen implements Screen {
 				collection[i][id].drawPrizms(batch);
 		batch.end();
 
-		if (Gdx.input.isTouched() && clickBuffer == 0) {
-			Vector2 t = new Vector2(Gdx.input.getX(), Gdx.graphics.getHeight()
-					- Gdx.input.getY());
-			for (int i = 0; i < collection.length; i++) {
-				for (int id = 0; id < collection[i].length; id++) {
-					if (collection[i][id].checkCollision(t)
-							&& collection[i][id].isPrizmActive()) {
-						if (collection[i][id].isSelected()) {
-							collection[i][id].changeColor();
-							changePrizms(collection[i][id].getType(), i, id, 1);
-							curClick++;
-							checkClicks(collection[i][id].getColor());
-							for (int x = 0; x < collection.length; x++) {
-								for (int y = 0; y < collection[x].length; y++) {
-									collection[x][y].setSelected(false);
-									collection[x][y].setFrame(0);
+		if (gameState == 0) {
+			if (Gdx.input.isTouched() && clickBuffer == 0) {
+				Vector2 t = new Vector2(Gdx.input.getX(),
+						Gdx.graphics.getHeight() - Gdx.input.getY());
+				for (int i = 0; i < collection.length; i++) {
+					for (int id = 0; id < collection[i].length; id++) {
+						if (collection[i][id].checkCollision(t)
+								&& collection[i][id].isPrizmActive()) {
+							if (collection[i][id].isSelected()) {
+								collection[i][id].changeColor();
+								changePrizms(collection[i][id].getType(), i,
+										id, 1);
+								curClick++;
+								checkClicks(collection[i][id].getColor());
+								for (int x = 0; x < collection.length; x++) {
+									for (int y = 0; y < collection[x].length; y++) {
+										collection[x][y].setSelected(false);
+										collection[x][y].setFrame(0);
+									}
 								}
-							}
-						} else {
-							for (int x = 0; x < collection.length; x++) {
-								for (int y = 0; y < collection[x].length; y++) {
-									collection[x][y].setSelected(false);
-									collection[x][y].setFrame(0);
+							} else {
+								for (int x = 0; x < collection.length; x++) {
+									for (int y = 0; y < collection[x].length; y++) {
+										collection[x][y].setSelected(false);
+										collection[x][y].setFrame(0);
+									}
 								}
+								collection[i][id].setFrame(2);
+								changePrizms(collection[i][id].getType(), i,
+										id, 0);
+								curClick++;
+								collection[i][id].setSelected(true);
 							}
-							collection[i][id].setFrame(2);
-							changePrizms(collection[i][id].getType(), i, id, 0);
-							curClick++;
-							collection[i][id].setSelected(true);
 						}
 					}
 				}
-			}
-			clickBuffer++;
-		} else if (!Gdx.input.isTouched() && clickBuffer == 1)
-			clickBuffer++;
-		else if (clickBuffer == 2)
-			clickBuffer = 0;
+				clickBuffer++;
+			} else if (!Gdx.input.isTouched() && clickBuffer == 1)
+				clickBuffer++;
+			else if (clickBuffer == 2)
+				clickBuffer = 0;
+		}
 
 		stage.act();
 		batch.begin();
@@ -405,4 +413,4 @@ public class GameScreen implements Screen {
 		p.setScreen(new StartScreen(p));
 	}
 }
-//© Hunter Heidenreich 2014
+// © Hunter Heidenreich 2014
