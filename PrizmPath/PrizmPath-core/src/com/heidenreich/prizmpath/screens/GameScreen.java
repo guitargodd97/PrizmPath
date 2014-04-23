@@ -184,38 +184,195 @@ public class GameScreen implements Screen {
 	}
 
 	private void changePrizms(int type, int x, int y, int change) {
-		//Cases
-		// 0 = 0 1 0
-		//     1 2 1
-		//     0 1 0
+		// Cases
 		//
-		// 1 = 1 0 1
-		//     0 2 0
-		//     1 0 1
+		// 0
+		// 0 0 0 0 0
+		// 0 0 1 0 0
+		// 0 1 2 1 0
+		// 0 0 1 0 0
+		// 0 0 0 0 0
 		//
-		// 2 = 1 1 1
-		//     1 2 1
-		//     1 1 1
+		// 1
+		// 0 0 0 0 0
+		// 0 1 0 1 0
+		// 0 0 2 0 0
+		// 0 1 0 1 0
+		// 0 0 0 0 0
 		//
-		// 3 = 1 2 1
-		//     0 1 0
-		//     0 1 0
+		// 2
+		// 0 0 0 0 0
+		// 0 1 1 1 0
+		// 0 1 2 1 0
+		// 0 1 1 1 0
+		// 0 0 0 0 0
+		//
+		// 3
+		// 0 0 1 0 0
+		// 0 0 1 0 0
+		// 1 1 2 1 1
+		// 0 0 1 0 0
+		// 0 0 1 0 0
+		//
+		// 4
+		// 1 0 0 0 1
+		// 0 1 0 1 0
+		// 0 0 2 0 0
+		// 0 1 0 1 0
+		// 1 0 0 0 1
+		//
 		if (change == 1) {
 			switch (type) {
 			case (0):
-				collection[x][y - 1].changeColor();
-				collection[x][y + 1].changeColor();
-				collection[x - 1][y].changeColor();
-				collection[x + 1][y].changeColor();
+				if (y > 0)
+					collection[x][y - 1].changeColor();
+				if (y < collection[x].length - 1)
+					collection[x][y + 1].changeColor();
+				if (x > 0)
+					collection[x - 1][y].changeColor();
+				if (x < collection.length - 1)
+					collection[x + 1][y].changeColor();
+				break;
+			case (1):
+				if (x > 0 && y > 0)
+					collection[x - 1][y - 1].changeColor();
+				if (x > 0 && y < collection[x].length - 1)
+					collection[x - 1][y + 1].changeColor();
+				if (x < collection.length - 1 && y > 0)
+					collection[x + 1][y - 1].changeColor();
+				if (x < collection.length - 1 && y < collection[x].length - 1)
+					collection[x + 1][y + 1].changeColor();
+				break;
+			case (2):
+				if (y > 0)
+					collection[x][y - 1].changeColor();
+				if (y < collection[x].length - 1)
+					collection[x][y + 1].changeColor();
+				if (x > 0)
+					collection[x - 1][y].changeColor();
+				if (x < collection.length - 1)
+					collection[x + 1][y].changeColor();
+				if (x > 0 && y > 0)
+					collection[x - 1][y - 1].changeColor();
+				if (x > 0 && y < collection[x].length - 1)
+					collection[x - 1][y + 1].changeColor();
+				if (x < collection.length - 1 && y > 0)
+					collection[x + 1][y - 1].changeColor();
+				if (x < collection.length - 1 && y < collection[x].length - 1)
+					collection[x + 1][y + 1].changeColor();
+				break;
+			case (3):
+				if (y > 0)
+					collection[x][y - 1].changeColor();
+				if (y < collection[x].length - 1)
+					collection[x][y + 1].changeColor();
+				if (x > 0)
+					collection[x - 1][y].changeColor();
+				if (x < collection.length - 1)
+					collection[x + 1][y].changeColor();
+				if (y > 1)
+					collection[x][y - 2].changeColor();
+				if (y < collection[x].length - 2)
+					collection[x][y + 2].changeColor();
+				if (x > 1)
+					collection[x - 2][y].changeColor();
+				if (x < collection.length - 2)
+					collection[x + 2][y].changeColor();
+				break;
+			case (4):
+				if (x > 0 && y > 0)
+					collection[x - 1][y - 1].changeColor();
+				if (x > 0 && y < collection[x].length - 1)
+					collection[x - 1][y + 1].changeColor();
+				if (x < collection.length - 1 && y > 0)
+					collection[x + 1][y - 1].changeColor();
+				if (x < collection.length - 1 && y < collection[x].length - 1)
+					collection[x + 1][y + 1].changeColor();
+				if (x > 1 && y > 1)
+					collection[x - 2][y - 2].changeColor();
+				if (x > 1 && y < collection[x].length - 2)
+					collection[x - 2][y + 2].changeColor();
+				if (x < collection.length - 2 && y > 1)
+					collection[x + 2][y - 2].changeColor();
+				if (x < collection.length - 2 && y < collection[x].length - 2)
+					collection[x + 2][y + 2].changeColor();
 				break;
 			}
 		} else {
 			switch (type) {
 			case (0):
-				collection[x][y - 1].setFrame(1);
-				collection[x][y + 1].setFrame(1);
-				collection[x - 1][y].setFrame(1);
-				collection[x + 1][y].setFrame(1);
+				if (y > 0)
+					collection[x][y - 1].setFrame(1);
+				if (y < collection[x].length - 1)
+					collection[x][y + 1].setFrame(1);
+				if (x > 0)
+					collection[x - 1][y].setFrame(1);
+				if (x < collection.length - 1)
+					collection[x + 1][y].setFrame(1);
+				break;
+			case (1):
+				if (x > 0 && y > 0)
+					collection[x - 1][y - 1].setFrame(1);
+				if (x > 0 && y < collection[x].length - 1)
+					collection[x - 1][y + 1].setFrame(1);
+				if (x < collection.length - 1 && y > 0)
+					collection[x + 1][y - 1].setFrame(1);
+				if (x < collection.length - 1 && y < collection[x].length - 1)
+					collection[x + 1][y + 1].setFrame(1);
+				break;
+			case (2):
+				if (y > 0)
+					collection[x][y - 1].setFrame(1);
+				if (y < collection[x].length - 1)
+					collection[x][y + 1].setFrame(1);
+				if (x > 0)
+					collection[x - 1][y].setFrame(1);
+				if (x < collection.length - 1)
+					collection[x + 1][y].setFrame(1);
+				if (x > 0 && y > 0)
+					collection[x - 1][y - 1].setFrame(1);
+				if (x > 0 && y < collection[x].length - 1)
+					collection[x - 1][y + 1].setFrame(1);
+				if (x < collection.length - 1 && y > 0)
+					collection[x + 1][y - 1].setFrame(1);
+				if (x < collection.length - 1 && y < collection[x].length - 1)
+					collection[x + 1][y + 1].setFrame(1);
+				break;
+			case (3):
+				if (y > 0)
+					collection[x][y - 1].setFrame(1);
+				if (y < collection[x].length - 1)
+					collection[x][y + 1].setFrame(1);
+				if (x > 0)
+					collection[x - 1][y].setFrame(1);
+				if (x < collection.length - 1)
+					collection[x + 1][y].setFrame(1);
+				if (y > 1)
+					collection[x][y - 2].setFrame(1);
+				if (y < collection[x].length - 2)
+					collection[x][y + 2].setFrame(1);
+				if (x > 1)
+					collection[x - 2][y].setFrame(1);
+				if (x < collection.length - 2)
+					collection[x + 2][y].setFrame(1);
+				break;
+			case (4):
+				if (x > 0 && y > 0)
+					collection[x - 1][y - 1].setFrame(1);
+				if (x > 0 && y < collection[x].length - 1)
+					collection[x - 1][y + 1].setFrame(1);
+				if (x < collection.length - 1 && y > 0)
+					collection[x + 1][y - 1].setFrame(1);
+				if (x < collection.length - 1 && y < collection[x].length - 1)
+					collection[x + 1][y + 1].setFrame(1);
+				if (x > 1 && y > 1)
+					collection[x - 2][y - 2].setFrame(1);
+				if (x > 1 && y < collection[x].length - 2)
+					collection[x - 2][y + 2].setFrame(1);
+				if (x < collection.length - 2 && y > 1)
+					collection[x + 2][y - 2].setFrame(1);
+				if (x < collection.length - 2 && y < collection[x].length - 2)
+					collection[x + 2][y + 2].setFrame(1);
 				break;
 			}
 		}
@@ -248,3 +405,4 @@ public class GameScreen implements Screen {
 		p.setScreen(new StartScreen(p));
 	}
 }
+//© Hunter Heidenreich 2014
