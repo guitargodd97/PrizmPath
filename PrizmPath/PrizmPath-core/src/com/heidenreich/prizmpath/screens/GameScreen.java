@@ -66,10 +66,29 @@ public class GameScreen implements Screen {
 				for (int id = 0; id < collection[i].length; id++) {
 					if (collection[i][id].checkCollision(t)
 							&& collection[i][id].isPrizmActive()) {
-						collection[i][id].changeColor();
-						changePrizms(collection[i][id].getType(), i, id);
-						curClick++;
-						checkClicks(collection[i][id].getColor());
+						if (collection[i][id].isSelected()) {
+							collection[i][id].changeColor();
+							changePrizms(collection[i][id].getType(), i, id, 1);
+							curClick++;
+							checkClicks(collection[i][id].getColor());
+							for (int x = 0; x < collection.length; x++) {
+								for (int y = 0; y < collection[x].length; y++) {
+									collection[x][y].setSelected(false);
+									collection[x][y].setFrame(0);
+								}
+							}
+						} else {
+							for (int x = 0; x < collection.length; x++) {
+								for (int y = 0; y < collection[x].length; y++) {
+									collection[x][y].setSelected(false);
+									collection[x][y].setFrame(0);
+								}
+							}
+							collection[i][id].setFrame(2);
+							changePrizms(collection[i][id].getType(), i, id, 0);
+							curClick++;
+							collection[i][id].setSelected(true);
+						}
 					}
 				}
 			}
@@ -164,14 +183,25 @@ public class GameScreen implements Screen {
 		}
 	}
 
-	private void changePrizms(int type, int x, int y) {
-		switch (type) {
-		case (0):
-			collection[x][y - 1].changeColor();
-			collection[x][y + 1].changeColor();
-			collection[x - 1][y].changeColor();
-			collection[x + 1][y].changeColor();
-			break;
+	private void changePrizms(int type, int x, int y, int change) {
+		if (change == 1) {
+			switch (type) {
+			case (0):
+				collection[x][y - 1].changeColor();
+				collection[x][y + 1].changeColor();
+				collection[x - 1][y].changeColor();
+				collection[x + 1][y].changeColor();
+				break;
+			}
+		} else {
+			switch (type) {
+			case (0):
+				collection[x][y - 1].setFrame(1);
+				collection[x][y + 1].setFrame(1);
+				collection[x - 1][y].setFrame(1);
+				collection[x + 1][y].setFrame(1);
+				break;
+			}
 		}
 	}
 

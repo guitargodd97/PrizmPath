@@ -6,7 +6,6 @@ import com.badlogic.gdx.math.Vector2;
 
 public class Prizm {
 
-	private int buffer;
 	private int color;
 	private int curFrame;
 	private int type;
@@ -18,8 +17,7 @@ public class Prizm {
 		this.color = color;
 		this.type = type;
 		this.loco = loco;
-		curFrame = (int) (Math.random() * 3);
-		buffer = (int) (Math.random() * 45);
+		curFrame = 0;
 		size = new Vector2(60, 60);
 		Sprite[] temp = PrizmPathGame.getColorpack(0, this.type, this.color);
 		sprites = new Sprite[temp.length];
@@ -52,13 +50,6 @@ public class Prizm {
 
 	public void draw(SpriteBatch batch) {
 		sprites[curFrame].draw(batch);
-		buffer++;
-		if (buffer > 15) {
-			curFrame++;
-			if (curFrame > 2)
-				curFrame = 0;
-			buffer = 0;
-		}
 	}
 
 	public void setup(int color, int type) {
@@ -71,5 +62,9 @@ public class Prizm {
 		for (int i = 0; i < sprites.length; i++)
 			sprites[i].setPosition(loco.x - sprites[i].getWidth() / 2 + size.x
 					/ 2, loco.y - sprites[i].getHeight() / 2 + size.y / 2);
+	}
+
+	public void setFrame(int curFrame) {
+		this.curFrame = curFrame;
 	}
 }

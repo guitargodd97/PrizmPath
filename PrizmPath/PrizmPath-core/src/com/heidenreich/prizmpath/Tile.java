@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 public class Tile {
 
 	private boolean prizmActive;
+	private boolean selected;
 	private Prizm prizm;
 	private Rectangle rect;
 	private Sprite sprite;
@@ -18,6 +19,7 @@ public class Tile {
 	public Tile(Vector2 location, boolean prizmActive) {
 		this.prizmActive = prizmActive;
 		this.location = location;
+		selected = false;
 		size = new Vector2(60, 60);
 		sprite = PrizmPathGame.getAssets()
 				.get(PrizmPathGame.TEXTURE_PATH, TextureAtlas.class)
@@ -61,5 +63,17 @@ public class Tile {
 
 	public boolean isPrizmActive() {
 		return prizmActive;
+	}
+	
+	public void setFrame(int curFrame) {
+		prizm.setFrame(curFrame);
+	}
+	
+	public boolean isSelected() {
+		return selected;
+	}
+	
+	public void setSelected(boolean selected) {
+		this.selected = selected;
 	}
 }
