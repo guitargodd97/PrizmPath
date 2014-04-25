@@ -17,6 +17,10 @@ import com.heidenreich.prizmpath.Tile;
 public class GameScreen implements Screen {
 
 	private BitmapFont f;
+	private ImageButton home;
+	private ImageButton pause;
+	private ImageButton play;
+	private ImageButton restart;
 	private int clickBuffer;
 	private int curClick;
 	private int gameState;
@@ -104,6 +108,12 @@ public class GameScreen implements Screen {
 				clickBuffer++;
 			else if (clickBuffer == 2)
 				clickBuffer = 0;
+		} else if (gameState == 1) {
+			
+		} else if (gameState == 2) {
+			
+		} else {
+			
 		}
 
 		stage.act();
