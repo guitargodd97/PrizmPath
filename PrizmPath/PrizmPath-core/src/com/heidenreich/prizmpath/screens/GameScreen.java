@@ -7,10 +7,15 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton.ImageButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
+import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.heidenreich.prizmpath.PrizmPathGame;
 import com.heidenreich.prizmpath.Tile;
 
@@ -18,6 +23,7 @@ public class GameScreen implements Screen {
 
 	private BitmapFont f;
 	private ImageButton home;
+	private ImageButton next;
 	private ImageButton pause;
 	private ImageButton play;
 	private ImageButton restart;
@@ -33,6 +39,7 @@ public class GameScreen implements Screen {
 	private SpriteBatch batch;
 	private Stage stage;
 	private Tile collection[][];
+	private Vector2 buttonSize;
 
 	// Constructs the GameScreen
 	public GameScreen(PrizmPathGame p, int level) {
@@ -43,6 +50,8 @@ public class GameScreen implements Screen {
 		curClick = 0;
 		maxClickIndex = 0;
 		maxClick = new int[4];
+
+		buttonSize = new Vector2(60, 60);
 
 		// 0 = running, 1 = options, 2 = gameover, 3 = level won
 		gameState = 0;
@@ -109,11 +118,11 @@ public class GameScreen implements Screen {
 			else if (clickBuffer == 2)
 				clickBuffer = 0;
 		} else if (gameState == 1) {
-			
+
 		} else if (gameState == 2) {
-			
+
 		} else {
-			
+
 		}
 
 		stage.act();
@@ -145,9 +154,143 @@ public class GameScreen implements Screen {
 		click.setWidth(Gdx.graphics.getWidth() / 2);
 		click.setAlignment(Align.center);
 
+		// Image Buttons
+		ImageButtonStyle imageStyle = new ImageButtonStyle();
+		imageStyle.imageUp = new SpriteDrawable(PrizmPathGame.homeButtons[0]);
+		imageStyle.imageDown = new SpriteDrawable(PrizmPathGame.homeButtons[1]);
+
+		// Home Button
+		home = new ImageButton(imageStyle);
+		home.setSize(buttonSize.x, buttonSize.y);
+		home.setX((Gdx.graphics.getWidth() - buttonSize.x) / 2 - buttonSize.x
+				- 20);
+		home.setY((Gdx.graphics.getHeight() - buttonSize.y) / 2);
+		home.addListener(new InputListener() {
+			public boolean touchDown(InputEvent event, float x, float y,
+					int pointer, int button) {
+				return true;
+			}
+
+			public void touchUp(InputEvent event, float x, float y,
+					int pointer, int button) {
+				toStart();
+			}
+		});
+		home.setVisible(false);
+		home.setDisabled(true);
+
+		// Pause Button
+		imageStyle.imageUp = new SpriteDrawable(PrizmPathGame.pauseButtons[0]);
+		imageStyle.imageDown = new SpriteDrawable(PrizmPathGame.pauseButtons[1]);
+		pause = new ImageButton(imageStyle);
+		pause.setSize(buttonSize.x, buttonSize.y);
+		pause.setX(Gdx.graphics.getWidth() - 64);
+		pause.setY(Gdx.graphics.getHeight() - 75);
+		pause.addListener(new InputListener() {
+			public boolean touchDown(InputEvent event, float x, float y,
+					int pointer, int button) {
+				return true;
+			}
+
+			public void touchUp(InputEvent event, float x, float y,
+					int pointer, int button) {
+				optionOpen();
+			}
+		});
+
+		// Play Button
+		imageStyle.imageUp = new SpriteDrawable(PrizmPathGame.playButtons[0]);
+		imageStyle.imageDown = new SpriteDrawable(PrizmPathGame.playButtons[1]);
+		play = new ImageButton(imageStyle);
+		play.setSize(buttonSize.x, buttonSize.y);
+		play.setX((Gdx.graphics.getWidth() - buttonSize.x) / 2);
+		play.setY((Gdx.graphics.getHeight() - buttonSize.y) / 2);
+		play.addListener(new InputListener() {
+			public boolean touchDown(InputEvent event, float x, float y,
+					int pointer, int button) {
+				return true;
+			}
+
+			public void touchUp(InputEvent event, float x, float y,
+					int pointer, int button) {
+				optionClose();
+			}
+		});
+		play.setDisabled(true);
+		play.setVisible(false);
+
+		// Next Button
+		imageStyle.imageUp = new SpriteDrawable(PrizmPathGame.playButtons[0]);
+		imageStyle.imageDown = new SpriteDrawable(PrizmPathGame.playButtons[1]);
+		next = new ImageButton(imageStyle);
+		next.setSize(buttonSize.x, buttonSize.y);
+		next.setX((Gdx.graphics.getWidth() - buttonSize.x) / 2);
+		next.setY((Gdx.graphics.getHeight() - buttonSize.y) / 2);
+		next.addListener(new InputListener() {
+			public boolean touchDown(InputEvent event, float x, float y,
+					int pointer, int button) {
+				return true;
+			}
+
+			public void touchUp(InputEvent event, float x, float y,
+					int pointer, int button) {
+				toNextLevel();
+			}
+		});
+		next.setDisabled(true);
+		next.setVisible(false);
+
+		// Replay Button
+		imageStyle.imageUp = new SpriteDrawable(PrizmPathGame.restartButtons[0]);
+		imageStyle.imageDown = new SpriteDrawable(
+				PrizmPathGame.restartButtons[1]);
+		restart = new ImageButton(imageStyle);
+		restart.setSize(buttonSize.x, buttonSize.y);
+		restart.setX((Gdx.graphics.getWidth() - buttonSize.x) / 2
+				+ buttonSize.x + 20);
+		restart.setY((Gdx.graphics.getHeight() - buttonSize.y) / 2);
+		restart.addListener(new InputListener() {
+			public boolean touchDown(InputEvent event, float x, float y,
+					int pointer, int button) {
+				return true;
+			}
+
+			public void touchUp(InputEvent event, float x, float y,
+					int pointer, int button) {
+				replayLevel();
+			}
+		});
+		restart.setDisabled(true);
+		restart.setVisible(false);
+
 		// Add things to the stage
 		stage.addActor(title);
 		stage.addActor(click);
+		stage.addActor(home);
+		stage.addActor(next);
+		stage.addActor(pause);
+		stage.addActor(play);
+		stage.addActor(restart);
+	}
+
+	private void optionOpen() {
+		gameState = 1;
+		restart.setDisabled(false);
+		restart.setVisible(true);
+		play.setDisabled(false);
+		play.setVisible(true);
+		home.setDisabled(false);
+		home.setVisible(true);
+	}
+
+	private void optionClose() {
+		gameState = 0;
+		restart.setDisabled(true);
+		restart.setVisible(false);
+		play.setDisabled(true);
+		play.setVisible(false);
+		home.setDisabled(true);
+		home.setVisible(false);
 	}
 
 	// Called when the screen is shown
@@ -410,17 +553,43 @@ public class GameScreen implements Screen {
 			}
 		}
 		if (completed)
-			toStart();
+			win();
 		if (curClick >= maxClick[maxClickIndex]
 				&& maxClickIndex < maxClick.length - 1)
 			maxClickIndex++;
 		else if (curClick >= maxClick[3])
-			toStart(); // Gameover code
+			lose();
 		click.setText("Clicks: " + curClick + "/" + maxClick[maxClickIndex]);
+	}
+
+	private void win() {
+		gameState = 3;
+		restart.setDisabled(false);
+		restart.setVisible(true);
+		next.setDisabled(false);
+		next.setVisible(true);
+		home.setDisabled(false);
+		home.setVisible(true);
+	}
+
+	private void lose() {
+		gameState = 2;
+		restart.setDisabled(false);
+		restart.setVisible(true);
+		home.setDisabled(false);
+		home.setVisible(true);
 	}
 
 	private void toStart() {
 		p.setScreen(new StartScreen(p));
+	}
+
+	private void toNextLevel() {
+		p.setScreen(new GameScreen(p, level + 1));
+	}
+
+	private void replayLevel() {
+		p.setScreen(new GameScreen(p, level));
 	}
 }
 // © Hunter Heidenreich 2014

@@ -31,6 +31,9 @@ public class PrizmPathGame extends Game {
 	public static Sprite splash;
 	public static Sprite[] backgrounds;
 	public static Sprite[] homeButtons;
+	public static Sprite[] pauseButtons;
+	public static Sprite[] playButtons;
+	public static Sprite[] restartButtons;
 	public static Sprite[][][][] colorpacks;
 	public static final String log = "PrizmPath";
 	public static final String TEXTURE_PATH = "data/textures/texture.atlas";
@@ -133,6 +136,30 @@ public class PrizmPathGame extends Game {
 		homeButtons[1] = PrizmPathGame.getAssets()
 				.get(PrizmPathGame.TEXTURE_PATH, TextureAtlas.class)
 				.createSprite("homebuttondown");
+
+		pauseButtons = new Sprite[2];
+		pauseButtons[0] = PrizmPathGame.getAssets()
+				.get(PrizmPathGame.TEXTURE_PATH, TextureAtlas.class)
+				.createSprite("pausebuttonup");
+		pauseButtons[1] = PrizmPathGame.getAssets()
+				.get(PrizmPathGame.TEXTURE_PATH, TextureAtlas.class)
+				.createSprite("pausebuttondown");
+
+		restartButtons = new Sprite[2];
+		restartButtons[0] = PrizmPathGame.getAssets()
+				.get(PrizmPathGame.TEXTURE_PATH, TextureAtlas.class)
+				.createSprite("replaybuttonup");
+		restartButtons[1] = PrizmPathGame.getAssets()
+				.get(PrizmPathGame.TEXTURE_PATH, TextureAtlas.class)
+				.createSprite("replaybuttondown");
+
+		playButtons = new Sprite[2];
+		playButtons[0] = PrizmPathGame.getAssets()
+				.get(PrizmPathGame.TEXTURE_PATH, TextureAtlas.class)
+				.createSprite("nextbuttonup");
+		playButtons[1] = PrizmPathGame.getAssets()
+				.get(PrizmPathGame.TEXTURE_PATH, TextureAtlas.class)
+				.createSprite("nextbuttondown");
 
 		colorpacks = new Sprite[1][1][6][3];
 		for (int i = 0; i < colorpacks[0][0].length; i++)
