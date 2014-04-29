@@ -97,9 +97,6 @@ public class PrizmPathGame extends Game {
 	public void loadResources() {
 		/*
 		 * Brief Description: Loads all the resources into the AssetManager
-		 * 
-		 * NOTE - May need multiple instances of AssetManagers for multiple file
-		 * types, such as textures and audio.
 		 */
 		// Set the type of manager
 		PrizmPathGame.getAssets().setLoader(TiledMap.class,
@@ -186,10 +183,37 @@ public class PrizmPathGame extends Game {
 		 * the byte[]s levelData and option data. This data is then read into
 		 * the static variables.
 		 */
-		curBackground = 0;
-		curColorpack = 0;
-		curSoundpack = 0;
-		Gdx.app.log(getLog(), "Data loaded");
+		FileHandle fileLocation = Gdx.files.local("data/options.bin");
+		if (fileLocation.exists()) {
+			// Opens it and then retrieves data
+			optionData = fileLocation.readBytes();
+			if (optionData[0] == 0)
+				musicMute = false;
+			else
+				musicMute = true;
+			if (optionData[1] == 0)
+				sfxMute = false;
+			else
+				sfxMute = true;
+			curColorpack = optionData[2];
+			curSoundpack = optionData[3];
+			curBackground = optionData[4];
+		} else {
+			// If it doesn't exists, make a new one
+			fileLocation.writeBytes(new byte[] { 0, 0, 0, 0, 0 }, false);
+			optionData = fileLocation.readBytes();
+			if (optionData[0] == 0)
+				musicMute = false;
+			else
+				musicMute = true;
+			if (optionData[1] == 0)
+				sfxMute = false;
+			else
+				sfxMute = true;
+			curColorpack = optionData[2];
+			curSoundpack = optionData[3];
+			curBackground = optionData[4];
+		}
 	}
 
 	// Saves all data
@@ -199,6 +223,8 @@ public class PrizmPathGame extends Game {
 		 * variables back into the byte[]s and then saved in the level.bin and
 		 * options.bin files.
 		 */
+		FileHandle fileLocation = Gdx.files.local("data/options.bin");
+		fileLocation.writeBytes(optionData, false);
 		Gdx.app.log(getLog(), "Data saved");
 	}
 
