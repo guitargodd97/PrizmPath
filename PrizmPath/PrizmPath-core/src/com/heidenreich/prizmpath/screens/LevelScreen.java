@@ -87,7 +87,8 @@ public class LevelScreen implements Screen {
 				levels[i][id].setX((id * (buttonSize.x + 5)) + 15);
 				levels[i][id].setY(Gdx.graphics.getHeight()
 						- ((i * (buttonSize.y + 5)) + buttonSize.y + 80));
-				if ((i * levels[i].length + id + 1) > 1) {
+				/* if ((i * levels[i].length + id + 1) > 1) { */
+				if (PrizmPathGame.getLevelData((i * levels[i].length + id)) > 0) {
 					levels[i][id].setTouchable(Touchable.disabled);
 					levels[i][id].setVisible(false);
 				}
@@ -109,23 +110,6 @@ public class LevelScreen implements Screen {
 		ImageButtonStyle imageStyle = new ImageButtonStyle();
 		imageStyle.imageUp = new SpriteDrawable(PrizmPathGame.homeButtons[0]);
 		imageStyle.imageDown = new SpriteDrawable(PrizmPathGame.homeButtons[1]);
-
-		// Back button
-		back = new ImageButton(imageStyle);
-		back.setSize(buttonSize.x, buttonSize.y);
-		back.setX(Gdx.graphics.getWidth() - 64);
-		back.setY(Gdx.graphics.getHeight() - 75);
-		back.addListener(new InputListener() {
-			public boolean touchDown(InputEvent event, float x, float y,
-					int pointer, int button) {
-				return true;
-			}
-
-			public void touchUp(InputEvent event, float x, float y,
-					int pointer, int button) {
-				toStart();
-			}
-		});
 
 		// Title label
 		LabelStyle ls = new LabelStyle(f, Color.WHITE);

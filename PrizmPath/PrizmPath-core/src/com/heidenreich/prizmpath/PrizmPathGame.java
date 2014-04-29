@@ -8,6 +8,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -214,6 +215,15 @@ public class PrizmPathGame extends Game {
 			curSoundpack = optionData[3];
 			curBackground = optionData[4];
 		}
+
+		fileLocation = Gdx.files.local("data/levels.bin");
+		if (fileLocation.exists()) {
+			levelData = fileLocation.readBytes();
+		} else {
+			levelData = new byte[60];
+			fileLocation.writeBytes(levelData, false);
+			levelData = fileLocation.readBytes();
+		}
 	}
 
 	// Saves all data
@@ -226,6 +236,8 @@ public class PrizmPathGame extends Game {
 
 		FileHandle fileLocation = Gdx.files.local("data/options.bin");
 		fileLocation.writeBytes(optionData, false);
+		fileLocation = Gdx.files.local("data/levels.bin");
+		fileLocation.writeBytes(levelData, false);
 		Gdx.app.log(getLog(), "Data saved");
 	}
 
@@ -270,14 +282,13 @@ public class PrizmPathGame extends Game {
 	// Gets level data for determining various things involving the levels
 	public static byte getLevelData(int index) {
 		// Level data saved in level.bin
-		// Contains 120 level indices
+		// Contains 60 level indices
 		//
 		// 0 = Not Unlocked
-		// 1 = Not Completed
-		// 2 = No Medal
-		// 3 = Bronze
-		// 4 = Silver
-		// 5 = Gold
+		// 1 = No Medal
+		// 2 = Bronze
+		// 3 = Silver
+		// 4 = Gold
 		return levelData[index];
 	}
 
