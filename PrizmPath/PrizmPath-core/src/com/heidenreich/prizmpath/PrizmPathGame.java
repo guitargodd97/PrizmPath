@@ -223,6 +223,7 @@ public class PrizmPathGame extends Game {
 		 * variables back into the byte[]s and then saved in the level.bin and
 		 * options.bin files.
 		 */
+
 		FileHandle fileLocation = Gdx.files.local("data/options.bin");
 		fileLocation.writeBytes(optionData, false);
 		Gdx.app.log(getLog(), "Data saved");
@@ -246,6 +247,10 @@ public class PrizmPathGame extends Game {
 	// Sets whether the music should be muted
 	public static void setMusicMute() {
 		PrizmPathGame.musicMute = !PrizmPathGame.musicMute;
+		if (PrizmPathGame.isMusicMute())
+			PrizmPathGame.setOptionData((byte) 1, 0);
+		else
+			PrizmPathGame.setOptionData((byte) 0, 0);
 	}
 
 	// Gets whether the sound effects should be muted
@@ -256,6 +261,10 @@ public class PrizmPathGame extends Game {
 	// Sets whether the sound effects should be muted
 	public static void setSfxMute() {
 		PrizmPathGame.sfxMute = !PrizmPathGame.sfxMute;
+		if (PrizmPathGame.isSfxMute())
+			PrizmPathGame.setOptionData((byte) 1, 1);
+		else
+			PrizmPathGame.setOptionData((byte) 0, 1);
 	}
 
 	// Gets level data for determining various things involving the levels
@@ -323,6 +332,7 @@ public class PrizmPathGame extends Game {
 			PrizmPathGame.curBackground++;
 		else
 			PrizmPathGame.curBackground = 0;
+		PrizmPathGame.setOptionData((byte) curBackground, 4);
 	}
 
 }
