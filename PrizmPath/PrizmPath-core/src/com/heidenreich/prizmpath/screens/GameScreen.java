@@ -88,7 +88,6 @@ public class GameScreen implements Screen {
 								collection[i][id].changeColor();
 								changePrizms(collection[i][id].getType(), i,
 										id, 1);
-								curClick++;
 								checkClicks(collection[i][id].getColor());
 								for (int x = 0; x < collection.length; x++) {
 									for (int y = 0; y < collection[x].length; y++) {
@@ -345,6 +344,10 @@ public class GameScreen implements Screen {
 			collection[2][7].setPrizm(5, 0);
 			collection[1][6].setPrizm(5, 0);
 			collection[3][6].setPrizm(5, 0);
+			maxClick[0] = 1;
+			maxClick[1] = (int) (maxClick[0] * 1.5);
+			maxClick[2] = (int) (maxClick[0] * 1.75);
+			maxClick[3] = (int) (maxClick[0] * 2);
 			break;
 		// X X X X X X X X X X X X X
 		// X X X X X 3 3 3 X X X X X
@@ -594,6 +597,16 @@ public class GameScreen implements Screen {
 		next.setVisible(true);
 		home.setDisabled(false);
 		home.setVisible(true);
+		if (level > 0) {
+			if (maxClickIndex == 0)
+				PrizmPathGame.setLevelData((byte) 4, level - 1);
+			else if (maxClickIndex == 1)
+				PrizmPathGame.setLevelData((byte) 3, level - 1);
+			else if (maxClickIndex == 2)
+				PrizmPathGame.setLevelData((byte) 2, level - 1);
+		}
+		if (level < 60)
+			PrizmPathGame.setLevelData((byte) 1, level);
 	}
 
 	private void lose() {

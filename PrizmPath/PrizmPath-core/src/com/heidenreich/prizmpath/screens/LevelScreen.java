@@ -103,7 +103,7 @@ public class LevelScreen implements Screen {
 				levels[i][id].setY(Gdx.graphics.getHeight()
 						- ((i * (buttonSize.y + 5)) + buttonSize.y + 80));
 				/* if ((i * levels[i].length + id + 1) > 1) { */
-				if (PrizmPathGame.getLevelData((i * levels[i].length + id)) > 0) {
+				if (PrizmPathGame.getLevelData((i * levels[i].length + id)) < 1) {
 					levels[i][id].setTouchable(Touchable.disabled);
 					levels[i][id].setVisible(false);
 				}

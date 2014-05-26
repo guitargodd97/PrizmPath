@@ -5,7 +5,9 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
@@ -18,6 +20,7 @@ public class CreditScreen implements Screen {
 	private Label info;
 	private Label title;
 	private PrizmPathGame p;
+	private Sprite box;
 	private SpriteBatch batch;
 	private Stage stage;
 
@@ -37,6 +40,7 @@ public class CreditScreen implements Screen {
 				new Color(Color.LIGHT_GRAY));
 		batch.begin();
 		PrizmPathGame.getBackground(PrizmPathGame.curBackground).draw(batch);
+		box.draw(batch);
 		batch.end();
 		clickCheck();
 
@@ -83,6 +87,10 @@ public class CreditScreen implements Screen {
 		batch = new SpriteBatch();
 
 		f = new BitmapFont(Gdx.files.internal("data/font.fnt"));
+
+		box = PrizmPathGame.getAssets()
+				.get(PrizmPathGame.TEXTURE_PATH, TextureAtlas.class)
+				.createSprite("box");
 
 		if (PrizmPathGame.isMusicMute())
 			PrizmPathGame.soundpacks[PrizmPathGame.curSoundpack][PrizmPathGame.curSong]

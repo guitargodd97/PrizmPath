@@ -221,13 +221,14 @@ public class PrizmPathGame extends Game {
 		}
 
 		fileLocation = Gdx.files.local("data/levels.bin");
-		if (fileLocation.exists()) {
-			levelData = fileLocation.readBytes();
-		} else {
+	//	if (fileLocation.exists()) {
+	//		levelData = fileLocation.readBytes();
+	//	} else {
 			levelData = new byte[60];
+			levelData[0] = (byte) 1;
 			fileLocation.writeBytes(levelData, false);
 			levelData = fileLocation.readBytes();
-		}
+	//	}
 	}
 
 	// Saves all data
