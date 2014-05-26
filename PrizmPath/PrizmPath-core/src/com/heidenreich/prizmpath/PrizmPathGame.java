@@ -159,7 +159,7 @@ public class PrizmPathGame extends Game {
 				.get(PrizmPathGame.TEXTURE_PATH, TextureAtlas.class)
 				.createSprite("nextbuttondown");
 
-		colorpacks = new Sprite[1][1][6][3];
+		colorpacks = new Sprite[1][1][6][2];
 		for (int i = 0; i < colorpacks[0][0].length; i++)
 			for (int id = 0; id < colorpacks[0][0][i].length; id++)
 				colorpacks[0][0][i][id] = PrizmPathGame.getAssets()

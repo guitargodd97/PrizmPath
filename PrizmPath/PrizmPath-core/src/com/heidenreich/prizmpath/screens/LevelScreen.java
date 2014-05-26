@@ -76,6 +76,21 @@ public class LevelScreen implements Screen {
 		tbs.up = skin.getDrawable("buttonnormal");
 		tbs.down = skin.getDrawable("buttonpressed");
 		tbs.font = f;
+		
+		TextButtonStyle tbsB = new TextButtonStyle();
+		tbsB.up = skin.getDrawable("buttonnormalB");
+		tbsB.down = skin.getDrawable("buttonpressedB");
+		tbsB.font = f;
+
+		TextButtonStyle tbsS = new TextButtonStyle();
+		tbsS.up = skin.getDrawable("buttonnormalS");
+		tbsS.down = skin.getDrawable("buttonpressedS");
+		tbsS.font = f;
+		
+		TextButtonStyle tbsG = new TextButtonStyle();
+		tbsG.up = skin.getDrawable("buttonnormalG");
+		tbsG.down = skin.getDrawable("buttonpressedG");
+		tbsG.font = f;
 
 		// Level Buttons
 		for (int i = 0; i < levels.length; i++) {
@@ -92,6 +107,12 @@ public class LevelScreen implements Screen {
 					levels[i][id].setTouchable(Touchable.disabled);
 					levels[i][id].setVisible(false);
 				}
+				if(PrizmPathGame.getLevelData((i * levels[i].length + id)) == 2)
+					levels[i][id].setStyle(tbsB);
+				else if(PrizmPathGame.getLevelData((i * levels[i].length + id)) == 3)
+					levels[i][id].setStyle(tbsS);
+				else if(PrizmPathGame.getLevelData((i * levels[i].length + id)) == 4)
+					levels[i][id].setStyle(tbsG);
 				levels[i][id].addListener(new InputListener() {
 					public boolean touchDown(InputEvent event, float x,
 							float y, int pointer, int button) {
@@ -126,7 +147,7 @@ public class LevelScreen implements Screen {
 			}
 		}
 		stage.addActor(title);
-		stage.addActor(back);
+	//	stage.addActor(back);
 	}
 
 	// Called when the screen is shown

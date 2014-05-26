@@ -95,7 +95,7 @@ public class StartScreen implements Screen {
 		});
 
 		// Shop Button
-		shop = new TextButton("Shop", tbs);
+		shop = new TextButton("Achievements", tbs);
 		shop.setSize(buttonSize.x, buttonSize.y);
 		shop.setX(Gdx.graphics.getWidth() / 2 - buttonSize.x / 2);
 		shop.setY((3 * buttonSize.y) + 15);
@@ -107,7 +107,7 @@ public class StartScreen implements Screen {
 
 			public void touchUp(InputEvent event, float x, float y,
 					int pointer, int button) {
-				toShop();
+				toAchievements();
 			}
 		});
 
@@ -238,8 +238,8 @@ public class StartScreen implements Screen {
 	}
 
 	// Sends to the ShopScreen
-	private void toShop() {
-		p.setScreen(new ShopScreen(p));
+	private void toAchievements() {
+		p.setScreen(new AchievementScreen(p));
 	}
 }
 // © Hunter Heidenreich 2014

@@ -3,11 +3,11 @@ package com.heidenreich.prizmpath.screens;
 import com.badlogic.gdx.Screen;
 import com.heidenreich.prizmpath.PrizmPathGame;
 
-public class ShopScreen implements Screen {
+public class AchievementScreen implements Screen {
 
 	private PrizmPathGame p;
 
-	public ShopScreen(PrizmPathGame p) {
+	public AchievementScreen(PrizmPathGame p) {
 		this.p = p;
 	}
 

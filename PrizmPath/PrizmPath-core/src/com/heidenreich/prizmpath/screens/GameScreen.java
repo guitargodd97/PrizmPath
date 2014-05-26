@@ -103,7 +103,7 @@ public class GameScreen implements Screen {
 										collection[x][y].setFrame(0);
 									}
 								}
-								collection[i][id].setFrame(2);
+								collection[i][id].setFrame(1);
 								changePrizms(collection[i][id].getType(), i,
 										id, 0);
 								curClick++;
