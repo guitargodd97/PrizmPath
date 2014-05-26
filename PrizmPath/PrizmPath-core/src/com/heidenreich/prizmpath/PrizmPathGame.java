@@ -166,9 +166,13 @@ public class PrizmPathGame extends Game {
 						.get(PrizmPathGame.TEXTURE_PATH, TextureAtlas.class)
 						.createSprite("prizm0" + i, id);
 
-		soundpacks = new Music[1][1];
-		soundpacks[0][0] = Gdx.audio.newMusic(Gdx.files
-				.internal("data/sound/music/Pack1-0.mp3"));
+		soundpacks = new Music[1][3];
+		for (int i = 0; i < soundpacks.length; i++) {
+			for (int id = 0; id < soundpacks[i].length; id++)
+				soundpacks[i][id] = Gdx.audio.newMusic(Gdx.files
+						.internal("data/sound/music/Pack" + (i + 1) + "-" + id
+								+ ".mp3"));
+		}
 
 		// Sets up the song
 		Random ran = new Random();
