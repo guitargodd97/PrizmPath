@@ -3,6 +3,7 @@ package com.heidenreich.prizmpath.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -17,6 +18,7 @@ public class SplashScreen implements Screen {
 	private int counter;
 	private Music splash;
 	private PrizmPathGame p;
+	private Sound sfx;
 	private SpriteBatch batch;
 	private final String MUSIC_SOUND = "data/sound/music/HeidenreichSound.mp3";
 	private final String SFX_SOUND = "data/sound/sfx/yeahsfx.mp3";
@@ -77,6 +79,8 @@ public class SplashScreen implements Screen {
 		splash = Gdx.audio.newMusic(Gdx.files.internal(MUSIC_SOUND));
 		splash.play();
 		splash.setLooping(false);
+		
+		sfx = Gdx.audio.newSound(Gdx.files.internal(SFX_SOUND));
 	}
 
 	// Called on hide
@@ -104,7 +108,7 @@ public class SplashScreen implements Screen {
 	public void playSFX() {
 		// If the SFX hasn't been played yet
 		if (!hasPlayed) {
-			Gdx.audio.newSound(Gdx.files.internal(SFX_SOUND)).play();
+			sfx.play();
 			hasPlayed = true;
 		}
 	}
