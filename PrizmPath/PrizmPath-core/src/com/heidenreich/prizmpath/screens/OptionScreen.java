@@ -5,7 +5,9 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -23,11 +25,13 @@ public class OptionScreen implements Screen {
 	private Label info;
 	private Label title;
 	private PrizmPathGame p;
+	private Sprite box;
 	private SpriteBatch batch;
 	private Stage stage;
 	private TextButton background;
 	private TextButton muteMusic;
 	private TextButton muteSFX;
+	private TextButton song;
 	private Vector2 buttonSize;
 
 	// Constructs the OptionScreen
@@ -47,6 +51,7 @@ public class OptionScreen implements Screen {
 				new Color(Color.LIGHT_GRAY));
 		batch.begin();
 		PrizmPathGame.getBackground(PrizmPathGame.curBackground).draw(batch);
+		box.draw(batch);
 		batch.end();
 		clickCheck();
 
@@ -133,6 +138,24 @@ public class OptionScreen implements Screen {
 			}
 		});
 
+		// Song Button
+		song = new TextButton("Song: " + PrizmPathGame.curSong, tbs);
+		song.setSize(buttonSize.x, buttonSize.y);
+		song.setX(Gdx.graphics.getWidth() / 2 - buttonSize.x / 2);
+		song.setY((1 * buttonSize.y) + 15);
+		song.addListener(new InputListener() {
+			public boolean touchDown(InputEvent event, float x, float y,
+					int pointer, int button) {
+				return true;
+			}
+
+			public void touchUp(InputEvent event, float x, float y,
+					int pointer, int button) {
+				PrizmPathGame.changeSong();
+				updateButtons();
+			}
+		});
+
 		// Title label
 		LabelStyle ls = new LabelStyle(f, Color.WHITE);
 		title = new Label("Options", ls);
@@ -144,7 +167,7 @@ public class OptionScreen implements Screen {
 		// Info label
 		info = new Label("Click to continue...", ls);
 		info.setX(0);
-		info.setY((1 * buttonSize.y) + 15);
+		info.setY(25);
 		info.setWidth(Gdx.graphics.getWidth());
 		info.setAlignment(Align.center);
 
@@ -154,6 +177,7 @@ public class OptionScreen implements Screen {
 		stage.addActor(muteMusic);
 		stage.addActor(title);
 		stage.addActor(info);
+		stage.addActor(song);
 	}
 
 	// When a button is clicked, update the rest
@@ -176,6 +200,7 @@ public class OptionScreen implements Screen {
 		else
 			PrizmPathGame.soundpacks[PrizmPathGame.curSoundpack][PrizmPathGame.curSong]
 					.play();
+		song.setText("Song: " + PrizmPathGame.curSong);
 	}
 
 	// Called when the screen is shown
@@ -183,6 +208,10 @@ public class OptionScreen implements Screen {
 		batch = new SpriteBatch();
 
 		f = new BitmapFont(Gdx.files.internal("data/font.fnt"));
+
+		box = PrizmPathGame.getAssets()
+				.get(PrizmPathGame.TEXTURE_PATH, TextureAtlas.class)
+				.createSprite("box");
 
 		if (PrizmPathGame.isMusicMute())
 			PrizmPathGame.soundpacks[PrizmPathGame.curSoundpack][PrizmPathGame.curSong]
@@ -215,7 +244,8 @@ public class OptionScreen implements Screen {
 	// Checks if the screen should be exited
 	private void clickCheck() {
 		if (Gdx.input.isTouched()
-				&& (Gdx.input.getX() > 600 || Gdx.input.getX() < 200))
+				&& (Gdx.input.getX() > 580 || Gdx.input.getX() < 220 || Gdx.input
+						.getY() > 400))
 			toStart();
 	}
 

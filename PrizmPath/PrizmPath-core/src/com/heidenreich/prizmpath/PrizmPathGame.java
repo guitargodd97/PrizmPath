@@ -166,7 +166,7 @@ public class PrizmPathGame extends Game {
 						.get(PrizmPathGame.TEXTURE_PATH, TextureAtlas.class)
 						.createSprite("prizm0" + i, id);
 
-		soundpacks = new Music[1][3];
+		soundpacks = new Music[1][4];
 		for (int i = 0; i < soundpacks.length; i++) {
 			for (int id = 0; id < soundpacks[i].length; id++)
 				soundpacks[i][id] = Gdx.audio.newMusic(Gdx.files
@@ -221,14 +221,14 @@ public class PrizmPathGame extends Game {
 		}
 
 		fileLocation = Gdx.files.local("data/levels.bin");
-	//	if (fileLocation.exists()) {
-	//		levelData = fileLocation.readBytes();
-	//	} else {
-			levelData = new byte[60];
-			levelData[0] = (byte) 1;
-			fileLocation.writeBytes(levelData, false);
-			levelData = fileLocation.readBytes();
-	//	}
+		// if (fileLocation.exists()) {
+		// levelData = fileLocation.readBytes();
+		// } else {
+		levelData = new byte[60];
+		levelData[0] = (byte) 1;
+		fileLocation.writeBytes(levelData, false);
+		levelData = fileLocation.readBytes();
+		// }
 	}
 
 	// Saves all data
@@ -349,6 +349,19 @@ public class PrizmPathGame extends Game {
 		else
 			PrizmPathGame.curBackground = 0;
 		PrizmPathGame.setOptionData((byte) curBackground, 4);
+	}
+
+	public static void changeSong() {
+		PrizmPathGame.soundpacks[PrizmPathGame.curSoundpack][PrizmPathGame.curSong]
+				.stop();
+		if (PrizmPathGame.curSong < PrizmPathGame.soundpacks[0].length - 1)
+			PrizmPathGame.curSong++;
+		else
+			PrizmPathGame.curSong = 0;
+		PrizmPathGame.soundpacks[PrizmPathGame.curSoundpack][PrizmPathGame.curSong]
+				.setLooping(true);
+		PrizmPathGame.soundpacks[PrizmPathGame.curSoundpack][PrizmPathGame.curSong]
+				.play();
 	}
 
 }
