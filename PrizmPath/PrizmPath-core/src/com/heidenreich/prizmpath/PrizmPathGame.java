@@ -234,7 +234,7 @@ public class PrizmPathGame extends Game {
 	}
 
 	// Saves all data
-	public void saveData() {
+	public static void saveData() {
 		/*
 		 * Brief Description: Before the game closes, the data is read from the
 		 * variables back into the byte[]s and then saved in the level.bin and
@@ -302,6 +302,7 @@ public class PrizmPathGame extends Game {
 	// Saves a portion of level data
 	public static void setLevelData(byte data, int index) {
 		PrizmPathGame.levelData[index] = data;
+		PrizmPathGame.saveData();
 	}
 
 	// Gets a specific option data
