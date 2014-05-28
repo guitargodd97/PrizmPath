@@ -447,6 +447,26 @@ public class GameScreen implements Screen {
 			collection[1][6].setPrizm(0, 0);
 			maxClick[0] = 1;
 			break;
+		// X X X X X X X X X X X X X
+		// X X X X X 5 0 5 X X X X X
+		// X X X X X 0 5 0 X X X X X
+		// X X X X X 5 0 5 X X X X X
+		// X X X X X X X X X X X X X
+		case (7):
+			for (int i = 0; i < collection.length; i++)
+				for (int id = 0; id < collection[i].length; id++)
+					collection[i][id] = new Tile(new Vector2((60 * id) + 10,
+							(60 * i) + 80), false);
+			for (int i = 1; i < 4; i++)
+				for (int id = 5; id < 8; id++)
+					collection[i][id].setPrizm(4, 1);
+			collection[3][6].setPrizm(1, 1);
+			collection[2][5].setPrizm(1, 1);
+			collection[2][6].setPrizm(0, 0);
+			collection[2][7].setPrizm(1, 1);
+			collection[1][6].setPrizm(1, 1);
+			maxClick[0] = 9;
+			break;
 		}
 		maxClick[1] = (int) (maxClick[0] * 1.5);
 		maxClick[2] = (int) (maxClick[0] * 1.75);
