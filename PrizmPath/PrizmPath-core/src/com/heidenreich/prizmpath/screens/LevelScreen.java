@@ -40,8 +40,8 @@ public class LevelScreen implements Screen {
 	// Constructs the LevelScreen
 	public LevelScreen(PrizmPathGame p) {
 		this.p = p;
-		levels = new TextButton[5][12];
-		buttonSize = new Vector2(60, 60);
+		levels = new TextButton[5][6];
+		buttonSize = new Vector2(90, 90);
 	}
 
 	// Updates the screen
@@ -99,7 +99,7 @@ public class LevelScreen implements Screen {
 						+ (i * levels[i].length + id + 1), tbs);
 				levels[i][id].setName("" + (i * levels[i].length + id + 1));
 				levels[i][id].setSize(buttonSize.x, buttonSize.y);
-				levels[i][id].setX((id * (buttonSize.x + 5)) + 15);
+				levels[i][id].setX((id * (buttonSize.x + 5)) + 35);
 				levels[i][id].setY(Gdx.graphics.getHeight()
 						- ((i * (buttonSize.y + 5)) + buttonSize.y + 80));
 				/* if ((i * levels[i].length + id + 1) > 1) { */

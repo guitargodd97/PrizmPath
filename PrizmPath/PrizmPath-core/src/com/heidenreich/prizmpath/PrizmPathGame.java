@@ -159,12 +159,14 @@ public class PrizmPathGame extends Game {
 				.get(PrizmPathGame.TEXTURE_PATH, TextureAtlas.class)
 				.createSprite("nextbuttondown");
 
-		colorpacks = new Sprite[1][1][6][2];
-		for (int i = 0; i < colorpacks[0][0].length; i++)
-			for (int id = 0; id < colorpacks[0][0][i].length; id++)
-				colorpacks[0][0][i][id] = PrizmPathGame.getAssets()
-						.get(PrizmPathGame.TEXTURE_PATH, TextureAtlas.class)
-						.createSprite("prizm0" + i, id);
+		colorpacks = new Sprite[1][5][6][2];
+		for (int x = 0; x < colorpacks[0].length; x++)
+			for (int i = 0; i < colorpacks[0][x].length; i++)
+				for (int id = 0; id < colorpacks[0][x][i].length; id++)
+					colorpacks[0][x][i][id] = PrizmPathGame
+							.getAssets()
+							.get(PrizmPathGame.TEXTURE_PATH, TextureAtlas.class)
+							.createSprite("prizm" + x + "" + i, id);
 
 		soundpacks = new Music[1][4];
 		for (int i = 0; i < soundpacks.length; i++) {
