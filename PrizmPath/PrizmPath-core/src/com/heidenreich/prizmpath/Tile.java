@@ -30,7 +30,8 @@ public class Tile {
 	}
 
 	public void draw(SpriteBatch batch) {
-		sprite.draw(batch);
+		if (prizmActive)
+			sprite.draw(batch);
 	}
 
 	public void drawPrizms(SpriteBatch batch) {
@@ -64,15 +65,15 @@ public class Tile {
 	public boolean isPrizmActive() {
 		return prizmActive;
 	}
-	
+
 	public void setFrame(int curFrame) {
 		prizm.setFrame(curFrame);
 	}
-	
+
 	public boolean isSelected() {
 		return selected;
 	}
-	
+
 	public void setSelected(boolean selected) {
 		this.selected = selected;
 	}

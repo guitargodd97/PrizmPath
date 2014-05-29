@@ -38,7 +38,7 @@ public class PrizmPathGame extends Game {
 	public static Sprite[][][][] colorpacks;
 	public static final String log = "PrizmPath";
 	public static final String TEXTURE_PATH = "data/textures/texture.atlas";
-	public static final String version = "Alpha 1.0";
+	public static final String version = "Alpha 2.0";
 
 	/*
 	 * TO DO LIST: Write loadData() - Write loadResources() - Write savaData()
@@ -100,6 +100,7 @@ public class PrizmPathGame extends Game {
 		 * Brief Description: Loads all the resources into the AssetManager
 		 */
 		// Set the type of manager
+		System.out.println(Gdx.files.internal(PrizmPathGame.TEXTURE_PATH).file().getAbsolutePath());
 		PrizmPathGame.getAssets().setLoader(TiledMap.class,
 				new TmxMapLoader(new InternalFileHandleResolver()));
 		PrizmPathGame.getAssets().load(PrizmPathGame.TEXTURE_PATH,
