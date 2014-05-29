@@ -853,6 +853,59 @@ public class GameScreen implements Screen {
 			collection[0][6].setPrizm(2, 0);
 			maxClick[0] = 12;
 			break;
+		// X X X X 4 5 5 5 4 X X X X
+		// X X X X 5 4 5 4 5 X X X X
+		// X X X X 5 5 4 5 5 X X X X
+		// X X X X 5 4 5 4 5 X X X X
+		// X X X X 4 5 5 5 4 X X X X
+		case (21):
+			for (int i = 0; i < collection.length; i++)
+				for (int id = 0; id < collection[i].length; id++)
+					collection[i][id] = new Tile(new Vector2((60 * id) + 10,
+							(60 * i) + 80), false);
+			for (int i = 0; i < collection.length; i++)
+				for (int id = 4; id < 9; id++)
+					collection[i][id].setPrizm(2, 0);
+			collection[4][4].setPrizm(1, 0);
+			collection[4][8].setPrizm(1, 0);
+			collection[3][5].setPrizm(1, 0);
+			collection[3][7].setPrizm(1, 0);
+			collection[2][6].setPrizm(1, 4);
+			collection[1][5].setPrizm(1, 0);
+			collection[1][7].setPrizm(1, 0);
+			collection[0][4].setPrizm(1, 0);
+			collection[0][8].setPrizm(1, 0);
+			maxClick[0] = 1;
+			break;
+		// X X X X 4 3 3 3 4 X X X X
+		// X X X X 3 3 1 3 3 X X X X
+		// X X X X 3 1 0 1 3 X X X X
+		// X X X X 3 3 1 3 3 X X X X
+		// X X X X 4 3 3 3 4 X X X X
+		case (22):
+			for (int i = 0; i < collection.length; i++)
+				for (int id = 0; id < collection[i].length; id++)
+					collection[i][id] = new Tile(new Vector2((60 * id) + 10,
+							(60 * i) + 80), false);
+			for (int i = 0; i < collection.length; i++)
+				for (int id = 4; id < 9; id++)
+					collection[i][id].setPrizm(3, 0);
+			collection[4][4].setPrizm(4, 0);
+			collection[4][6].setPrizm(3, 0);
+			collection[4][8].setPrizm(4, 0);
+			collection[3][5].setPrizm(3, 4);
+			collection[3][6].setPrizm(1, 4);
+			collection[3][7].setPrizm(3, 4);
+			collection[2][5].setPrizm(1, 4);
+			collection[2][6].setPrizm(0, 0);
+			collection[2][7].setPrizm(1, 4);
+			collection[1][5].setPrizm(3, 4);
+			collection[1][6].setPrizm(1, 4);
+			collection[1][7].setPrizm(3, 4);
+			collection[0][4].setPrizm(4, 0);
+			collection[0][8].setPrizm(4, 0);
+			maxClick[0] = 9;
+			break;
 		}
 		maxClick[1] = (int) (maxClick[0] * 1.5);
 		maxClick[2] = (int) (maxClick[0] * 1.75);
