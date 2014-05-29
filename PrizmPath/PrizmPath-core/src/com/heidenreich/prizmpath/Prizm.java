@@ -31,6 +31,8 @@ public class Prizm {
 	public void changeColor() {
 		if (++color > 5)
 			color = 0;
+		//if(--color < 0)
+		//	color = 5;
 		Sprite[] temp = PrizmPathGame.getColorpack(0, type, color);
 		sprites = new Sprite[temp.length];
 		for (int i = 0; i < sprites.length; i++)
