@@ -757,6 +757,102 @@ public class GameScreen implements Screen {
 			collection[0][7].setPrizm(2, 0);
 			maxClick[0] = 4;
 			break;
+		// X X X X 4 4 3 4 4 X X X X
+		// X X X X 3 3 0 3 3 X X X X
+		// X X X X 4 1 4 1 4 X X X X
+		// X X X X 3 2 4 2 3 X X X X
+		// X X X X 1 0 5 0 1 X X X X
+		case (18):
+			for (int i = 0; i < collection.length; i++)
+				for (int id = 0; id < collection[i].length; id++)
+					collection[i][id] = new Tile(new Vector2((60 * id) + 10,
+							(60 * i) + 80), false);
+			for (int i = 0; i < collection.length; i++)
+				for (int id = 4; id < 9; id++)
+					collection[i][id].setPrizm(3, 0);
+			collection[4][4].setPrizm(4, 0);
+			collection[4][5].setPrizm(4, 3);
+			collection[4][6].setPrizm(3, 3);
+			collection[4][7].setPrizm(4, 3);
+			collection[4][8].setPrizm(4, 0);
+			collection[3][6].setPrizm(0, 3);
+			collection[2][4].setPrizm(4, 0);
+			collection[2][5].setPrizm(1, 0);
+			collection[2][6].setPrizm(4, 0);
+			collection[2][7].setPrizm(1, 0);
+			collection[2][8].setPrizm(4, 0);
+			collection[1][5].setPrizm(2, 0);
+			collection[1][6].setPrizm(4, 3);
+			collection[1][7].setPrizm(2, 0);
+			collection[0][4].setPrizm(1, 0);
+			collection[0][5].setPrizm(0, 3);
+			collection[0][6].setPrizm(5, 3);
+			collection[0][7].setPrizm(0, 3);
+			collection[0][8].setPrizm(1, 0);
+			maxClick[0] = 8;
+			break;
+		// X X X X 5 4 5 4 5 X X X X
+		// X X X X 4 5 2 5 4 X X X X
+		// X X X X 5 2 5 2 5 X X X X
+		// X X X X 4 5 2 5 4 X X X X
+		// X X X X 5 4 5 4 5 X X X X
+		case (19):
+			for (int i = 0; i < collection.length; i++)
+				for (int id = 0; id < collection[i].length; id++)
+					collection[i][id] = new Tile(new Vector2((60 * id) + 10,
+							(60 * i) + 80), false);
+			for (int i = 0; i < collection.length; i++)
+				for (int id = 4; id < 9; id++)
+					collection[i][id].setPrizm(5, 0);
+			collection[4][5].setPrizm(4, 0);
+			collection[4][7].setPrizm(4, 0);
+			collection[3][4].setPrizm(4, 0);
+			collection[3][6].setPrizm(2, 1);
+			collection[3][8].setPrizm(4, 0);
+			collection[2][5].setPrizm(2, 1);
+			collection[2][6].setPrizm(5, 3);
+			collection[2][7].setPrizm(2, 1);
+			collection[1][4].setPrizm(4, 0);
+			collection[1][6].setPrizm(2, 1);
+			collection[1][8].setPrizm(4, 0);
+			collection[0][5].setPrizm(4, 0);
+			collection[0][7].setPrizm(4, 0);
+			maxClick[0] = 10;
+			break;
+		// X X X X 3 5 0 5 3 X X X X
+		// X X X X 1 1 4 1 1 X X X X
+		// X X X X 3 5 2 5 3 X X X X
+		// X X X X 2 3 4 3 2 X X X X
+		// X X X X 5 5 2 5 5 X X X X
+		case (20):
+			for (int i = 0; i < collection.length; i++)
+				for (int id = 0; id < collection[i].length; id++)
+					collection[i][id] = new Tile(new Vector2((60 * id) + 10,
+							(60 * i) + 80), false);
+			for (int i = 0; i < collection.length; i++)
+				for (int id = 4; id < 9; id++)
+					collection[i][id].setPrizm(5, 0);
+			collection[4][4].setPrizm(3, 0);
+			collection[4][6].setPrizm(0, 0);
+			collection[4][8].setPrizm(3, 0);
+			collection[3][4].setPrizm(1, 0);
+			collection[3][5].setPrizm(1, 1);
+			collection[3][6].setPrizm(4, 2);
+			collection[3][7].setPrizm(1, 1);
+			collection[3][8].setPrizm(1, 0);
+			collection[2][4].setPrizm(3, 0);
+			collection[2][5].setPrizm(5, 2);
+			collection[2][6].setPrizm(2, 3);
+			collection[2][7].setPrizm(5, 2);
+			collection[2][8].setPrizm(3, 0);
+			collection[1][4].setPrizm(2, 0);
+			collection[1][5].setPrizm(3, 1);
+			collection[1][6].setPrizm(4, 2);
+			collection[1][7].setPrizm(3, 1);
+			collection[1][8].setPrizm(2, 0);
+			collection[0][6].setPrizm(2, 0);
+			maxClick[0] = 12;
+			break;
 		}
 		maxClick[1] = (int) (maxClick[0] * 1.5);
 		maxClick[2] = (int) (maxClick[0] * 1.75);

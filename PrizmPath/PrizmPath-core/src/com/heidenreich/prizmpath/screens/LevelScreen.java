@@ -40,8 +40,8 @@ public class LevelScreen implements Screen {
 	// Constructs the LevelScreen
 	public LevelScreen(PrizmPathGame p) {
 		this.p = p;
-		levels = new TextButton[5][6];
-		buttonSize = new Vector2(90, 90);
+		levels = new TextButton[3][10];
+		buttonSize = new Vector2(60, 60);
 	}
 
 	// Updates the screen
