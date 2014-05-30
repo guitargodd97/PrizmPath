@@ -134,6 +134,21 @@ public class LevelScreen implements Screen {
 		imageStyle.imageUp = new SpriteDrawable(PrizmPathGame.homeButtons[0]);
 		imageStyle.imageDown = new SpriteDrawable(PrizmPathGame.homeButtons[1]);
 
+		back = new ImageButton(imageStyle);
+		back.setX(700);
+		back.setY(425);
+		back.addListener(new InputListener() {
+			public boolean touchDown(InputEvent event, float x,
+					float y, int pointer, int button) {
+				return true;
+			}
+
+			public void touchUp(InputEvent event, float x, float y,
+					int pointer, int button) {
+				toStart();
+			}
+		});
+		
 		// Title label
 		LabelStyle ls = new LabelStyle(f, Color.WHITE);
 		title = new Label("Levels", ls);
@@ -149,7 +164,7 @@ public class LevelScreen implements Screen {
 			}
 		}
 		stage.addActor(title);
-		// stage.addActor(back);
+		 stage.addActor(back);
 	}
 
 	// Called when the screen is shown
