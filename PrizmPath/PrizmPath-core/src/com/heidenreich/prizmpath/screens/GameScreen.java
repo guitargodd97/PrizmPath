@@ -1536,11 +1536,16 @@ public class GameScreen implements Screen {
 		}
 		if (completed)
 			win();
-		if (curClick >= maxClick[maxClickIndex]
-				&& maxClickIndex < maxClick.length - 1)
-			maxClickIndex++;
-		else if (curClick >= maxClick[3])
-			lose();
+		else {
+			if ((level == 1 || level == 6 || level == 11 || level == 16 || level == 21)
+					&& curClick >= 1)
+				lose();
+			else if (curClick >= maxClick[maxClickIndex]
+					&& maxClickIndex < maxClick.length - 1)
+				maxClickIndex++;
+			else if (curClick >= maxClick[3])
+				lose();
+		}
 		click.setText("Clicks: " + curClick + "/" + maxClick[maxClickIndex]);
 	}
 

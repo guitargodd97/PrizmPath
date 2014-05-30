@@ -34,9 +34,9 @@ public class Solutions {
 		case (4):
 			moveList.add(new Vector2(2, 6));
 			moveList.add(new Vector2(2, 5));
-			moveList.add(new Vector2(3, 5));
-			moveList.add(new Vector2(3, 6));
-			moveList.add(new Vector2(3, 7));
+			moveList.add(new Vector2(1, 5));
+			moveList.add(new Vector2(1, 6));
+			moveList.add(new Vector2(1, 7));
 			moveList.add(new Vector2(2, 7));
 			break;
 		case (5):
