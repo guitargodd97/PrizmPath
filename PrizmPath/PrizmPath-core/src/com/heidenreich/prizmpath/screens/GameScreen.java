@@ -19,6 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.heidenreich.prizmpath.PrizmPathGame;
+import com.heidenreich.prizmpath.Solutions;
 import com.heidenreich.prizmpath.Tile;
 
 public class GameScreen implements Screen {
@@ -38,6 +39,7 @@ public class GameScreen implements Screen {
 	private Label click;
 	private Label title;
 	private PrizmPathGame p;
+	private Solutions answers;
 	private SpriteBatch batch;
 	private Stage stage;
 	private Tile collection[][];
@@ -57,6 +59,8 @@ public class GameScreen implements Screen {
 
 		// 0 = running, 1 = options, 2 = gameover, 3 = level won
 		gameState = 0;
+
+		answers = new Solutions(level);
 	}
 
 	// Updates the screen
@@ -87,9 +91,11 @@ public class GameScreen implements Screen {
 						if (collection[i][id].checkCollision(t)
 								&& collection[i][id].isPrizmActive()) {
 							if (collection[i][id].isSelected()) {
-								collection[i][id].changeColor();
-								changePrizms(collection[i][id].getType(), i,
-										id, 1);
+								if (answers.checkMove(new Vector2(i, id))) {
+									collection[i][id].changeColor();
+									changePrizms(collection[i][id].getType(),
+											i, id, 1);
+								}
 								checkClicks(collection[i][id].getColor());
 								for (int x = 0; x < collection.length; x++) {
 									for (int y = 0; y < collection[x].length; y++) {
@@ -1560,8 +1566,7 @@ public class GameScreen implements Screen {
 
 	private void toNextLevel() {
 		Random ran = new Random();
-		int x = ran.nextInt(15);
-		for(int lx; x > 0; x--)
+		for (int lx = ran.nextInt(15); lx > 0; lx--)
 			PrizmPathGame.changeSong();
 		p.setScreen(new GameScreen(p, level + 1));
 	}

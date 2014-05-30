@@ -47,7 +47,7 @@ public class PrizmPathGame extends Game {
 	public void create() {
 		// Logs the game type for control modification
 		appType = Gdx.app.getType();
-
+		
 		loaded = 0;
 		// Loads data
 		loadData();
@@ -100,7 +100,8 @@ public class PrizmPathGame extends Game {
 		 * Brief Description: Loads all the resources into the AssetManager
 		 */
 		// Set the type of manager
-		System.out.println(Gdx.files.internal(PrizmPathGame.TEXTURE_PATH).file().getAbsolutePath());
+		System.out.println(Gdx.files.internal(PrizmPathGame.TEXTURE_PATH)
+				.file().getAbsolutePath());
 		PrizmPathGame.getAssets().setLoader(TiledMap.class,
 				new TmxMapLoader(new InternalFileHandleResolver()));
 		PrizmPathGame.getAssets().load(PrizmPathGame.TEXTURE_PATH,
