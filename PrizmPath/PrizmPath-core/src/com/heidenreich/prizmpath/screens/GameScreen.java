@@ -1,5 +1,7 @@
 package com.heidenreich.prizmpath.screens;
 
+import java.util.Random;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
@@ -11,8 +13,8 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton.ImageButtonStyle;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
@@ -1557,6 +1559,10 @@ public class GameScreen implements Screen {
 	}
 
 	private void toNextLevel() {
+		Random ran = new Random();
+		int x = ran.nextInt(15);
+		for(int lx; x > 0; x--)
+			PrizmPathGame.changeSong();
 		p.setScreen(new GameScreen(p, level + 1));
 	}
 
