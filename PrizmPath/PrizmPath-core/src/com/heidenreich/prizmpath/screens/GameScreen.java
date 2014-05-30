@@ -8,7 +8,9 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -35,12 +37,16 @@ public class GameScreen implements Screen {
 	private int curClick;
 	private int gameState;
 	private int level;
+	private int tutorial;
 	private int[] maxClick;
 	private int maxClickIndex;
 	private Label click;
+	private Label info;
 	private Label title;
 	private PrizmPathGame p;
 	private Solutions answers;
+	private Sprite box;
+	private Sprite tuts[];
 	private SpriteBatch batch;
 	private Stage stage;
 	private Tile collection[][];
@@ -58,9 +64,17 @@ public class GameScreen implements Screen {
 
 		buttonSize = new Vector2(60, 60);
 
-		// 0 = running, 1 = options, 2 = gameover, 3 = level won
+		// 0 = running, 1 = options, 2 = gameover, 3 = level won, 4 = tutorial
 		gameState = 0;
 
+		if (level == 1 || level == 6 || level == 11 || level == 16
+				|| level == 21 || level == 26) {
+			gameState = 4;
+			if (level == 1)
+				tutorial = 8;
+			else
+				tutorial = 0;
+		}
 		answers = new Solutions(level);
 	}
 
@@ -137,11 +151,91 @@ public class GameScreen implements Screen {
 			else if (clickBuffer == 2)
 				clickBuffer = 0;
 		} else if (gameState == 1) {
-
+			batch.begin();
+			box.draw(batch);
+			batch.end();
 		} else if (gameState == 2) {
-
+			batch.begin();
+			box.draw(batch);
+			batch.end();
+		} else if (gameState == 3) {
+			batch.begin();
+			box.draw(batch);
+			batch.end();
 		} else {
-
+			batch.begin();
+			box.draw(batch);
+			info.setVisible(true);
+			if (tutorial == 8) {
+				info.setText("Welcome to PrizmPath\nThe Color Puzzle Game!");
+				tutorial--;
+			} else if (tutorial == 1) {
+				tuts[0].draw(batch);
+			} else if (level != 1) {
+				switch (level) {
+				case (6):
+					info.setText("Here is the pyramidal prizm. It affects the prizms\nto its diagonals.");
+					tuts[1].draw(batch);
+					break;
+				case (11):
+					info.setText("This is the cubic prizm. It affects all the prizms\nthat surround it.");
+					tuts[2].draw(batch);
+					break;
+				case (16):
+					info.setText("The tetrahedral prizm acts like a sphere prizm,\nexcept it reaches for the two adjacent prizms.");
+					tuts[3].draw(batch);
+					break;
+				case (21):
+					info.setText("The diamond prizm is a combination of the pyramidal\nand tetrahedral prizm. It affects its diagonal for \ntwo prizms.");
+					tuts[4].draw(batch);
+					break;
+				default:
+					info.setText("You now hold all the knowledge of the prizms.\nGo forth and take on these last five challenge levels!");
+					break;
+				}
+			}
+			if (tutorial > -1) {
+				info.setY(220);
+				if (Gdx.input.isTouched() && clickBuffer == 0) {
+					switch (level) {
+					case (1):
+						switch (tutorial) {
+						case (7):
+							info.setText("The object of the game is to make all the prizms\non the screen the same color.");
+							break;
+						case (6):
+							info.setText("To change a prizm's color, you have to click to select it\nand then click again to finalize your choice.");
+							break;
+						case (5):
+							info.setText("Colors cycle in this order:\nRed>Orange>Yellow>Green>Blue>Purple>Red");
+							break;
+						case (4):
+							info.setText("Seems simple enough, right?\nHowever, there is one catch!");
+							break;
+						case (3):
+							info.setText("There are 5 types of prizms, determined by shape,\nthat affect the prizms surrounding it in a unique way.");
+							break;
+						case (2):
+							info.setText("To start, let's introduce the sphere prizm: It affects\nthe prizms in its four, adjacent cardinal directions");
+							break;
+						case (1):
+							info.setText("One final thing before you start, I appreciate\nyou downloading my app and I hope you enjoy!");
+							break;
+						}
+						break;
+					}
+					tutorial--;
+					clickBuffer++;
+				} else if (!Gdx.input.isTouched() && clickBuffer == 1)
+					clickBuffer++;
+				else if (clickBuffer == 2)
+					clickBuffer = 0;
+			} else {
+				gameState = 0;
+				info.setY(250);
+				info.setVisible(false);
+			}
+			batch.end();
 		}
 
 		stage.act();
@@ -173,17 +267,26 @@ public class GameScreen implements Screen {
 		click.setWidth(Gdx.graphics.getWidth() / 2);
 		click.setAlignment(Align.center);
 
+		// Info Label
+		info = new Label("Info", ls);
+		info.setX(0);
+		info.setY(250);
+		info.setWidth(Gdx.graphics.getWidth());
+		info.setAlignment(Align.center);
+		info.setVisible(false);
+
 		// Image Buttons
-		ImageButtonStyle imageStyle = new ImageButtonStyle();
-		imageStyle.imageUp = new SpriteDrawable(PrizmPathGame.homeButtons[0]);
-		imageStyle.imageDown = new SpriteDrawable(PrizmPathGame.homeButtons[1]);
+		ImageButtonStyle homeStyle = new ImageButtonStyle();
+		homeStyle.imageUp = new SpriteDrawable(PrizmPathGame.homeButtons[0]);
+		homeStyle.imageDown = new SpriteDrawable(PrizmPathGame.homeButtons[1]);
 
 		// Home Button
-		home = new ImageButton(imageStyle);
+		home = new ImageButton(homeStyle);
 		home.setSize(buttonSize.x, buttonSize.y);
 		home.setX((Gdx.graphics.getWidth() - buttonSize.x) / 2 - buttonSize.x
 				- 20);
-		home.setY((Gdx.graphics.getHeight() - buttonSize.y) / 2);
+		home.setY((Gdx.graphics.getHeight() - buttonSize.y) / 2
+				- (Gdx.graphics.getHeight() / 4));
 		home.addListener(new InputListener() {
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
@@ -199,9 +302,10 @@ public class GameScreen implements Screen {
 		home.setDisabled(true);
 
 		// Pause Button
-		imageStyle.imageUp = new SpriteDrawable(PrizmPathGame.pauseButtons[0]);
-		imageStyle.imageDown = new SpriteDrawable(PrizmPathGame.pauseButtons[1]);
-		pause = new ImageButton(imageStyle);
+		ImageButtonStyle pauseStyle = new ImageButtonStyle();
+		pauseStyle.imageUp = new SpriteDrawable(PrizmPathGame.pauseButtons[0]);
+		pauseStyle.imageDown = new SpriteDrawable(PrizmPathGame.pauseButtons[1]);
+		pause = new ImageButton(pauseStyle);
 		pause.setSize(buttonSize.x, buttonSize.y);
 		pause.setX(Gdx.graphics.getWidth() - 64);
 		pause.setY(Gdx.graphics.getHeight() - 75);
@@ -218,12 +322,14 @@ public class GameScreen implements Screen {
 		});
 
 		// Play Button
-		imageStyle.imageUp = new SpriteDrawable(PrizmPathGame.playButtons[0]);
-		imageStyle.imageDown = new SpriteDrawable(PrizmPathGame.playButtons[1]);
-		play = new ImageButton(imageStyle);
+		ImageButtonStyle playStyle = new ImageButtonStyle();
+		playStyle.imageUp = new SpriteDrawable(PrizmPathGame.playButtons[0]);
+		playStyle.imageDown = new SpriteDrawable(PrizmPathGame.playButtons[1]);
+		play = new ImageButton(playStyle);
 		play.setSize(buttonSize.x, buttonSize.y);
 		play.setX((Gdx.graphics.getWidth() - buttonSize.x) / 2);
-		play.setY((Gdx.graphics.getHeight() - buttonSize.y) / 2);
+		play.setY((Gdx.graphics.getHeight() - buttonSize.y) / 2
+				- (Gdx.graphics.getHeight() / 4));
 		play.addListener(new InputListener() {
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
@@ -239,12 +345,14 @@ public class GameScreen implements Screen {
 		play.setVisible(false);
 
 		// Next Button
-		imageStyle.imageUp = new SpriteDrawable(PrizmPathGame.playButtons[0]);
-		imageStyle.imageDown = new SpriteDrawable(PrizmPathGame.playButtons[1]);
-		next = new ImageButton(imageStyle);
+		ImageButtonStyle nextStyle = new ImageButtonStyle();
+		nextStyle.imageUp = new SpriteDrawable(PrizmPathGame.playButtons[0]);
+		nextStyle.imageDown = new SpriteDrawable(PrizmPathGame.playButtons[1]);
+		next = new ImageButton(nextStyle);
 		next.setSize(buttonSize.x, buttonSize.y);
 		next.setX((Gdx.graphics.getWidth() - buttonSize.x) / 2);
-		next.setY((Gdx.graphics.getHeight() - buttonSize.y) / 2);
+		next.setY((Gdx.graphics.getHeight() - buttonSize.y) / 2
+				- (Gdx.graphics.getHeight() / 4));
 		next.addListener(new InputListener() {
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
@@ -260,14 +368,17 @@ public class GameScreen implements Screen {
 		next.setVisible(false);
 
 		// Replay Button
-		imageStyle.imageUp = new SpriteDrawable(PrizmPathGame.restartButtons[0]);
-		imageStyle.imageDown = new SpriteDrawable(
+		ImageButtonStyle replayStyle = new ImageButtonStyle();
+		replayStyle.imageUp = new SpriteDrawable(
+				PrizmPathGame.restartButtons[0]);
+		replayStyle.imageDown = new SpriteDrawable(
 				PrizmPathGame.restartButtons[1]);
-		restart = new ImageButton(imageStyle);
+		restart = new ImageButton(replayStyle);
 		restart.setSize(buttonSize.x, buttonSize.y);
 		restart.setX((Gdx.graphics.getWidth() - buttonSize.x) / 2
 				+ buttonSize.x + 20);
-		restart.setY((Gdx.graphics.getHeight() - buttonSize.y) / 2);
+		restart.setY((Gdx.graphics.getHeight() - buttonSize.y) / 2
+				- (Gdx.graphics.getHeight() / 4));
 		restart.addListener(new InputListener() {
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
@@ -290,6 +401,7 @@ public class GameScreen implements Screen {
 		stage.addActor(pause);
 		stage.addActor(play);
 		stage.addActor(restart);
+		stage.addActor(info);
 	}
 
 	private void optionOpen() {
@@ -300,6 +412,8 @@ public class GameScreen implements Screen {
 		play.setVisible(true);
 		home.setDisabled(false);
 		home.setVisible(true);
+		info.setText("GAME PAUSED");
+		info.setVisible(true);
 	}
 
 	private void optionClose() {
@@ -310,6 +424,7 @@ public class GameScreen implements Screen {
 		play.setVisible(false);
 		home.setDisabled(true);
 		home.setVisible(false);
+		info.setVisible(false);
 	}
 
 	// Called when the screen is shown
@@ -318,6 +433,18 @@ public class GameScreen implements Screen {
 
 		f = new BitmapFont(Gdx.files.internal("data/font.fnt"));
 
+		box = PrizmPathGame.getAssets()
+				.get(PrizmPathGame.TEXTURE_PATH, TextureAtlas.class)
+				.createSprite("box2");
+
+		tuts = new Sprite[5];
+		for (int i = 0; i < tuts.length; i++) {
+			tuts[i] = PrizmPathGame.getAssets()
+					.get(PrizmPathGame.TEXTURE_PATH, TextureAtlas.class)
+					.createSprite("tut" + (i + 1));
+			tuts[i].setPosition(
+					(Gdx.graphics.getWidth() - tuts[i].getWidth()) / 2, 75);
+		}
 		// Determines whether the song should be played
 		if (PrizmPathGame.isMusicMute())
 			PrizmPathGame.soundpacks[PrizmPathGame.curSoundpack][PrizmPathGame.curSong]
@@ -1567,8 +1694,18 @@ public class GameScreen implements Screen {
 			else if (maxClickIndex == 2)
 				PrizmPathGame.setLevelData((byte) 2, level - 1);
 		}
-		if (level < 60)
+		if (level < 30)
 			PrizmPathGame.setLevelData((byte) 1, level);
+		String s = "LEVEL COMPLETED\n\n";
+		s += "Clicks: " + curClick + "/" + maxClick[maxClickIndex] + "\n";
+		if (maxClickIndex == 0)
+			s += "GOLD";
+		else if (maxClickIndex == 1)
+			s += "SILVER";
+		else if (maxClickIndex == 2)
+			s += "BRONZE";
+		info.setText(s);
+		info.setVisible(true);
 	}
 
 	private void lose() {
@@ -1577,6 +1714,8 @@ public class GameScreen implements Screen {
 		restart.setVisible(true);
 		home.setDisabled(false);
 		home.setVisible(true);
+		info.setText("GAMEOVER\n\nMaximum Number of Clicks\nExceeded");
+		info.setVisible(true);
 	}
 
 	private void toStart() {

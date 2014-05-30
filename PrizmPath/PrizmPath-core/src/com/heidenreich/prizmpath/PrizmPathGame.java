@@ -40,7 +40,7 @@ public class PrizmPathGame extends Game {
 	public static final String log = "PrizmPath";
 	public static final String SFX_PATH = "data/sound/sfx/";
 	public static final String TEXTURE_PATH = "data/textures/texture.atlas";
-	public static final String version = "Alpha 2.0";
+	public static final String version = "Alpha 2.1";
 
 	/*
 	 * TO DO LIST: Write loadData() - Write loadResources() - Write savaData()
