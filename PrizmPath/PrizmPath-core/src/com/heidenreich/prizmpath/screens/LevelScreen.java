@@ -41,7 +41,7 @@ public class LevelScreen implements Screen {
 	public LevelScreen(PrizmPathGame p) {
 		this.p = p;
 		levels = new TextButton[3][10];
-		buttonSize = new Vector2(60, 60);
+		buttonSize = new Vector2(70, 70);
 	}
 
 	// Updates the screen
@@ -76,7 +76,7 @@ public class LevelScreen implements Screen {
 		tbs.up = skin.getDrawable("buttonnormal");
 		tbs.down = skin.getDrawable("buttonpressed");
 		tbs.font = f;
-		
+
 		TextButtonStyle tbsB = new TextButtonStyle();
 		tbsB.up = skin.getDrawable("buttonnormalB");
 		tbsB.down = skin.getDrawable("buttonpressedB");
@@ -86,7 +86,7 @@ public class LevelScreen implements Screen {
 		tbsS.up = skin.getDrawable("buttonnormalS");
 		tbsS.down = skin.getDrawable("buttonpressedS");
 		tbsS.font = f;
-		
+
 		TextButtonStyle tbsG = new TextButtonStyle();
 		tbsG.up = skin.getDrawable("buttonnormalG");
 		tbsG.down = skin.getDrawable("buttonpressedG");
@@ -99,19 +99,21 @@ public class LevelScreen implements Screen {
 						+ (i * levels[i].length + id + 1), tbs);
 				levels[i][id].setName("" + (i * levels[i].length + id + 1));
 				levels[i][id].setSize(buttonSize.x, buttonSize.y);
-				levels[i][id].setX((id * (buttonSize.x + 5)) + 35);
+				levels[i][id].setX((id * (buttonSize.x + 5)) + 30);
 				levels[i][id].setY(Gdx.graphics.getHeight()
-						- ((i * (buttonSize.y + 5)) + buttonSize.y + 80));
+						- ((i * (buttonSize.y + 30)) + buttonSize.y + 120));
 				/* if ((i * levels[i].length + id + 1) > 1) { */
 				if (PrizmPathGame.getLevelData((i * levels[i].length + id)) < 1) {
 					levels[i][id].setTouchable(Touchable.disabled);
 					levels[i][id].setVisible(false);
 				}
-				if(PrizmPathGame.getLevelData((i * levels[i].length + id)) == 2)
+				if (PrizmPathGame.getLevelData((i * levels[i].length + id)) == 2)
 					levels[i][id].setStyle(tbsB);
-				else if(PrizmPathGame.getLevelData((i * levels[i].length + id)) == 3)
+				else if (PrizmPathGame
+						.getLevelData((i * levels[i].length + id)) == 3)
 					levels[i][id].setStyle(tbsS);
-				else if(PrizmPathGame.getLevelData((i * levels[i].length + id)) == 4)
+				else if (PrizmPathGame
+						.getLevelData((i * levels[i].length + id)) == 4)
 					levels[i][id].setStyle(tbsG);
 				levels[i][id].addListener(new InputListener() {
 					public boolean touchDown(InputEvent event, float x,
@@ -147,7 +149,7 @@ public class LevelScreen implements Screen {
 			}
 		}
 		stage.addActor(title);
-	//	stage.addActor(back);
+		// stage.addActor(back);
 	}
 
 	// Called when the screen is shown
