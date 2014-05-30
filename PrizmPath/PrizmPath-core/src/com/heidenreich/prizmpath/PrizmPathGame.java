@@ -8,6 +8,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -37,6 +38,7 @@ public class PrizmPathGame extends Game {
 	public static Sprite[] restartButtons;
 	public static Sprite[][][][] colorpacks;
 	public static final String log = "PrizmPath";
+	public static final String SFX_PATH = "data/sound/sfx/";
 	public static final String TEXTURE_PATH = "data/textures/texture.atlas";
 	public static final String version = "Alpha 2.0";
 
@@ -108,6 +110,8 @@ public class PrizmPathGame extends Game {
 				TextureAtlas.class);
 		PrizmPathGame.getAssets().load(StartScreen.BUTTON_TEXTURE,
 				TextureAtlas.class);
+		PrizmPathGame.getAssets().load(SFX_PATH + "correct.mp3", Sound.class);
+		PrizmPathGame.getAssets().load(SFX_PATH + "wrong.mp3", Sound.class);
 		PrizmPathGame.getAssets().finishLoading();
 		Gdx.app.log(getLog(), "Resources loaded");
 	}

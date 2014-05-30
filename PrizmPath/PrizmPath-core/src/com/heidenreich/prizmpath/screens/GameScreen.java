@@ -4,6 +4,7 @@ import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -95,6 +96,17 @@ public class GameScreen implements Screen {
 									collection[i][id].changeColor();
 									changePrizms(collection[i][id].getType(),
 											i, id, 1);
+									if (!PrizmPathGame.isSfxMute())
+										PrizmPathGame.assets.get(
+												PrizmPathGame.SFX_PATH
+														+ "correct.mp3",
+												Sound.class).play();
+								} else {
+									if (!PrizmPathGame.isSfxMute())
+										PrizmPathGame.assets.get(
+												PrizmPathGame.SFX_PATH
+														+ "wrong.mp3",
+												Sound.class).play();
 								}
 								checkClicks(collection[i][id].getColor());
 								for (int x = 0; x < collection.length; x++) {
@@ -859,7 +871,7 @@ public class GameScreen implements Screen {
 			collection[1][7].setPrizm(3, 1);
 			collection[1][8].setPrizm(2, 0);
 			collection[0][6].setPrizm(2, 0);
-			maxClick[0] = 12;
+			maxClick[0] = 13;
 			break;
 		// X X X X 4 5 5 5 4 X X X X
 		// X X X X 5 4 5 4 5 X X X X
@@ -1536,8 +1548,10 @@ public class GameScreen implements Screen {
 		gameState = 3;
 		restart.setDisabled(false);
 		restart.setVisible(true);
-		next.setDisabled(false);
-		next.setVisible(true);
+		if (level < 30) {
+			next.setDisabled(false);
+			next.setVisible(true);
+		}
 		home.setDisabled(false);
 		home.setVisible(true);
 		if (level > 0) {
