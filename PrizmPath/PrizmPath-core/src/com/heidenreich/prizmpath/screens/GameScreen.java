@@ -1690,12 +1690,12 @@ public class GameScreen implements Screen {
 		if (level > 0) {
 			if (maxClickIndex == 0)
 				PrizmPathGame.setLevelData((byte) 4, level - 1);
-			else if (maxClickIndex == 1)
+			else if (maxClickIndex == 1 && PrizmPathGame.getLevelData(level - 1) < 4)
 				PrizmPathGame.setLevelData((byte) 3, level - 1);
-			else if (maxClickIndex == 2)
+			else if (maxClickIndex == 2 && PrizmPathGame.getLevelData(level - 1) < 3)
 				PrizmPathGame.setLevelData((byte) 2, level - 1);
 		}
-		if (level < 30)
+		if (level < 30 && PrizmPathGame.getLevelData(level) == 0)
 			PrizmPathGame.setLevelData((byte) 1, level);
 		String s = "LEVEL COMPLETED\n\n";
 		s += "Clicks: " + curClick + "/" + maxClick[maxClickIndex] + "\n";
