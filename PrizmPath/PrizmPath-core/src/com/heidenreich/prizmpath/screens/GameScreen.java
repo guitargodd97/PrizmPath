@@ -1706,6 +1706,8 @@ public class GameScreen implements Screen {
 			s += "BRONZE";
 		info.setText(s);
 		info.setVisible(true);
+		PrizmPathGame.assets.get(PrizmPathGame.SFX_PATH + "win.mp3",
+				Sound.class).play();
 	}
 
 	private void lose() {
@@ -1716,6 +1718,8 @@ public class GameScreen implements Screen {
 		home.setVisible(true);
 		info.setText("GAMEOVER\n\nMaximum Number of Clicks\nExceeded");
 		info.setVisible(true);
+		PrizmPathGame.assets.get(PrizmPathGame.SFX_PATH + "lose.mp3",
+				Sound.class).play();
 	}
 
 	private void toStart() {

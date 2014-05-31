@@ -49,7 +49,7 @@ public class PrizmPathGame extends Game {
 	public void create() {
 		// Logs the game type for control modification
 		appType = Gdx.app.getType();
-		
+
 		loaded = 0;
 		// Loads data
 		loadData();
@@ -112,6 +112,8 @@ public class PrizmPathGame extends Game {
 				TextureAtlas.class);
 		PrizmPathGame.getAssets().load(SFX_PATH + "correct.mp3", Sound.class);
 		PrizmPathGame.getAssets().load(SFX_PATH + "wrong.mp3", Sound.class);
+		PrizmPathGame.getAssets().load(SFX_PATH + "win.mp3", Sound.class);
+		PrizmPathGame.getAssets().load(SFX_PATH + "lose.mp3", Sound.class);
 		PrizmPathGame.getAssets().finishLoading();
 		Gdx.app.log(getLog(), "Resources loaded");
 	}
@@ -371,6 +373,29 @@ public class PrizmPathGame extends Game {
 				.setLooping(true);
 		PrizmPathGame.soundpacks[PrizmPathGame.curSoundpack][PrizmPathGame.curSong]
 				.play();
+	}
+
+	public static void deleteData() {
+		FileHandle fileLocation = Gdx.files.local("data/options.bin");
+		fileLocation.writeBytes(new byte[] { 0, 0, 0, 0, 0 }, false);
+		optionData = fileLocation.readBytes();
+		if (optionData[0] == 0)
+			musicMute = false;
+		else
+			musicMute = true;
+		if (optionData[1] == 0)
+			sfxMute = false;
+		else
+			sfxMute = true;
+		curColorpack = optionData[2];
+		curSoundpack = optionData[3];
+		curBackground = optionData[4];
+
+		fileLocation = Gdx.files.local("data/levels.bin");
+		levelData = new byte[60];
+		levelData[0] = (byte) 1;
+		fileLocation.writeBytes(levelData, false);
+		levelData = fileLocation.readBytes();
 	}
 
 }

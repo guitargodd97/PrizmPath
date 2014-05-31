@@ -5,6 +5,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
@@ -22,10 +23,14 @@ import com.heidenreich.prizmpath.PrizmPathGame;
 public class StartScreen implements Screen {
 
 	private BitmapFont f;
+	private boolean delete;
+	private Label choice;
 	private Label title;
 	private PrizmPathGame p;
 	private Skin skin;
+	private Sprite box;
 	private SpriteBatch batch;
+	private Stage dStage;
 	private Stage stage;
 	public static final String BUTTON_TEXTURE = "data/textures/button.pack";
 	private TextButton credits;
@@ -33,6 +38,8 @@ public class StartScreen implements Screen {
 	private TextButton quit;
 	private TextButton shop;
 	private TextButton start;
+	private TextButton yes;
+	private TextButton no;
 	private TextureAtlas buttonAtlas;
 	private Vector2 buttonSize;
 
@@ -40,6 +47,7 @@ public class StartScreen implements Screen {
 	public StartScreen(PrizmPathGame p) {
 		this.p = p;
 		buttonSize = new Vector2(300, 75);
+		delete = false;
 	}
 
 	// Updates the screen
@@ -54,12 +62,22 @@ public class StartScreen implements Screen {
 		batch.begin();
 		PrizmPathGame.getBackground(PrizmPathGame.curBackground).draw(batch);
 		batch.end();
+		if (delete) {
+			batch.begin();
+			box.draw(batch);
+			batch.end();
 
-		// Starts drawing the stage
-		stage.act(delta);
-		batch.begin();
-		stage.draw();
-		batch.end();
+			dStage.act();
+			batch.begin();
+			dStage.draw();
+			batch.end();
+		} else {
+			// Starts drawing the stage
+			stage.act(delta);
+			batch.begin();
+			stage.draw();
+			batch.end();
+		}
 
 	}
 
@@ -70,7 +88,9 @@ public class StartScreen implements Screen {
 			stage = new Stage();
 		stage.clear();
 		Gdx.input.setInputProcessor(stage);
-
+		if (dStage == null)
+			dStage = new Stage();
+		dStage.clear();
 		// Button style
 		TextButtonStyle tbs = new TextButtonStyle();
 		tbs.up = skin.getDrawable("buttonnormal");
@@ -95,7 +115,7 @@ public class StartScreen implements Screen {
 		});
 
 		// Shop Button
-		shop = new TextButton("Achievements", tbs);
+		shop = new TextButton("Delete Save", tbs);
 		shop.setSize(buttonSize.x, buttonSize.y);
 		shop.setX(Gdx.graphics.getWidth() / 2 - buttonSize.x / 2);
 		shop.setY((3 * buttonSize.y) + 15);
@@ -107,7 +127,7 @@ public class StartScreen implements Screen {
 
 			public void touchUp(InputEvent event, float x, float y,
 					int pointer, int button) {
-				toAchievements();
+				toWarning();
 			}
 		});
 
@@ -162,6 +182,43 @@ public class StartScreen implements Screen {
 			}
 		});
 
+		yes = new TextButton("Yes", tbs);
+		yes.setSize(150, buttonSize.y);
+		yes.setX((Gdx.graphics.getWidth()) / 2 - 180);
+		yes.setY(170);
+		yes.addListener(new InputListener() {
+			public boolean touchDown(InputEvent event, float x, float y,
+					int pointer, int button) {
+				return true;
+			}
+
+			public void touchUp(InputEvent event, float x, float y,
+					int pointer, int button) {
+				PrizmPathGame.deleteData();
+				offWarning();
+			}
+		});
+		yes.setDisabled(true);
+		yes.setVisible(false);
+
+		no = new TextButton("No", tbs);
+		no.setSize(150, buttonSize.y);
+		no.setX((Gdx.graphics.getWidth()) / 2 + 30);
+		no.setY(170);
+		no.addListener(new InputListener() {
+			public boolean touchDown(InputEvent event, float x, float y,
+					int pointer, int button) {
+				return true;
+			}
+
+			public void touchUp(InputEvent event, float x, float y,
+					int pointer, int button) {
+				offWarning();
+			}
+		});
+		no.setDisabled(true);
+		no.setVisible(false);
+
 		// Title label
 		LabelStyle ls = new LabelStyle(f, Color.WHITE);
 		title = new Label("PrizmPath", ls);
@@ -170,6 +227,12 @@ public class StartScreen implements Screen {
 		title.setWidth(Gdx.graphics.getWidth());
 		title.setAlignment(Align.center);
 
+		choice = new Label("Delete all your data?", ls);
+		choice.setX(0);
+		choice.setY(250);
+		choice.setWidth(Gdx.graphics.getWidth());
+		choice.setAlignment(Align.center);
+
 		// Adds to stage
 		stage.addActor(start);
 		stage.addActor(shop);
@@ -177,6 +240,27 @@ public class StartScreen implements Screen {
 		stage.addActor(credits);
 		stage.addActor(quit);
 		stage.addActor(title);
+		dStage.addActor(no);
+		dStage.addActor(yes);
+		dStage.addActor(choice);
+	}
+
+	protected void toWarning() {
+		no.setVisible(true);
+		no.setDisabled(false);
+		yes.setVisible(true);
+		yes.setDisabled(false);
+		delete = true;
+		Gdx.input.setInputProcessor(dStage);
+	}
+
+	protected void offWarning() {
+		no.setVisible(false);
+		no.setDisabled(true);
+		yes.setVisible(false);
+		yes.setDisabled(true);
+		delete = false;
+		Gdx.input.setInputProcessor(stage);
 	}
 
 	// Called when the screen is shown
@@ -187,6 +271,10 @@ public class StartScreen implements Screen {
 				TextureAtlas.class);
 
 		f = new BitmapFont(Gdx.files.internal("data/font.fnt"));
+
+		box = PrizmPathGame.getAssets()
+				.get(PrizmPathGame.TEXTURE_PATH, TextureAtlas.class)
+				.createSprite("box2");
 
 		skin = new Skin();
 		skin.addRegions(buttonAtlas);
@@ -219,7 +307,7 @@ public class StartScreen implements Screen {
 		skin.dispose();
 		batch.dispose();
 		stage.dispose();
-
+		dStage.dispose();
 	}
 
 	// Sends to the OptionScreen
@@ -235,11 +323,6 @@ public class StartScreen implements Screen {
 	// Sends to the LevelScreen
 	private void toLevels() {
 		p.setScreen(new LevelScreen(p));
-	}
-
-	// Sends to the ShopScreen
-	private void toAchievements() {
-		p.setScreen(new AchievementScreen(p));
 	}
 }
 // © Hunter Heidenreich 2014
