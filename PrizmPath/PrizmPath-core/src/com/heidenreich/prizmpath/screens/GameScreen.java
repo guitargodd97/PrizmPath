@@ -121,6 +121,7 @@ public class GameScreen implements Screen {
 												PrizmPathGame.SFX_PATH
 														+ "wrong.mp3",
 												Sound.class).play();
+									collection[i][id].triggerWrong();
 								}
 								checkClicks(collection[i][id].getColor());
 								for (int x = 0; x < collection.length; x++) {

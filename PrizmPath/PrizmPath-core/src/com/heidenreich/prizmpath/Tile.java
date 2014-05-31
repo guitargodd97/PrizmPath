@@ -66,6 +66,10 @@ public class Tile {
 		return prizmActive;
 	}
 
+	public void triggerWrong() {
+		prizm.triggerWrong();
+	}
+	
 	public void setFrame(int curFrame) {
 		prizm.setFrame(curFrame);
 	}

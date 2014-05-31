@@ -2,13 +2,18 @@ package com.heidenreich.prizmpath;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 
 public class Prizm {
 
 	private int color;
 	private int curFrame;
+	private int right;
 	private int type;
+	private int wrong;
+	private Sprite check;
+	private Sprite ex;
 	private Sprite[] sprites;
 	private Vector2 loco;
 	private static Vector2 size;
@@ -18,6 +23,8 @@ public class Prizm {
 		this.type = type;
 		this.loco = loco;
 		curFrame = 0;
+		right = 0;
+		wrong = 0;
 		size = new Vector2(60, 60);
 		Sprite[] temp = PrizmPathGame.getColorpack(0, this.type, this.color);
 		sprites = new Sprite[temp.length];
@@ -26,6 +33,16 @@ public class Prizm {
 		for (int i = 0; i < sprites.length; i++)
 			sprites[i].setPosition(loco.x - sprites[i].getWidth() / 2 + size.x
 					/ 2, loco.y - sprites[i].getHeight() / 2 + size.y / 2);
+		check = PrizmPathGame.getAssets()
+				.get(PrizmPathGame.TEXTURE_PATH, TextureAtlas.class)
+				.createSprite("check");
+		check.setPosition(loco.x - check.getWidth() / 2 + size.x / 2, loco.y
+				- check.getHeight() / 2 + size.y / 2);
+		ex = PrizmPathGame.getAssets()
+				.get(PrizmPathGame.TEXTURE_PATH, TextureAtlas.class)
+				.createSprite("ex");
+		ex.setPosition(loco.x - ex.getWidth() / 2 + size.x / 2,
+				loco.y - ex.getHeight() / 2 + size.y / 2);
 	}
 
 	public void changeColor() {
@@ -40,6 +57,11 @@ public class Prizm {
 		for (int i = 0; i < sprites.length; i++)
 			sprites[i].setPosition(loco.x - sprites[i].getWidth() / 2 + size.x
 					/ 2, loco.y - sprites[i].getHeight() / 2 + size.y / 2);
+		right = 15;
+	}
+
+	public void triggerWrong() {
+		wrong = 15;
 	}
 
 	public int getColor() {
@@ -52,6 +74,14 @@ public class Prizm {
 
 	public void draw(SpriteBatch batch) {
 		sprites[curFrame].draw(batch);
+		if (right > 0) {
+			check.draw(batch);
+			right--;
+		}
+		if (wrong > 0) {
+			ex.draw(batch);
+			wrong--;
+		}
 	}
 
 	public void setup(int color, int type) {
