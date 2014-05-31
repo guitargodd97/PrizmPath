@@ -178,14 +178,6 @@ public class LevelScreen implements Screen {
 
 		skin = new Skin();
 		skin.addRegions(buttonAtlas);
-
-		// Determines whether the song should be played
-		if (PrizmPathGame.isMusicMute())
-			PrizmPathGame.soundpacks[PrizmPathGame.curSoundpack][PrizmPathGame.curSong]
-					.pause();
-		else
-			PrizmPathGame.soundpacks[PrizmPathGame.curSoundpack][PrizmPathGame.curSong]
-					.play();
 	}
 
 	// Called when the screen is hidden

@@ -131,6 +131,7 @@ public class SplashScreen implements Screen {
 
 	private void toStartScreen() {
 		p.setScreen(new StartScreen(p));
+		PrizmPathGame.changeSong();
 	}
 
 }

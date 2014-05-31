@@ -212,13 +212,6 @@ public class OptionScreen implements Screen {
 		box = PrizmPathGame.getAssets()
 				.get(PrizmPathGame.TEXTURE_PATH, TextureAtlas.class)
 				.createSprite("box");
-
-		if (PrizmPathGame.isMusicMute())
-			PrizmPathGame.soundpacks[PrizmPathGame.curSoundpack][PrizmPathGame.curSong]
-					.pause();
-		else
-			PrizmPathGame.soundpacks[PrizmPathGame.curSoundpack][PrizmPathGame.curSong]
-					.play();
 	}
 
 	// Called when the screen is hidden

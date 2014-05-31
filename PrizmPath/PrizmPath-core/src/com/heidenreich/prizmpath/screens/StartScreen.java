@@ -118,7 +118,7 @@ public class StartScreen implements Screen {
 		shop = new TextButton("Delete Save", tbs);
 		shop.setSize(buttonSize.x, buttonSize.y);
 		shop.setX(Gdx.graphics.getWidth() / 2 - buttonSize.x / 2);
-		shop.setY((3 * buttonSize.y) + 15);
+		shop.setY((1 * buttonSize.y) + 15);
 		shop.addListener(new InputListener() {
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
@@ -135,7 +135,7 @@ public class StartScreen implements Screen {
 		options = new TextButton("Options", tbs);
 		options.setSize(buttonSize.x, buttonSize.y);
 		options.setX(Gdx.graphics.getWidth() / 2 - buttonSize.x / 2);
-		options.setY((2 * buttonSize.y) + 15);
+		options.setY((3 * buttonSize.y) + 15);
 		options.addListener(new InputListener() {
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
@@ -152,7 +152,7 @@ public class StartScreen implements Screen {
 		credits = new TextButton("Credits", tbs);
 		credits.setSize(buttonSize.x, buttonSize.y);
 		credits.setX(Gdx.graphics.getWidth() / 2 - buttonSize.x / 2);
-		credits.setY((1 * buttonSize.y) + 15);
+		credits.setY((2 * buttonSize.y) + 15);
 		credits.addListener(new InputListener() {
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
@@ -278,14 +278,6 @@ public class StartScreen implements Screen {
 
 		skin = new Skin();
 		skin.addRegions(buttonAtlas);
-
-		// Determines whether the song should be played
-		if (PrizmPathGame.isMusicMute())
-			PrizmPathGame.soundpacks[PrizmPathGame.curSoundpack][PrizmPathGame.curSong]
-					.pause();
-		else
-			PrizmPathGame.soundpacks[PrizmPathGame.curSoundpack][PrizmPathGame.curSong]
-					.play();
 	}
 
 	// Called when the screen isn't showing

@@ -446,13 +446,6 @@ public class GameScreen implements Screen {
 			tuts[i].setPosition(
 					(Gdx.graphics.getWidth() - tuts[i].getWidth()) / 2, 75);
 		}
-		// Determines whether the song should be played
-		if (PrizmPathGame.isMusicMute())
-			PrizmPathGame.soundpacks[PrizmPathGame.curSoundpack][PrizmPathGame.curSong]
-					.pause();
-		else
-			PrizmPathGame.soundpacks[PrizmPathGame.curSoundpack][PrizmPathGame.curSong]
-					.play();
 		constructLevel();
 	}
 

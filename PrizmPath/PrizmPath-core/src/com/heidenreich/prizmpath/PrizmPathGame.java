@@ -371,8 +371,9 @@ public class PrizmPathGame extends Game {
 			PrizmPathGame.curSong = 0;
 		PrizmPathGame.soundpacks[PrizmPathGame.curSoundpack][PrizmPathGame.curSong]
 				.setLooping(true);
-		PrizmPathGame.soundpacks[PrizmPathGame.curSoundpack][PrizmPathGame.curSong]
-				.play();
+		if (!PrizmPathGame.isMusicMute())
+			PrizmPathGame.soundpacks[PrizmPathGame.curSoundpack][PrizmPathGame.curSong]
+					.play();
 	}
 
 	public static void deleteData() {
