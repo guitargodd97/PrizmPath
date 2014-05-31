@@ -71,7 +71,7 @@ public class GameScreen implements Screen {
 				|| level == 21 || level == 26) {
 			gameState = 4;
 			if (level == 1)
-				tutorial = 8;
+				tutorial = 9;
 			else
 				tutorial = 0;
 		}
@@ -167,7 +167,7 @@ public class GameScreen implements Screen {
 			batch.begin();
 			box.draw(batch);
 			info.setVisible(true);
-			if (tutorial == 8) {
+			if (tutorial == 9) {
 				info.setText("Welcome to PrizmPath\nThe Color Puzzle Game!");
 				tutorial--;
 			} else if (tutorial == 1) {
@@ -201,14 +201,17 @@ public class GameScreen implements Screen {
 					switch (level) {
 					case (1):
 						switch (tutorial) {
-						case (7):
+						case (8):
 							info.setText("The object of the game is to make all the prizms\non the screen the same color.");
 							break;
-						case (6):
+						case (7):
 							info.setText("To change a prizm's color, you have to click to select it\nand then click again to finalize your choice.");
 							break;
-						case (5):
+						case (6):
 							info.setText("Colors cycle in this order:\nRed>Orange>Yellow>Green>Blue>Purple>Red");
+							break;
+						case(5):
+							info.setText("Every puzzle starts with the center prizm, and if the\npatttern is followed correctly all moves should be\nadjacent to the previous click.");
 							break;
 						case (4):
 							info.setText("Seems simple enough, right?\nHowever, there is one catch!");
