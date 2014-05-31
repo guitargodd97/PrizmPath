@@ -4,18 +4,34 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.math.Vector2;
 
+//---------------------------------------------------------------------------------------------
+//
+//Solutions.java
+//Last Revised: 5/31/2014
+//Author: Hunter Heidenreich
+//Product of: HunterMusicAndTV
+//
+//---------------------------------------------------------------------------------------------
+//Summary of Class:
+//
+//This class holds the information on what moves can be done in specific levels
+//
+//--------------------------------------------------------------------------------------------
+
 public class Solutions {
 
 	private ArrayList<Vector2> moveList;
 	private int level;
 
+	// Creates the solutions
 	public Solutions(int level) {
 		this.level = level;
-		moveList = new ArrayList<Vector2>();
 		setup();
 	}
 
+	// Sets up the moves based on level
 	private void setup() {
+		moveList = new ArrayList<Vector2>();
 		switch (level) {
 		case (1):
 			moveList.add(new Vector2(2, 6));
@@ -350,9 +366,13 @@ public class Solutions {
 		}
 	}
 
+	// Checks if a move can be made
 	public boolean checkMove(Vector2 move) {
+		// Searches through appropriate moves
 		for (int i = 0; i < moveList.size(); i++) {
+			// If it matches
 			if (move.toString().equals(moveList.get(i).toString())) {
+				// Remove the move from the list and return true
 				moveList.remove(i);
 				return true;
 			}
@@ -360,3 +380,4 @@ public class Solutions {
 		return false;
 	}
 }
+// © Hunter Heidenreich 2014

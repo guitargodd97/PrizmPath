@@ -23,6 +23,20 @@ import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.heidenreich.prizmpath.PrizmPathGame;
 
+//---------------------------------------------------------------------------------------------
+//
+//LevelScreen.java
+//Last Revised: 5/31/2014
+//Author: Hunter Heidenreich
+//Product of: HunterMusicAndTV
+//
+//---------------------------------------------------------------------------------------------
+//Summary of Class:
+//
+//This class is the screen class that handles level selection.
+//
+//-------------------------------------------------------------------------------------------
+
 public class LevelScreen implements Screen {
 
 	private BitmapFont f;
@@ -39,7 +53,10 @@ public class LevelScreen implements Screen {
 
 	// Constructs the LevelScreen
 	public LevelScreen(PrizmPathGame p) {
+		// Saves parameters
 		this.p = p;
+
+		// Sets up level buttons
 		levels = new TextButton[3][10];
 		buttonSize = new Vector2(70, 70);
 	}
@@ -71,7 +88,7 @@ public class LevelScreen implements Screen {
 		stage.clear();
 		Gdx.input.setInputProcessor(stage);
 
-		// Button style
+		// Button styles
 		TextButtonStyle tbs = new TextButtonStyle();
 		tbs.up = skin.getDrawable("buttonnormal");
 		tbs.down = skin.getDrawable("buttonpressed");
@@ -95,6 +112,7 @@ public class LevelScreen implements Screen {
 		// Level Buttons
 		for (int i = 0; i < levels.length; i++) {
 			for (int id = 0; id < levels[i].length; id++) {
+				// Instantiates button
 				levels[i][id] = new TextButton(""
 						+ (i * levels[i].length + id + 1), tbs);
 				levels[i][id].setName("" + (i * levels[i].length + id + 1));
@@ -102,11 +120,14 @@ public class LevelScreen implements Screen {
 				levels[i][id].setX((id * (buttonSize.x + 5)) + 30);
 				levels[i][id].setY(Gdx.graphics.getHeight()
 						- ((i * (buttonSize.y + 30)) + buttonSize.y + 120));
-				/* if ((i * levels[i].length + id + 1) > 1) { */
+
+				// Determines if level is unlocked
 				if (PrizmPathGame.getLevelData((i * levels[i].length + id)) < 1) {
 					levels[i][id].setTouchable(Touchable.disabled);
 					levels[i][id].setVisible(false);
 				}
+
+				// Picks out button texture
 				if (PrizmPathGame.getLevelData((i * levels[i].length + id)) == 2)
 					levels[i][id].setStyle(tbsB);
 				else if (PrizmPathGame
@@ -115,6 +136,8 @@ public class LevelScreen implements Screen {
 				else if (PrizmPathGame
 						.getLevelData((i * levels[i].length + id)) == 4)
 					levels[i][id].setStyle(tbsG);
+
+				// Sets up button's action
 				levels[i][id].addListener(new InputListener() {
 					public boolean touchDown(InputEvent event, float x,
 							float y, int pointer, int button) {
@@ -130,16 +153,18 @@ public class LevelScreen implements Screen {
 			}
 		}
 
+		// Image Style
 		ImageButtonStyle imageStyle = new ImageButtonStyle();
 		imageStyle.imageUp = new SpriteDrawable(PrizmPathGame.homeButtons[0]);
 		imageStyle.imageDown = new SpriteDrawable(PrizmPathGame.homeButtons[1]);
 
+		// Back Button
 		back = new ImageButton(imageStyle);
 		back.setX(700);
 		back.setY(425);
 		back.addListener(new InputListener() {
-			public boolean touchDown(InputEvent event, float x,
-					float y, int pointer, int button) {
+			public boolean touchDown(InputEvent event, float x, float y,
+					int pointer, int button) {
 				return true;
 			}
 
@@ -148,7 +173,7 @@ public class LevelScreen implements Screen {
 				toStart();
 			}
 		});
-		
+
 		// Title label
 		LabelStyle ls = new LabelStyle(f, Color.WHITE);
 		title = new Label("Levels", ls);
@@ -164,18 +189,22 @@ public class LevelScreen implements Screen {
 			}
 		}
 		stage.addActor(title);
-		 stage.addActor(back);
+		stage.addActor(back);
 	}
 
 	// Called when the screen is shown
 	public void show() {
+		//Sets up the SpriteBatch
 		batch = new SpriteBatch();
 
+		//Retrieves button textures
 		buttonAtlas = PrizmPathGame.getAssets().get(BUTTON_TEXTURE,
 				TextureAtlas.class);
 
+		//Retrieves the fonts
 		f = new BitmapFont(Gdx.files.internal("data/font.fnt"));
 
+		//Creates the skin
 		skin = new Skin();
 		skin.addRegions(buttonAtlas);
 	}

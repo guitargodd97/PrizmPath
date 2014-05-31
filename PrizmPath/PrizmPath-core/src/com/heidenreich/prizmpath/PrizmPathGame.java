@@ -17,18 +17,33 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.heidenreich.prizmpath.screens.SplashScreen;
 import com.heidenreich.prizmpath.screens.StartScreen;
 
+//---------------------------------------------------------------------------------------------
+//
+//PrizmPathGame.java
+//Last Revised: 5/31/2014
+//Author: Hunter Heidenreich
+//Product of: HunterMusicAndTV
+//
+//---------------------------------------------------------------------------------------------
+//Summary of Class:
+//
+//This class is the main game class that runs all of PrizmPath
+//
+//--------------------------------------------------------------------------------------------
+
 public class PrizmPathGame extends Game {
+
 	public static ApplicationType appType;
 	public static AssetManager assets;
 	public static boolean musicMute;
 	public static boolean sfxMute;
 	public static byte[] levelData;
 	public static byte[] optionData;
+	private int loaded;
 	public static int curBackground;
 	public static int curColorpack;
 	public static int curSong;
 	public static int curSoundpack;
-	private int loaded;
 	public static Music[][] soundpacks;
 	public static Sprite splash;
 	public static Sprite[] backgrounds;
@@ -40,29 +55,27 @@ public class PrizmPathGame extends Game {
 	public static final String log = "PrizmPath";
 	public static final String SFX_PATH = "data/sound/sfx/";
 	public static final String TEXTURE_PATH = "data/textures/texture.atlas";
-	public static final String version = "Final Alpha";
+	public static final String version = "Beta 1.0";
 
-	/*
-	 * TO DO LIST: Write loadData() - Write loadResources() - Write savaData()
-	 */
 	// Creates the game
 	public void create() {
 		// Logs the game type for control modification
 		appType = Gdx.app.getType();
 
-		loaded = 0;
 		// Loads data
 		loadData();
 
 		// Sets up the assets
 		PrizmPathGame.setAssetManager(new AssetManager());
 		loadResources();
-
 	}
 
 	// Disposes of the game
 	public void dispose() {
+		// Always saves before disposing
 		saveData();
+
+		// Disposes
 		super.dispose();
 		PrizmPathGame.getAssets().dispose();
 	}
@@ -70,11 +83,15 @@ public class PrizmPathGame extends Game {
 	// Updates the game
 	public void render() {
 		super.render();
+
+		// If everything is loaded
 		if (loaded == 2) {
 			loaded++;
+
 			// Starts the game with the splashscreen
 			this.setScreen(new SplashScreen(this));
 		} else if (loaded == 1) {
+			// Sets up the resources
 			setupResources();
 			loaded++;
 		} else if (PrizmPathGame.getAssets().update())
@@ -98,43 +115,43 @@ public class PrizmPathGame extends Game {
 
 	// Loads the resources
 	public void loadResources() {
-		/*
-		 * Brief Description: Loads all the resources into the AssetManager
-		 */
 		// Set the type of manager
-		System.out.println(Gdx.files.internal(PrizmPathGame.TEXTURE_PATH)
-				.file().getAbsolutePath());
 		PrizmPathGame.getAssets().setLoader(TiledMap.class,
 				new TmxMapLoader(new InternalFileHandleResolver()));
+
+		// Loads the textures
 		PrizmPathGame.getAssets().load(PrizmPathGame.TEXTURE_PATH,
 				TextureAtlas.class);
+
+		// Loads the buttons
 		PrizmPathGame.getAssets().load(StartScreen.BUTTON_TEXTURE,
 				TextureAtlas.class);
+
+		// Loads the sfx
 		PrizmPathGame.getAssets().load(SFX_PATH + "correct.mp3", Sound.class);
 		PrizmPathGame.getAssets().load(SFX_PATH + "wrong.mp3", Sound.class);
 		PrizmPathGame.getAssets().load(SFX_PATH + "win.mp3", Sound.class);
 		PrizmPathGame.getAssets().load(SFX_PATH + "lose.mp3", Sound.class);
+
+		// Forces it to finish loading
 		PrizmPathGame.getAssets().finishLoading();
-		Gdx.app.log(getLog(), "Resources loaded");
 	}
 
 	// Sets up the resources()
 	public void setupResources() {
-		// Sets up the textures
+		// Sets the splash texture
 		PrizmPathGame.splash = PrizmPathGame.getAssets()
 				.get(PrizmPathGame.TEXTURE_PATH, TextureAtlas.class)
 				.createSprite("splash");
-		backgrounds = new Sprite[3];
-		backgrounds[0] = PrizmPathGame.getAssets()
-				.get(PrizmPathGame.TEXTURE_PATH, TextureAtlas.class)
-				.createSprite("background0");
-		backgrounds[1] = PrizmPathGame.getAssets()
-				.get(PrizmPathGame.TEXTURE_PATH, TextureAtlas.class)
-				.createSprite("background1");
-		backgrounds[2] = PrizmPathGame.getAssets()
-				.get(PrizmPathGame.TEXTURE_PATH, TextureAtlas.class)
-				.createSprite("background2");
 
+		// Sets up the backgrounds
+		backgrounds = new Sprite[10];
+		for (int i = 0; i < backgrounds.length; i++)
+			backgrounds[i] = PrizmPathGame.getAssets()
+					.get(PrizmPathGame.TEXTURE_PATH, TextureAtlas.class)
+					.createSprite("background" + i);
+
+		// Sets up the home button
 		homeButtons = new Sprite[2];
 		homeButtons[0] = PrizmPathGame.getAssets()
 				.get(PrizmPathGame.TEXTURE_PATH, TextureAtlas.class)
@@ -143,6 +160,7 @@ public class PrizmPathGame extends Game {
 				.get(PrizmPathGame.TEXTURE_PATH, TextureAtlas.class)
 				.createSprite("homebuttondown");
 
+		// Sets up the pause button
 		pauseButtons = new Sprite[2];
 		pauseButtons[0] = PrizmPathGame.getAssets()
 				.get(PrizmPathGame.TEXTURE_PATH, TextureAtlas.class)
@@ -151,6 +169,7 @@ public class PrizmPathGame extends Game {
 				.get(PrizmPathGame.TEXTURE_PATH, TextureAtlas.class)
 				.createSprite("pausebuttondown");
 
+		// Sets up the restart button
 		restartButtons = new Sprite[2];
 		restartButtons[0] = PrizmPathGame.getAssets()
 				.get(PrizmPathGame.TEXTURE_PATH, TextureAtlas.class)
@@ -159,6 +178,7 @@ public class PrizmPathGame extends Game {
 				.get(PrizmPathGame.TEXTURE_PATH, TextureAtlas.class)
 				.createSprite("replaybuttondown");
 
+		// Sets up the play button
 		playButtons = new Sprite[2];
 		playButtons[0] = PrizmPathGame.getAssets()
 				.get(PrizmPathGame.TEXTURE_PATH, TextureAtlas.class)
@@ -167,6 +187,7 @@ public class PrizmPathGame extends Game {
 				.get(PrizmPathGame.TEXTURE_PATH, TextureAtlas.class)
 				.createSprite("nextbuttondown");
 
+		// Loads all the Prizm sprites
 		colorpacks = new Sprite[1][5][6][2];
 		for (int x = 0; x < colorpacks[0].length; x++)
 			for (int i = 0; i < colorpacks[0][x].length; i++)
@@ -176,7 +197,8 @@ public class PrizmPathGame extends Game {
 							.get(PrizmPathGame.TEXTURE_PATH, TextureAtlas.class)
 							.createSprite("prizm" + x + "" + i, id);
 
-		soundpacks = new Music[1][4];
+		// Loads all the music
+		soundpacks = new Music[1][5];
 		for (int i = 0; i < soundpacks.length; i++) {
 			for (int id = 0; id < soundpacks[i].length; id++)
 				soundpacks[i][id] = Gdx.audio.newMusic(Gdx.files
@@ -193,67 +215,52 @@ public class PrizmPathGame extends Game {
 
 	// Loads the data
 	public void loadData() {
-		/*
-		 * Brief Description: Loads the data from level.bin and options.bin into
-		 * the byte[]s levelData and option data. This data is then read into
-		 * the static variables.
-		 */
+		// Grabs the location of options.bin
 		FileHandle fileLocation = Gdx.files.local("data/options.bin");
-		if (fileLocation.exists()) {
-			// Opens it and then retrieves data
-			optionData = fileLocation.readBytes();
-			if (optionData[0] == 0)
-				musicMute = false;
-			else
-				musicMute = true;
-			if (optionData[1] == 0)
-				sfxMute = false;
-			else
-				sfxMute = true;
-			curColorpack = optionData[2];
-			curSoundpack = optionData[3];
-			curBackground = optionData[4];
-		} else {
-			// If it doesn't exists, make a new one
-			fileLocation.writeBytes(new byte[] { 0, 0, 0, 0, 0 }, false);
-			optionData = fileLocation.readBytes();
-			if (optionData[0] == 0)
-				musicMute = false;
-			else
-				musicMute = true;
-			if (optionData[1] == 0)
-				sfxMute = false;
-			else
-				sfxMute = true;
-			curColorpack = optionData[2];
-			curSoundpack = optionData[3];
-			curBackground = optionData[4];
-		}
 
+		// If file doesn't exist, write a new one
+		if (!fileLocation.exists())
+			fileLocation.writeBytes(new byte[] { 0, 0, 0, 0, 0 }, false);
+
+		// Reads the data
+		optionData = fileLocation.readBytes();
+
+		// Sets all the data to appropriate values
+		if (optionData[0] == 0)
+			musicMute = false;
+		else
+			musicMute = true;
+		if (optionData[1] == 0)
+			sfxMute = false;
+		else
+			sfxMute = true;
+		curColorpack = optionData[2];
+		curSoundpack = optionData[3];
+		curBackground = optionData[4];
+
+		// Grabs location of levels.bin
 		fileLocation = Gdx.files.local("data/levels.bin");
-		if (fileLocation.exists()) {
-			levelData = fileLocation.readBytes();
-		} else {
-			levelData = new byte[60];
+
+		// If file doesn't exist, write a new one
+		if (!fileLocation.exists()) {
+			levelData = new byte[30];
 			levelData[0] = (byte) 1;
 			fileLocation.writeBytes(levelData, false);
-			levelData = fileLocation.readBytes();
 		}
+
+		// Reads the data
+		levelData = fileLocation.readBytes();
 	}
 
 	// Saves all data
 	public static void saveData() {
-		/*
-		 * Brief Description: Before the game closes, the data is read from the
-		 * variables back into the byte[]s and then saved in the level.bin and
-		 * options.bin files.
-		 */
-
+		// Grabs location of options.bin and saves
 		FileHandle fileLocation = Gdx.files.local("data/options.bin");
 		fileLocation.writeBytes(optionData, false);
+
+		// Grabs location of levels.bin and saves
 		fileLocation = Gdx.files.local("data/levels.bin");
 		fileLocation.writeBytes(levelData, false);
-		Gdx.app.log(getLog(), "Data saved");
 	}
 
 	// Gets the AssetManager
@@ -297,7 +304,7 @@ public class PrizmPathGame extends Game {
 	// Gets level data for determining various things involving the levels
 	public static byte getLevelData(int index) {
 		// Level data saved in level.bin
-		// Contains 60 level indices
+		// Contains 30 level indices
 		//
 		// 0 = Not Unlocked
 		// 1 = No Medal
@@ -354,31 +361,47 @@ public class PrizmPathGame extends Game {
 		return version;
 	}
 
+	// Filters to the next background
 	public static void nextBackground() {
+		// Prevent out of bounds
 		if (PrizmPathGame.curBackground < PrizmPathGame.backgrounds.length - 1)
 			PrizmPathGame.curBackground++;
 		else
 			PrizmPathGame.curBackground = 0;
+
+		// Saves the current background
 		PrizmPathGame.setOptionData((byte) curBackground, 4);
 	}
 
+	// Changes the song
 	public static void changeSong() {
+		// Stop current song
 		PrizmPathGame.soundpacks[PrizmPathGame.curSoundpack][PrizmPathGame.curSong]
 				.stop();
+
+		// Prevent out of bounds
 		if (PrizmPathGame.curSong < PrizmPathGame.soundpacks[0].length - 1)
 			PrizmPathGame.curSong++;
 		else
 			PrizmPathGame.curSong = 0;
+
+		// Set new song to looping
 		PrizmPathGame.soundpacks[PrizmPathGame.curSoundpack][PrizmPathGame.curSong]
 				.setLooping(true);
+
+		// If game is not muted, play the new song
 		if (!PrizmPathGame.isMusicMute())
 			PrizmPathGame.soundpacks[PrizmPathGame.curSoundpack][PrizmPathGame.curSong]
 					.play();
 	}
 
+	// Deletes the saved data
 	public static void deleteData() {
+		// Grabs the option data and writes base info
 		FileHandle fileLocation = Gdx.files.local("data/options.bin");
 		fileLocation.writeBytes(new byte[] { 0, 0, 0, 0, 0 }, false);
+
+		// Reads data and assigns appropriate values
 		optionData = fileLocation.readBytes();
 		if (optionData[0] == 0)
 			musicMute = false;
@@ -392,10 +415,13 @@ public class PrizmPathGame extends Game {
 		curSoundpack = optionData[3];
 		curBackground = optionData[4];
 
+		// Grabs the level data and writes base info
 		fileLocation = Gdx.files.local("data/levels.bin");
-		levelData = new byte[60];
+		levelData = new byte[30];
 		levelData[0] = (byte) 1;
 		fileLocation.writeBytes(levelData, false);
+
+		// Reads the data
 		levelData = fileLocation.readBytes();
 	}
 

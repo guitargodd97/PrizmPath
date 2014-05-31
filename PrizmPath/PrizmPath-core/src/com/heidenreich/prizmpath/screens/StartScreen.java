@@ -20,6 +20,20 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.heidenreich.prizmpath.PrizmPathGame;
 
+//---------------------------------------------------------------------------------------------
+//
+//StartScreen.java
+//Last Revised: 5/31/2014
+//Author: Hunter Heidenreich
+//Product of: HunterMusicAndTV
+//
+//---------------------------------------------------------------------------------------------
+//Summary of Class:
+//
+//This class is the screen class that handles the menu.
+//
+//-------------------------------------------------------------------------------------------
+
 public class StartScreen implements Screen {
 
 	private BitmapFont f;
@@ -45,7 +59,10 @@ public class StartScreen implements Screen {
 
 	// Constructs StartScreen
 	public StartScreen(PrizmPathGame p) {
+		// Saves the parameters
 		this.p = p;
+
+		// Initializes variables
 		buttonSize = new Vector2(300, 75);
 		delete = false;
 	}
@@ -62,23 +79,25 @@ public class StartScreen implements Screen {
 		batch.begin();
 		PrizmPathGame.getBackground(PrizmPathGame.curBackground).draw(batch);
 		batch.end();
+
+		// If data delete is triggered
 		if (delete) {
 			batch.begin();
 			box.draw(batch);
 			batch.end();
 
+			// Starts drawing the deletion stage
 			dStage.act();
 			batch.begin();
 			dStage.draw();
 			batch.end();
-		} else {
+		} else { // If normal menu
 			// Starts drawing the stage
 			stage.act(delta);
 			batch.begin();
 			stage.draw();
 			batch.end();
 		}
-
 	}
 
 	// Called on screen resize
@@ -88,9 +107,12 @@ public class StartScreen implements Screen {
 			stage = new Stage();
 		stage.clear();
 		Gdx.input.setInputProcessor(stage);
+
+		// Intializes the deletion stage
 		if (dStage == null)
 			dStage = new Stage();
 		dStage.clear();
+
 		// Button style
 		TextButtonStyle tbs = new TextButtonStyle();
 		tbs.up = skin.getDrawable("buttonnormal");
@@ -182,6 +204,7 @@ public class StartScreen implements Screen {
 			}
 		});
 
+		// Yes Button
 		yes = new TextButton("Yes", tbs);
 		yes.setSize(150, buttonSize.y);
 		yes.setX((Gdx.graphics.getWidth()) / 2 - 180);
@@ -201,6 +224,7 @@ public class StartScreen implements Screen {
 		yes.setDisabled(true);
 		yes.setVisible(false);
 
+		// No Button
 		no = new TextButton("No", tbs);
 		no.setSize(150, buttonSize.y);
 		no.setX((Gdx.graphics.getWidth()) / 2 + 30);
@@ -227,6 +251,7 @@ public class StartScreen implements Screen {
 		title.setWidth(Gdx.graphics.getWidth());
 		title.setAlignment(Align.center);
 
+		// Choice Label
 		choice = new Label("Delete all your data?", ls);
 		choice.setX(0);
 		choice.setY(250);
@@ -240,11 +265,14 @@ public class StartScreen implements Screen {
 		stage.addActor(credits);
 		stage.addActor(quit);
 		stage.addActor(title);
+
+		// Adds to the deletion stage
 		dStage.addActor(no);
 		dStage.addActor(yes);
 		dStage.addActor(choice);
 	}
 
+	// Displays deletion info
 	protected void toWarning() {
 		no.setVisible(true);
 		no.setDisabled(false);
@@ -254,6 +282,7 @@ public class StartScreen implements Screen {
 		Gdx.input.setInputProcessor(dStage);
 	}
 
+	// Hides deletion info
 	protected void offWarning() {
 		no.setVisible(false);
 		no.setDisabled(true);
@@ -265,17 +294,22 @@ public class StartScreen implements Screen {
 
 	// Called when the screen is shown
 	public void show() {
+		// Sets up the SpriteBatch
 		batch = new SpriteBatch();
 
+		// Retrieves the button texture
 		buttonAtlas = PrizmPathGame.getAssets().get(BUTTON_TEXTURE,
 				TextureAtlas.class);
 
+		// Retrieves the fonts
 		f = new BitmapFont(Gdx.files.internal("data/font.fnt"));
 
+		// Retrieves the box graphic
 		box = PrizmPathGame.getAssets()
 				.get(PrizmPathGame.TEXTURE_PATH, TextureAtlas.class)
 				.createSprite("box2");
 
+		// Creates a button skin
 		skin = new Skin();
 		skin.addRegions(buttonAtlas);
 	}

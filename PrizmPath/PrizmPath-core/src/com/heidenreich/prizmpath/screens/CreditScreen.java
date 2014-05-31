@@ -14,9 +14,24 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.heidenreich.prizmpath.PrizmPathGame;
 
+//---------------------------------------------------------------------------------------------
+//
+//CreditScreen.java
+//Last Revised: 5/31/2014
+//Author: Hunter Heidenreich
+//Product of: HunterMusicAndTV
+//
+//---------------------------------------------------------------------------------------------
+//Summary of Class:
+//
+//This class is the screen class that displays the credit info about me.
+//
+//--------------------------------------------------------------------------------------------
+
 public class CreditScreen implements Screen {
 
 	private BitmapFont f;
+	private BitmapFont g;
 	private Label info;
 	private Label title;
 	private PrizmPathGame p;
@@ -42,6 +57,8 @@ public class CreditScreen implements Screen {
 		PrizmPathGame.getBackground(PrizmPathGame.curBackground).draw(batch);
 		box.draw(batch);
 		batch.end();
+
+		// Checks for clicks
 		clickCheck();
 
 		// Draws the stage
@@ -59,8 +76,11 @@ public class CreditScreen implements Screen {
 		stage.clear();
 		Gdx.input.setInputProcessor(stage);
 
-		// Title label
+		// Label styles
 		LabelStyle ls = new LabelStyle(f, Color.WHITE);
+		LabelStyle lsg = new LabelStyle(g, Color.WHITE);
+
+		// Title label
 		title = new Label("Credits", ls);
 		title.setX(0);
 		title.setY(420);
@@ -70,7 +90,7 @@ public class CreditScreen implements Screen {
 		// Info label
 		info = new Label(
 				"This game was created by \nHunter Heidenreich. It is his first \napp. Hope you enjoy, and \nif you have any feedback visit \nwww.huntermusicandtv.com\n\nClick to continue...",
-				ls);
+				lsg);
 		info.setX(0);
 		info.setY(100);
 		info.setWidth(Gdx.graphics.getWidth());
@@ -79,15 +99,18 @@ public class CreditScreen implements Screen {
 		// Adding to the stage
 		stage.addActor(title);
 		stage.addActor(info);
-
 	}
 
 	// Called when the screen is shown
 	public void show() {
+		// Sets up the SpriteBatch
 		batch = new SpriteBatch();
 
+		// Sets up the fonts
 		f = new BitmapFont(Gdx.files.internal("data/font.fnt"));
+		g = new BitmapFont(Gdx.files.internal("data/g.fnt"));
 
+		// Sets up the box Sprite
 		box = PrizmPathGame.getAssets()
 				.get(PrizmPathGame.TEXTURE_PATH, TextureAtlas.class)
 				.createSprite("box");
@@ -109,10 +132,12 @@ public class CreditScreen implements Screen {
 	// Disposes of resources
 	public void dispose() {
 		f.dispose();
+		g.dispose();
 		stage.dispose();
 		batch.dispose();
 	}
 
+	// Sends the game to the StartScreen
 	private void toStart() {
 		p.setScreen(new StartScreen(p));
 	}

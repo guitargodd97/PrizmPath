@@ -9,6 +9,20 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.heidenreich.prizmpath.PrizmPathGame;
 
+//---------------------------------------------------------------------------------------------
+//
+//SplashScreen.java
+//Last Revised: 5/31/2014
+//Author: Hunter Heidenreich
+//Product of: HunterMusicAndTV
+//
+//---------------------------------------------------------------------------------------------
+//Summary of Class:
+//
+//This class is the screen class that handles the initial graphics and sounds.
+//
+//-------------------------------------------------------------------------------------------
+
 public class SplashScreen implements Screen {
 	private boolean reverse;
 	private boolean hasPlayed;
@@ -25,7 +39,10 @@ public class SplashScreen implements Screen {
 
 	// Constructs the SplashScreen
 	public SplashScreen(PrizmPathGame p) {
+		//Saves parameters
 		this.p = p;
+		
+		//Initializes all basic variables
 		reverse = false;
 		hasPlayed = false;
 		alpha = 0;
@@ -80,6 +97,7 @@ public class SplashScreen implements Screen {
 		splash.play();
 		splash.setLooping(false);
 		
+		//Initializes the sfx
 		sfx = Gdx.audio.newSound(Gdx.files.internal(SFX_SOUND));
 	}
 
@@ -129,10 +147,13 @@ public class SplashScreen implements Screen {
 			toStartScreen();
 	}
 
+	//Sends the game to the StartScreen
 	private void toStartScreen() {
+		//Sets the screen
 		p.setScreen(new StartScreen(p));
+		
+		//Changes the song
 		PrizmPathGame.changeSong();
 	}
-
 }
 // © Hunter Heidenreich 2014

@@ -19,9 +19,24 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.heidenreich.prizmpath.PrizmPathGame;
 
+//---------------------------------------------------------------------------------------------
+//
+//OptionScreen.java
+//Last Revised: 5/31/2014
+//Author: Hunter Heidenreich
+//Product of: HunterMusicAndTV
+//
+//---------------------------------------------------------------------------------------------
+//Summary of Class:
+//
+//This class is the screen class that handles the changing of options.
+//
+//-------------------------------------------------------------------------------------------
+
 public class OptionScreen implements Screen {
 
 	private BitmapFont f;
+	private BitmapFont g;
 	private Label info;
 	private Label title;
 	private PrizmPathGame p;
@@ -36,7 +51,10 @@ public class OptionScreen implements Screen {
 
 	// Constructs the OptionScreen
 	public OptionScreen(PrizmPathGame p) {
+		// Saves parameters
 		this.p = p;
+
+		// Sets size of buttons
 		buttonSize = new Vector2(300, 75);
 	}
 
@@ -72,7 +90,7 @@ public class OptionScreen implements Screen {
 
 		// Button style
 		TextButtonStyle tbs = new TextButtonStyle();
-		tbs.font = f;
+		tbs.font = g;
 
 		// Background button
 		background = new TextButton("Background: "
@@ -158,6 +176,7 @@ public class OptionScreen implements Screen {
 
 		// Title label
 		LabelStyle ls = new LabelStyle(f, Color.WHITE);
+		LabelStyle lsg = new LabelStyle(g, Color.WHITE);
 		title = new Label("Options", ls);
 		title.setX(0);
 		title.setY(420);
@@ -165,7 +184,7 @@ public class OptionScreen implements Screen {
 		title.setAlignment(Align.center);
 
 		// Info label
-		info = new Label("Click to continue...", ls);
+		info = new Label("Click to continue...", lsg);
 		info.setX(0);
 		info.setY(25);
 		info.setWidth(Gdx.graphics.getWidth());
@@ -182,13 +201,18 @@ public class OptionScreen implements Screen {
 
 	// When a button is clicked, update the rest
 	protected void updateButtons() {
+		// Updates the background
 		background.setText("Background: " + PrizmPathGame.curBackground);
+
+		// Updates the sfx
 		String s = "";
 		if (PrizmPathGame.isSfxMute())
 			s = "off";
 		else
 			s = "on";
 		muteSFX.setText("SFX: " + s);
+
+		// Updates the music
 		if (PrizmPathGame.isMusicMute())
 			s = "off";
 		else
@@ -205,10 +229,14 @@ public class OptionScreen implements Screen {
 
 	// Called when the screen is shown
 	public void show() {
+		// Sets up the SpriteBatch
 		batch = new SpriteBatch();
 
+		// Retrieves the fonts
 		f = new BitmapFont(Gdx.files.internal("data/font.fnt"));
+		g = new BitmapFont(Gdx.files.internal("data/g.fnt"));
 
+		// Retrieves box
 		box = PrizmPathGame.getAssets()
 				.get(PrizmPathGame.TEXTURE_PATH, TextureAtlas.class)
 				.createSprite("box");
@@ -230,6 +258,7 @@ public class OptionScreen implements Screen {
 	// Disposes of resources
 	public void dispose() {
 		f.dispose();
+		g.dispose();
 		stage.dispose();
 		batch.dispose();
 	}

@@ -25,9 +25,24 @@ import com.heidenreich.prizmpath.PrizmPathGame;
 import com.heidenreich.prizmpath.Solutions;
 import com.heidenreich.prizmpath.Tile;
 
+//---------------------------------------------------------------------------------------------
+//
+//GameScreen.java
+//Last Revised: 5/31/2014
+//Author: Hunter Heidenreich
+//Product of: HunterMusicAndTV
+//
+//---------------------------------------------------------------------------------------------
+//Summary of Class:
+//
+//This class is the screen class that handles all gameplay.
+//
+//--------------------------------------------------------------------------------------------
+
 public class GameScreen implements Screen {
 
 	private BitmapFont f;
+	private BitmapFont g;
 	private ImageButton home;
 	private ImageButton next;
 	private ImageButton pause;
@@ -54,19 +69,24 @@ public class GameScreen implements Screen {
 
 	// Constructs the GameScreen
 	public GameScreen(PrizmPathGame p, int level) {
+		// Saves the parameters
 		this.p = p;
 		this.level = level;
-		clickBuffer = 0;
+
+		// Sets up arrays
 		collection = new Tile[5][13];
-		curClick = 0;
-		maxClickIndex = 0;
 		maxClick = new int[4];
 
+		// Sets the size of buttons
 		buttonSize = new Vector2(60, 60);
+		
+		//Sets up clicks
+		curClick = 1;
 
 		// 0 = running, 1 = options, 2 = gameover, 3 = level won, 4 = tutorial
 		gameState = 0;
 
+		// Sets up info for the tutorials
 		if (level == 1 || level == 6 || level == 11 || level == 16
 				|| level == 21 || level == 26) {
 			gameState = 4;
@@ -75,6 +95,8 @@ public class GameScreen implements Screen {
 			else
 				tutorial = 0;
 		}
+
+		// Creates a new Solutions for move checking
 		answers = new Solutions(level);
 	}
 
@@ -89,40 +111,59 @@ public class GameScreen implements Screen {
 				new Color(Color.LIGHT_GRAY));
 		batch.begin();
 		PrizmPathGame.getBackground(PrizmPathGame.curBackground).draw(batch);
+
+		// Draws the Tiles
 		for (int i = 0; i < collection.length; i++)
 			for (int id = 0; id < collection[i].length; id++)
 				collection[i][id].draw(batch);
+
+		// Draws the Prizms
 		for (int i = 0; i < collection.length; i++)
 			for (int id = 0; id < collection[i].length; id++)
 				collection[i][id].drawPrizms(batch);
 		batch.end();
 
+		// If the game is running
 		if (gameState == 0) {
 			if (Gdx.input.isTouched() && clickBuffer == 0) {
+				// Convert click to work with Rectangles
 				Vector2 t = new Vector2(Gdx.input.getX(),
 						Gdx.graphics.getHeight() - Gdx.input.getY());
+
+				// Sort through collection
 				for (int i = 0; i < collection.length; i++) {
 					for (int id = 0; id < collection[i].length; id++) {
+						// If there is collision on an active Tile
 						if (collection[i][id].checkCollision(t)
 								&& collection[i][id].isPrizmActive()) {
+							// If the Tile is previously selected
 							if (collection[i][id].isSelected()) {
+								// Check if a valid move
 								if (answers.checkMove(new Vector2(i, id))) {
+									// Make the move
 									collection[i][id].changeColor();
 									changePrizms(collection[i][id].getType(),
 											i, id, 1);
+
+									// Play a sound effect
 									if (!PrizmPathGame.isSfxMute())
 										PrizmPathGame.assets.get(
 												PrizmPathGame.SFX_PATH
 														+ "correct.mp3",
 												Sound.class).play();
-								} else {
+								} else { // Not a valid move
+									// Play sound effect
 									if (!PrizmPathGame.isSfxMute())
 										PrizmPathGame.assets.get(
 												PrizmPathGame.SFX_PATH
 														+ "wrong.mp3",
 												Sound.class).play();
+
+									// Display ex
 									collection[i][id].triggerWrong();
 								}
+
+								// Resets all Prizms back to unselected state
 								checkClicks(collection[i][id].getColor());
 								for (int x = 0; x < collection.length; x++) {
 									for (int y = 0; y < collection[x].length; y++) {
@@ -130,17 +171,20 @@ public class GameScreen implements Screen {
 										collection[x][y].setFrame(0);
 									}
 								}
-							} else {
+								curClick++;
+							} else {// Not previously selected
+								// Unselect all Tiles
 								for (int x = 0; x < collection.length; x++) {
 									for (int y = 0; y < collection[x].length; y++) {
 										collection[x][y].setSelected(false);
 										collection[x][y].setFrame(0);
 									}
 								}
+
+								// Select appropriate Tiles
 								collection[i][id].setFrame(1);
 								changePrizms(collection[i][id].getType(), i,
 										id, 0);
-								curClick++;
 								collection[i][id].setSelected(true);
 							}
 						}
@@ -151,28 +195,31 @@ public class GameScreen implements Screen {
 				clickBuffer++;
 			else if (clickBuffer == 2)
 				clickBuffer = 0;
-		} else if (gameState == 1) {
+		} else if (gameState == 1) { // Game is paused
 			batch.begin();
 			box.draw(batch);
 			batch.end();
-		} else if (gameState == 2) {
+		} else if (gameState == 2) { // Game is lost
 			batch.begin();
 			box.draw(batch);
 			batch.end();
-		} else if (gameState == 3) {
+		} else if (gameState == 3) { // Game is won
 			batch.begin();
 			box.draw(batch);
 			batch.end();
-		} else {
+		} else { // Tutorial mode
 			batch.begin();
 			box.draw(batch);
 			info.setVisible(true);
+
+			// Initialize tutorials
 			if (tutorial == 9) {
 				info.setText("Welcome to PrizmPath\nThe Color Puzzle Game!");
 				tutorial--;
 			} else if (tutorial == 1) {
 				tuts[0].draw(batch);
 			} else if (level != 1) {
+				// Which tutorial
 				switch (level) {
 				case (6):
 					info.setText("Here is the pyramidal prizm. It affects the prizms\nto its diagonals.");
@@ -195,6 +242,8 @@ public class GameScreen implements Screen {
 					break;
 				}
 			}
+
+			// Long tutorial box for level 1
 			if (tutorial > -1) {
 				info.setY(220);
 				if (Gdx.input.isTouched() && clickBuffer == 0) {
@@ -210,7 +259,7 @@ public class GameScreen implements Screen {
 						case (6):
 							info.setText("Colors cycle in this order:\nRed>Orange>Yellow>Green>Blue>Purple>Red");
 							break;
-						case(5):
+						case (5):
 							info.setText("Every puzzle starts with the center prizm, and if the\npatttern is followed correctly all moves should be\nadjacent to the previous click.");
 							break;
 						case (4):
@@ -234,7 +283,7 @@ public class GameScreen implements Screen {
 					clickBuffer++;
 				else if (clickBuffer == 2)
 					clickBuffer = 0;
-			} else {
+			} else { // Reverts back to normal game
 				gameState = 0;
 				info.setY(250);
 				info.setVisible(false);
@@ -250,13 +299,17 @@ public class GameScreen implements Screen {
 
 	// Called when the window is resized
 	public void resize(int width, int height) {
+		// Sets up the Stage
 		if (stage == null)
 			stage = new Stage();
 		stage.clear();
 		Gdx.input.setInputProcessor(stage);
 
-		// Title label
+		// Label Styles
 		LabelStyle ls = new LabelStyle(f, Color.WHITE);
+		LabelStyle lsg = new LabelStyle(g, Color.WHITE);
+
+		// Title Label
 		title = new Label("Level " + level, ls);
 		title.setX(0);
 		title.setY(420);
@@ -272,19 +325,17 @@ public class GameScreen implements Screen {
 		click.setAlignment(Align.center);
 
 		// Info Label
-		info = new Label("Info", ls);
+		info = new Label("Info", lsg);
 		info.setX(0);
 		info.setY(250);
 		info.setWidth(Gdx.graphics.getWidth());
 		info.setAlignment(Align.center);
 		info.setVisible(false);
 
-		// Image Buttons
+		// Home Button
 		ImageButtonStyle homeStyle = new ImageButtonStyle();
 		homeStyle.imageUp = new SpriteDrawable(PrizmPathGame.homeButtons[0]);
 		homeStyle.imageDown = new SpriteDrawable(PrizmPathGame.homeButtons[1]);
-
-		// Home Button
 		home = new ImageButton(homeStyle);
 		home.setSize(buttonSize.x, buttonSize.y);
 		home.setX((Gdx.graphics.getWidth() - buttonSize.x) / 2 - buttonSize.x
@@ -408,6 +459,7 @@ public class GameScreen implements Screen {
 		stage.addActor(info);
 	}
 
+	// Opens the pause menu
 	private void optionOpen() {
 		gameState = 1;
 		restart.setDisabled(false);
@@ -420,6 +472,7 @@ public class GameScreen implements Screen {
 		info.setVisible(true);
 	}
 
+	// Closes the pause menu
 	private void optionClose() {
 		gameState = 0;
 		restart.setDisabled(true);
@@ -433,14 +486,19 @@ public class GameScreen implements Screen {
 
 	// Called when the screen is shown
 	public void show() {
+		// Sets up the SpriteBatch
 		batch = new SpriteBatch();
 
+		// Retrieves the fonts
 		f = new BitmapFont(Gdx.files.internal("data/font.fnt"));
+		g = new BitmapFont(Gdx.files.internal("data/g.fnt"));
 
+		// Loads box
 		box = PrizmPathGame.getAssets()
 				.get(PrizmPathGame.TEXTURE_PATH, TextureAtlas.class)
 				.createSprite("box2");
 
+		// Loads tutorial graphics
 		tuts = new Sprite[5];
 		for (int i = 0; i < tuts.length; i++) {
 			tuts[i] = PrizmPathGame.getAssets()
@@ -449,26 +507,35 @@ public class GameScreen implements Screen {
 			tuts[i].setPosition(
 					(Gdx.graphics.getWidth() - tuts[i].getWidth()) / 2, 75);
 		}
+
+		// Constructs the level
 		constructLevel();
 	}
 
+	// Called when the screen is hidden
 	public void hide() {
+		dispose();
 	}
 
+	// Called when the screen is paused
 	public void pause() {
 	}
 
+	// Called when the screen is resumed
 	public void resume() {
 	}
 
 	// Disposes of resources
 	public void dispose() {
 		f.dispose();
+		g.dispose();
 		stage.dispose();
 		batch.dispose();
 	}
 
+	// Constructs the correct level
 	private void constructLevel() {
+		// Which level
 		switch (level) {
 		// X X X X X X X X X X X X X
 		// X X X X X 0 5 0 X X X X X
@@ -476,13 +543,18 @@ public class GameScreen implements Screen {
 		// X X X X X 0 5 0 X X X X X
 		// X X X X X X X X X X X X X
 		case (1):
+			// Sets all Prizms to false
 			for (int i = 0; i < collection.length; i++)
 				for (int id = 0; id < collection[i].length; id++)
 					collection[i][id] = new Tile(new Vector2((60 * id) + 10,
 							(60 * i) + 80), false);
+
+			// Sets up a few common Prizms
 			for (int i = 1; i < 4; i++)
 				for (int id = 5; id < 8; id++)
 					collection[i][id].setPrizm(0, 0);
+
+			// Sets the rest of the Prizms
 			collection[2][5].setPrizm(5, 0);
 			collection[2][6].setPrizm(5, 0);
 			collection[2][7].setPrizm(5, 0);
@@ -1445,11 +1517,14 @@ public class GameScreen implements Screen {
 			maxClick[0] = 28;
 			break;
 		}
+
+		// Sets up the degrees of maximum clicks
 		maxClick[1] = (int) (maxClick[0] * 1.5);
 		maxClick[2] = (int) (maxClick[0] * 1.75);
 		maxClick[3] = (int) (maxClick[0] * 2);
 	}
 
+	// Affects the Prizms around the clicked Prizm based on type
 	private void changePrizms(int type, int x, int y, int change) {
 		// Cases
 		//
@@ -1488,9 +1563,11 @@ public class GameScreen implements Screen {
 		// 0 1 0 1 0
 		// 1 0 0 0 1
 		//
+
+		// Changes color if previously selected
 		if (change == 1) {
 			switch (type) {
-			case (0):
+			case (0): // Sphere
 				if (y > 0)
 					collection[x][y - 1].changeColor();
 				if (y < collection[x].length - 1)
@@ -1500,7 +1577,7 @@ public class GameScreen implements Screen {
 				if (x < collection.length - 1)
 					collection[x + 1][y].changeColor();
 				break;
-			case (1):
+			case (1): // Pyramidal
 				if (x > 0 && y > 0)
 					collection[x - 1][y - 1].changeColor();
 				if (x > 0 && y < collection[x].length - 1)
@@ -1510,7 +1587,7 @@ public class GameScreen implements Screen {
 				if (x < collection.length - 1 && y < collection[x].length - 1)
 					collection[x + 1][y + 1].changeColor();
 				break;
-			case (2):
+			case (2): // Cube
 				if (y > 0)
 					collection[x][y - 1].changeColor();
 				if (y < collection[x].length - 1)
@@ -1528,7 +1605,7 @@ public class GameScreen implements Screen {
 				if (x < collection.length - 1 && y < collection[x].length - 1)
 					collection[x + 1][y + 1].changeColor();
 				break;
-			case (3):
+			case (3): // Tetrahedral
 				if (y > 0)
 					collection[x][y - 1].changeColor();
 				if (y < collection[x].length - 1)
@@ -1546,7 +1623,7 @@ public class GameScreen implements Screen {
 				if (x < collection.length - 2)
 					collection[x + 2][y].changeColor();
 				break;
-			case (4):
+			case (4): // Diamond
 				if (x > 0 && y > 0)
 					collection[x - 1][y - 1].changeColor();
 				if (x > 0 && y < collection[x].length - 1)
@@ -1565,9 +1642,9 @@ public class GameScreen implements Screen {
 					collection[x + 2][y + 2].changeColor();
 				break;
 			}
-		} else {
+		} else { // Not previously selected
 			switch (type) {
-			case (0):
+			case (0): // Sphere
 				if (y > 0)
 					collection[x][y - 1].setFrame(1);
 				if (y < collection[x].length - 1)
@@ -1577,7 +1654,7 @@ public class GameScreen implements Screen {
 				if (x < collection.length - 1)
 					collection[x + 1][y].setFrame(1);
 				break;
-			case (1):
+			case (1): // Pyramidal
 				if (x > 0 && y > 0)
 					collection[x - 1][y - 1].setFrame(1);
 				if (x > 0 && y < collection[x].length - 1)
@@ -1587,7 +1664,7 @@ public class GameScreen implements Screen {
 				if (x < collection.length - 1 && y < collection[x].length - 1)
 					collection[x + 1][y + 1].setFrame(1);
 				break;
-			case (2):
+			case (2): // Cube
 				if (y > 0)
 					collection[x][y - 1].setFrame(1);
 				if (y < collection[x].length - 1)
@@ -1605,7 +1682,7 @@ public class GameScreen implements Screen {
 				if (x < collection.length - 1 && y < collection[x].length - 1)
 					collection[x + 1][y + 1].setFrame(1);
 				break;
-			case (3):
+			case (3): // Tetrahedral
 				if (y > 0)
 					collection[x][y - 1].setFrame(1);
 				if (y < collection[x].length - 1)
@@ -1623,7 +1700,7 @@ public class GameScreen implements Screen {
 				if (x < collection.length - 2)
 					collection[x + 2][y].setFrame(1);
 				break;
-			case (4):
+			case (4): // Diamond
 				if (x > 0 && y > 0)
 					collection[x - 1][y - 1].setFrame(1);
 				if (x > 0 && y < collection[x].length - 1)
@@ -1645,11 +1722,17 @@ public class GameScreen implements Screen {
 		}
 	}
 
+	// Checks if the level has been completed
 	private void checkClicks(int theColor) {
+		// Assumes the level is finished
 		boolean completed = true;
+
+		// Sorts through all the Prizms
 		for (int i = 0; i < collection.length; i++) {
 			for (int id = 0; id < collection[i].length; id++) {
 				if (collection[i][id].isPrizmActive()) {
+					// If an incorrect Prizm color is found, level is not
+					// completed
 					if (collection[i][id].getColor() != theColor) {
 						completed = false;
 						id = collection[i].length - 1;
@@ -1658,23 +1741,35 @@ public class GameScreen implements Screen {
 				}
 			}
 		}
+
+		// If level is completed, trigger win
 		if (completed)
 			win();
-		else {
+		else { // Not won
+				// On 1 move levels, if you don't win on first click, you lose
 			if ((level == 1 || level == 6 || level == 11 || level == 16 || level == 21)
 					&& curClick >= 1)
 				lose();
 			else if (curClick >= maxClick[maxClickIndex]
-					&& maxClickIndex < maxClick.length - 1)
+					&& maxClickIndex < maxClick.length - 1) // Check if there
+															// are more clicks
+															// available
 				maxClickIndex++;
-			else if (curClick >= maxClick[3])
+			else if (curClick >= maxClick[3]) // Maximum clicks exceeded,
+												// trigger lose
 				lose();
 		}
+
+		// Updates number of clicks
 		click.setText("Clicks: " + curClick + "/" + maxClick[maxClickIndex]);
 	}
 
+	// Triggers the winning of a level
 	private void win() {
+		// Sets gamestate to win
 		gameState = 3;
+
+		// Displays all the buttons
 		restart.setDisabled(false);
 		restart.setVisible(true);
 		if (level < 30) {
@@ -1683,16 +1778,22 @@ public class GameScreen implements Screen {
 		}
 		home.setDisabled(false);
 		home.setVisible(true);
+
+		// Saves appropriate data
 		if (level > 0) {
 			if (maxClickIndex == 0)
 				PrizmPathGame.setLevelData((byte) 4, level - 1);
-			else if (maxClickIndex == 1 && PrizmPathGame.getLevelData(level - 1) < 4)
+			else if (maxClickIndex == 1
+					&& PrizmPathGame.getLevelData(level - 1) < 4)
 				PrizmPathGame.setLevelData((byte) 3, level - 1);
-			else if (maxClickIndex == 2 && PrizmPathGame.getLevelData(level - 1) < 3)
+			else if (maxClickIndex == 2
+					&& PrizmPathGame.getLevelData(level - 1) < 3)
 				PrizmPathGame.setLevelData((byte) 2, level - 1);
 		}
 		if (level < 30 && PrizmPathGame.getLevelData(level) == 0)
 			PrizmPathGame.setLevelData((byte) 1, level);
+
+		// Updates textual diplay
 		String s = "LEVEL COMPLETED\n\n";
 		s += "Clicks: " + curClick + "/" + maxClick[maxClickIndex] + "\n";
 		if (maxClickIndex == 0)
@@ -1703,34 +1804,56 @@ public class GameScreen implements Screen {
 			s += "BRONZE";
 		info.setText(s);
 		info.setVisible(true);
+
+		// Plays winning sfx
 		PrizmPathGame.assets.get(PrizmPathGame.SFX_PATH + "win.mp3",
 				Sound.class).play();
 	}
 
+	// Triggers the losing of a level
 	private void lose() {
+		// Sets the gamestate to lose
 		gameState = 2;
+
+		// Displays appropriate buttons
 		restart.setDisabled(false);
 		restart.setVisible(true);
 		home.setDisabled(false);
 		home.setVisible(true);
+
+		// Updates textual display
 		info.setText("GAMEOVER\n\nMaximum Number of Clicks\nExceeded");
 		info.setVisible(true);
+
+		// Plays losing sfx
 		PrizmPathGame.assets.get(PrizmPathGame.SFX_PATH + "lose.mp3",
 				Sound.class).play();
 	}
 
+	// Sends the game to the StartScreen
 	private void toStart() {
 		p.setScreen(new StartScreen(p));
 	}
 
+	// Sends the game to the next level
 	private void toNextLevel() {
+		// Randomly changes song
 		Random ran = new Random();
 		for (int lx = ran.nextInt(15); lx > 0; lx--)
 			PrizmPathGame.changeSong();
+
+		// Sets the screen
 		p.setScreen(new GameScreen(p, level + 1));
 	}
 
+	// Replays the exact level
 	private void replayLevel() {
+		// Randomly changes song
+		Random ran = new Random();
+		for (int lx = ran.nextInt(15); lx > 0; lx--)
+			PrizmPathGame.changeSong();
+
+		// Sets the screen
 		p.setScreen(new GameScreen(p, level));
 	}
 }
