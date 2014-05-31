@@ -79,9 +79,6 @@ public class GameScreen implements Screen {
 
 		// Sets the size of buttons
 		buttonSize = new Vector2(60, 60);
-		
-		//Sets up clicks
-		curClick = 1;
 
 		// 0 = running, 1 = options, 2 = gameover, 3 = level won, 4 = tutorial
 		gameState = 0;
@@ -138,6 +135,9 @@ public class GameScreen implements Screen {
 								&& collection[i][id].isPrizmActive()) {
 							// If the Tile is previously selected
 							if (collection[i][id].isSelected()) {
+								//Increases click
+								curClick++;
+								
 								// Check if a valid move
 								if (answers.checkMove(new Vector2(i, id))) {
 									// Make the move
@@ -171,7 +171,6 @@ public class GameScreen implements Screen {
 										collection[x][y].setFrame(0);
 									}
 								}
-								curClick++;
 							} else {// Not previously selected
 								// Unselect all Tiles
 								for (int x = 0; x < collection.length; x++) {
@@ -245,7 +244,7 @@ public class GameScreen implements Screen {
 
 			// Long tutorial box for level 1
 			if (tutorial > -1) {
-				info.setY(220);
+				info.setY(300);
 				if (Gdx.input.isTouched() && clickBuffer == 0) {
 					switch (level) {
 					case (1):
@@ -341,7 +340,7 @@ public class GameScreen implements Screen {
 		home.setX((Gdx.graphics.getWidth() - buttonSize.x) / 2 - buttonSize.x
 				- 20);
 		home.setY((Gdx.graphics.getHeight() - buttonSize.y) / 2
-				- (Gdx.graphics.getHeight() / 4));
+				- (Gdx.graphics.getHeight() / 4) + 35);
 		home.addListener(new InputListener() {
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
@@ -384,7 +383,7 @@ public class GameScreen implements Screen {
 		play.setSize(buttonSize.x, buttonSize.y);
 		play.setX((Gdx.graphics.getWidth() - buttonSize.x) / 2);
 		play.setY((Gdx.graphics.getHeight() - buttonSize.y) / 2
-				- (Gdx.graphics.getHeight() / 4));
+				- (Gdx.graphics.getHeight() / 4) + 35);
 		play.addListener(new InputListener() {
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
@@ -407,7 +406,7 @@ public class GameScreen implements Screen {
 		next.setSize(buttonSize.x, buttonSize.y);
 		next.setX((Gdx.graphics.getWidth() - buttonSize.x) / 2);
 		next.setY((Gdx.graphics.getHeight() - buttonSize.y) / 2
-				- (Gdx.graphics.getHeight() / 4));
+				- (Gdx.graphics.getHeight() / 4) + 35);
 		next.addListener(new InputListener() {
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
@@ -433,7 +432,7 @@ public class GameScreen implements Screen {
 		restart.setX((Gdx.graphics.getWidth() - buttonSize.x) / 2
 				+ buttonSize.x + 20);
 		restart.setY((Gdx.graphics.getHeight() - buttonSize.y) / 2
-				- (Gdx.graphics.getHeight() / 4));
+				- (Gdx.graphics.getHeight() / 4) + 35);
 		restart.addListener(new InputListener() {
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
@@ -497,6 +496,7 @@ public class GameScreen implements Screen {
 		box = PrizmPathGame.getAssets()
 				.get(PrizmPathGame.TEXTURE_PATH, TextureAtlas.class)
 				.createSprite("box2");
+		box.setY(50);
 
 		// Loads tutorial graphics
 		tuts = new Sprite[5];
@@ -505,7 +505,7 @@ public class GameScreen implements Screen {
 					.get(PrizmPathGame.TEXTURE_PATH, TextureAtlas.class)
 					.createSprite("tut" + (i + 1));
 			tuts[i].setPosition(
-					(Gdx.graphics.getWidth() - tuts[i].getWidth()) / 2, 75);
+					(Gdx.graphics.getWidth() - tuts[i].getWidth()) / 2, 115);
 		}
 
 		// Constructs the level

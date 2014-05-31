@@ -63,7 +63,7 @@ public class StartScreen implements Screen {
 		this.p = p;
 
 		// Initializes variables
-		buttonSize = new Vector2(300, 75);
+		buttonSize = new Vector2(300, 60);
 		delete = false;
 	}
 
@@ -123,7 +123,7 @@ public class StartScreen implements Screen {
 		start = new TextButton("Start", tbs);
 		start.setSize(buttonSize.x, buttonSize.y);
 		start.setX(Gdx.graphics.getWidth() / 2 - buttonSize.x / 2);
-		start.setY((4 * buttonSize.y) + 15);
+		start.setY((4 * buttonSize.y) + 100);
 		start.addListener(new InputListener() {
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
@@ -140,7 +140,7 @@ public class StartScreen implements Screen {
 		shop = new TextButton("Delete Save", tbs);
 		shop.setSize(buttonSize.x, buttonSize.y);
 		shop.setX(Gdx.graphics.getWidth() / 2 - buttonSize.x / 2);
-		shop.setY((1 * buttonSize.y) + 15);
+		shop.setY((1 * buttonSize.y) + 100);
 		shop.addListener(new InputListener() {
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
@@ -157,7 +157,7 @@ public class StartScreen implements Screen {
 		options = new TextButton("Options", tbs);
 		options.setSize(buttonSize.x, buttonSize.y);
 		options.setX(Gdx.graphics.getWidth() / 2 - buttonSize.x / 2);
-		options.setY((3 * buttonSize.y) + 15);
+		options.setY((3 * buttonSize.y) + 100);
 		options.addListener(new InputListener() {
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
@@ -174,7 +174,7 @@ public class StartScreen implements Screen {
 		credits = new TextButton("Credits", tbs);
 		credits.setSize(buttonSize.x, buttonSize.y);
 		credits.setX(Gdx.graphics.getWidth() / 2 - buttonSize.x / 2);
-		credits.setY((2 * buttonSize.y) + 15);
+		credits.setY((2 * buttonSize.y) + 100);
 		credits.addListener(new InputListener() {
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
@@ -191,7 +191,7 @@ public class StartScreen implements Screen {
 		quit = new TextButton("Quit", tbs);
 		quit.setSize(buttonSize.x, buttonSize.y);
 		quit.setX(Gdx.graphics.getWidth() / 2 - buttonSize.x / 2);
-		quit.setY((0 * buttonSize.y) + 15);
+		quit.setY((0 * buttonSize.y) + 100);
 		quit.addListener(new InputListener() {
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
@@ -254,7 +254,7 @@ public class StartScreen implements Screen {
 		// Choice Label
 		choice = new Label("Delete all your data?", ls);
 		choice.setX(0);
-		choice.setY(250);
+		choice.setY(360);
 		choice.setWidth(Gdx.graphics.getWidth());
 		choice.setAlignment(Align.center);
 
@@ -308,6 +308,7 @@ public class StartScreen implements Screen {
 		box = PrizmPathGame.getAssets()
 				.get(PrizmPathGame.TEXTURE_PATH, TextureAtlas.class)
 				.createSprite("box2");
+		box.setY(50);
 
 		// Creates a button skin
 		skin = new Skin();

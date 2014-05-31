@@ -55,7 +55,7 @@ public class OptionScreen implements Screen {
 		this.p = p;
 
 		// Sets size of buttons
-		buttonSize = new Vector2(300, 75);
+		buttonSize = new Vector2(300, 60);
 	}
 
 	// Updates the screen
@@ -97,7 +97,7 @@ public class OptionScreen implements Screen {
 				+ PrizmPathGame.curBackground, tbs);
 		background.setSize(buttonSize.x, buttonSize.y);
 		background.setX(Gdx.graphics.getWidth() / 2 - buttonSize.x / 2);
-		background.setY((4 * buttonSize.y) + 15);
+		background.setY((4 * buttonSize.y) + 100);
 		background.addListener(new InputListener() {
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
@@ -120,7 +120,7 @@ public class OptionScreen implements Screen {
 		muteSFX = new TextButton("SFX: " + s, tbs);
 		muteSFX.setSize(buttonSize.x, buttonSize.y);
 		muteSFX.setX(Gdx.graphics.getWidth() / 2 - buttonSize.x / 2);
-		muteSFX.setY((3 * buttonSize.y) + 15);
+		muteSFX.setY((3 * buttonSize.y) + 100);
 		muteSFX.addListener(new InputListener() {
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
@@ -142,7 +142,7 @@ public class OptionScreen implements Screen {
 		muteMusic = new TextButton("Music: " + s, tbs);
 		muteMusic.setSize(buttonSize.x, buttonSize.y);
 		muteMusic.setX(Gdx.graphics.getWidth() / 2 - buttonSize.x / 2);
-		muteMusic.setY((2 * buttonSize.y) + 15);
+		muteMusic.setY((2 * buttonSize.y) + 100);
 		muteMusic.addListener(new InputListener() {
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
@@ -160,7 +160,7 @@ public class OptionScreen implements Screen {
 		song = new TextButton("Song: " + PrizmPathGame.curSong, tbs);
 		song.setSize(buttonSize.x, buttonSize.y);
 		song.setX(Gdx.graphics.getWidth() / 2 - buttonSize.x / 2);
-		song.setY((1 * buttonSize.y) + 15);
+		song.setY((1 * buttonSize.y) + 100);
 		song.addListener(new InputListener() {
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
@@ -186,7 +186,7 @@ public class OptionScreen implements Screen {
 		// Info label
 		info = new Label("Click to continue...", lsg);
 		info.setX(0);
-		info.setY(25);
+		info.setY(110);
 		info.setWidth(Gdx.graphics.getWidth());
 		info.setAlignment(Align.center);
 
@@ -239,7 +239,8 @@ public class OptionScreen implements Screen {
 		// Retrieves box
 		box = PrizmPathGame.getAssets()
 				.get(PrizmPathGame.TEXTURE_PATH, TextureAtlas.class)
-				.createSprite("box");
+				.createSprite("box2");
+		box.setY(50);
 	}
 
 	// Called when the screen is hidden

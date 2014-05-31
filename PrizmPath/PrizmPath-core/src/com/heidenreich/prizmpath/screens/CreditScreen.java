@@ -89,7 +89,7 @@ public class CreditScreen implements Screen {
 
 		// Info label
 		info = new Label(
-				"This game was created by \nHunter Heidenreich. It is his first \napp. Hope you enjoy, and \nif you have any feedback visit \nwww.huntermusicandtv.com\n\nClick to continue...",
+				"This game was created by \nHunter Heidenreich. It is his first \napp. Hope you enjoy, and \nif you have any feedback visit \nwww.huntermusicandtv.com",
 				lsg);
 		info.setX(0);
 		info.setY(100);
@@ -113,7 +113,8 @@ public class CreditScreen implements Screen {
 		// Sets up the box Sprite
 		box = PrizmPathGame.getAssets()
 				.get(PrizmPathGame.TEXTURE_PATH, TextureAtlas.class)
-				.createSprite("box");
+				.createSprite("box2");
+		box.setY(50);
 	}
 
 	// Called when the screen is hidden
