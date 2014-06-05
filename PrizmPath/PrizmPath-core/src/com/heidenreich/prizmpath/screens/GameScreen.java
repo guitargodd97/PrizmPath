@@ -2,6 +2,7 @@ package com.heidenreich.prizmpath.screens;
 
 import java.util.Random;
 
+import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
@@ -135,9 +136,9 @@ public class GameScreen implements Screen {
 								&& collection[i][id].isPrizmActive()) {
 							// If the Tile is previously selected
 							if (collection[i][id].isSelected()) {
-								//Increases click
+								// Increases click
 								curClick++;
-								
+
 								// Check if a valid move
 								if (answers.checkMove(new Vector2(i, id))) {
 									// Make the move
@@ -271,8 +272,11 @@ public class GameScreen implements Screen {
 							info.setText("To start, let's introduce the sphere prizm: It affects\nthe prizms in its four, adjacent cardinal directions");
 							break;
 						case (1):
-							info.setText("One final thing before you start, I appreciate\nyou downloading my app and I hope you enjoy!");
-							break;
+							if (Gdx.app.getType() == ApplicationType.Android)
+								info.setText("One final thing before you start, I appreciate\nyou downloading my app and I hope you enjoy!");
+							else
+								info.setText("One final thing before you start, I appreciate\nyou downloading my game and I hope you enjoy!");
+						break;
 						}
 						break;
 					}

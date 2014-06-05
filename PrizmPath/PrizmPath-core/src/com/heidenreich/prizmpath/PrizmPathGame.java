@@ -35,10 +35,12 @@ public class PrizmPathGame extends Game {
 
 	public static ApplicationType appType;
 	public static AssetManager assets;
+	private boolean ads;
 	public static boolean musicMute;
 	public static boolean sfxMute;
 	public static byte[] levelData;
 	public static byte[] optionData;
+	private IActivityRequestHandler myRequestHandler;
 	private int loaded;
 	public static int curBackground;
 	public static int curColorpack;
@@ -55,7 +57,12 @@ public class PrizmPathGame extends Game {
 	public static final String log = "PrizmPath";
 	public static final String SFX_PATH = "data/sound/sfx/";
 	public static final String TEXTURE_PATH = "data/textures/texture.atlas";
-	public static final String version = "Beta 1.0";
+	public static final String version = "1.0";
+
+	public PrizmPathGame(IActivityRequestHandler handler) {
+		myRequestHandler = handler;
+		ads = false;
+	}
 
 	// Creates the game
 	public void create() {
@@ -425,5 +432,12 @@ public class PrizmPathGame extends Game {
 		levelData = fileLocation.readBytes();
 	}
 
+	// Displays the ads
+	public void activateAds() {
+		if (!ads) {
+			myRequestHandler.showAds(true);
+			ads = true;
+		}
+	}
 }
 // © Hunter Heidenreich 2014

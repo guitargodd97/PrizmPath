@@ -92,7 +92,7 @@ public class CreditScreen implements Screen {
 				"This game was created by \nHunter Heidenreich. It is his first \napp. Hope you enjoy, and \nif you have any feedback visit \nwww.huntermusicandtv.com",
 				lsg);
 		info.setX(0);
-		info.setY(100);
+		info.setY(150);
 		info.setWidth(Gdx.graphics.getWidth());
 		info.setAlignment(Align.center);
 
