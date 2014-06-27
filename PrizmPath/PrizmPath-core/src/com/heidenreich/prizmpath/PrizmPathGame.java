@@ -10,6 +10,7 @@ import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -47,6 +48,7 @@ public class PrizmPathGame extends Game {
 	public static int curSong;
 	public static int curSoundpack;
 	public static Music[][] soundpacks;
+	private OrthographicCamera cam;
 	public static Sprite splash;
 	public static Sprite[] backgrounds;
 	public static Sprite[] homeButtons;
@@ -59,6 +61,11 @@ public class PrizmPathGame extends Game {
 	public static final String TEXTURE_PATH = "data/textures/texture.atlas";
 	public static final String version = "1.0";
 
+	public static int LOSE = 0;
+	public static int TIME = 0;
+	public static int WIDTH = 800;
+	public static int HEIGHT = 480;
+	
 	public PrizmPathGame(IActivityRequestHandler handler) {
 		myRequestHandler = handler;
 		ads = false;
@@ -75,6 +82,9 @@ public class PrizmPathGame extends Game {
 		// Sets up the assets
 		PrizmPathGame.setAssetManager(new AssetManager());
 		loadResources();
+		
+		cam = new OrthographicCamera(WIDTH, HEIGHT);
+		cam.setToOrtho(false, WIDTH, HEIGHT);
 	}
 
 	// Disposes of the game
@@ -438,6 +448,18 @@ public class PrizmPathGame extends Game {
 			myRequestHandler.showAds(true);
 			ads = true;
 		}
+	}
+	
+	public void launchInterstitial() {
+		myRequestHandler.showOrLoadInterstital();
+	}
+
+	public boolean isShown() {
+		return myRequestHandler.shown();
+	}
+	
+	public OrthographicCamera getCam() {
+		return cam;
 	}
 }
 // © Hunter Heidenreich 2014

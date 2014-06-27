@@ -53,6 +53,7 @@ public class GameScreen implements Screen {
 	private int curClick;
 	private int gameState;
 	private int level;
+	private int postAd;
 	private int tutorial;
 	private int[] maxClick;
 	private int maxClickIndex;
@@ -87,7 +88,7 @@ public class GameScreen implements Screen {
 		// Sets up info for the tutorials
 		if (level == 1 || level == 6 || level == 11 || level == 16
 				|| level == 21 || level == 26) {
-			gameState = 4;
+			gameState = 99;
 			if (level == 1)
 				tutorial = 9;
 			else
@@ -203,7 +204,9 @@ public class GameScreen implements Screen {
 			batch.begin();
 			box.draw(batch);
 			batch.end();
-		} else if (gameState == 3) { // Game is won
+		} else if (gameState == 3) { // Game is in ads
+				nextScreen(postAd);
+		} else if (gameState == 4) {// Game is won
 			batch.begin();
 			box.draw(batch);
 			batch.end();
@@ -276,7 +279,7 @@ public class GameScreen implements Screen {
 								info.setText("One final thing before you start, I appreciate\nyou downloading my app and I hope you enjoy!");
 							else
 								info.setText("One final thing before you start, I appreciate\nyou downloading my game and I hope you enjoy!");
-						break;
+							break;
 						}
 						break;
 					}
@@ -353,7 +356,7 @@ public class GameScreen implements Screen {
 
 			public void touchUp(InputEvent event, float x, float y,
 					int pointer, int button) {
-				toStart();
+				setPostAd(2);
 			}
 		});
 		home.setVisible(false);
@@ -419,7 +422,7 @@ public class GameScreen implements Screen {
 
 			public void touchUp(InputEvent event, float x, float y,
 					int pointer, int button) {
-				toNextLevel();
+				setPostAd(1);
 			}
 		});
 		next.setDisabled(true);
@@ -445,7 +448,7 @@ public class GameScreen implements Screen {
 
 			public void touchUp(InputEvent event, float x, float y,
 					int pointer, int button) {
-				replayLevel();
+				setPostAd(0);
 			}
 		});
 		restart.setDisabled(true);
@@ -1771,7 +1774,7 @@ public class GameScreen implements Screen {
 	// Triggers the winning of a level
 	private void win() {
 		// Sets gamestate to win
-		gameState = 3;
+		gameState = 4;
 
 		// Displays all the buttons
 		restart.setDisabled(false);
@@ -1859,6 +1862,26 @@ public class GameScreen implements Screen {
 
 		// Sets the screen
 		p.setScreen(new GameScreen(p, level));
+	}
+
+	// Selects action after ads
+	private void nextScreen(int i) {
+		switch (i) {
+		case (0):
+			replayLevel();
+			break;
+		case (1):
+			toNextLevel();
+			break;
+		case (2):
+			toStart();
+			break;
+		}
+	}
+	
+	public void setPostAd(int postAd) {
+		this.postAd = postAd;
+		gameState = 3;
 	}
 }
 // © Hunter Heidenreich 2014
