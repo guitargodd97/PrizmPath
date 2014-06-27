@@ -58,7 +58,9 @@ public class LevelScreen implements Screen {
 
 		// Sets up level buttons
 		levels = new TextButton[3][10];
-		buttonSize = new Vector2(70, 70);
+		buttonSize = new Vector2(
+				70 * (Gdx.graphics.getWidth() / (float) PrizmPathGame.WIDTH),
+				70 * (Gdx.graphics.getHeight() / (float) PrizmPathGame.HEIGHT));
 	}
 
 	// Updates the screen
@@ -66,6 +68,8 @@ public class LevelScreen implements Screen {
 		// Clears the screen
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+		batch.setProjectionMatrix(p.getCam().combined);
 
 		// Starts drawing the background
 		PrizmPathGame.getBackground(PrizmPathGame.curBackground).setColor(
@@ -87,6 +91,10 @@ public class LevelScreen implements Screen {
 			stage = new Stage();
 		stage.clear();
 		Gdx.input.setInputProcessor(stage);
+
+		buttonSize = new Vector2(
+				70 * (Gdx.graphics.getWidth() / (float) PrizmPathGame.WIDTH),
+				70 * (Gdx.graphics.getHeight() / (float) PrizmPathGame.HEIGHT));
 
 		// Button styles
 		TextButtonStyle tbs = new TextButtonStyle();
@@ -160,8 +168,10 @@ public class LevelScreen implements Screen {
 
 		// Back Button
 		back = new ImageButton(imageStyle);
-		back.setX(700);
-		back.setY(425);
+		back.setX(700 * (Gdx.graphics.getWidth() / (float) PrizmPathGame.WIDTH));
+		back.setY(425 * (Gdx.graphics.getHeight() / (float) PrizmPathGame.HEIGHT));
+		back.setWidth(25 * (Gdx.graphics.getWidth() / (float) PrizmPathGame.WIDTH));
+		back.setHeight(25 * (Gdx.graphics.getHeight() / (float) PrizmPathGame.HEIGHT));
 		back.addListener(new InputListener() {
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
@@ -178,7 +188,7 @@ public class LevelScreen implements Screen {
 		LabelStyle ls = new LabelStyle(f, Color.WHITE);
 		title = new Label("Levels", ls);
 		title.setX(0);
-		title.setY(420);
+		title.setY(420 * (Gdx.graphics.getHeight() / (float) PrizmPathGame.HEIGHT));
 		title.setWidth(Gdx.graphics.getWidth());
 		title.setAlignment(Align.center);
 
@@ -194,17 +204,17 @@ public class LevelScreen implements Screen {
 
 	// Called when the screen is shown
 	public void show() {
-		//Sets up the SpriteBatch
+		// Sets up the SpriteBatch
 		batch = new SpriteBatch();
 
-		//Retrieves button textures
+		// Retrieves button textures
 		buttonAtlas = PrizmPathGame.getAssets().get(BUTTON_TEXTURE,
 				TextureAtlas.class);
 
-		//Retrieves the fonts
+		// Retrieves the fonts
 		f = new BitmapFont(Gdx.files.internal("data/font.fnt"));
 
-		//Creates the skin
+		// Creates the skin
 		skin = new Skin();
 		skin.addRegions(buttonAtlas);
 	}

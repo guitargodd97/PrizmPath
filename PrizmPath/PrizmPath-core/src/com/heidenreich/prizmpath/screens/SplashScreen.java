@@ -2,7 +2,6 @@ package com.heidenreich.prizmpath.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
@@ -59,6 +58,8 @@ public class SplashScreen implements Screen {
 			Gdx.gl.glClearColor(0, 0, 0, alpha);
 			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+			batch.setProjectionMatrix(p.getCam().combined);
+			
 			// Starts drawing the textures with new alphas
 			batch.begin();
 			Color c = batch.getColor();

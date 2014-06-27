@@ -65,7 +65,7 @@ public class PrizmPathGame extends Game {
 	public static int TIME = 0;
 	public static int WIDTH = 800;
 	public static int HEIGHT = 480;
-	
+
 	public PrizmPathGame(IActivityRequestHandler handler) {
 		myRequestHandler = handler;
 		ads = false;
@@ -82,7 +82,7 @@ public class PrizmPathGame extends Game {
 		// Sets up the assets
 		PrizmPathGame.setAssetManager(new AssetManager());
 		loadResources();
-		
+
 		cam = new OrthographicCamera(WIDTH, HEIGHT);
 		cam.setToOrtho(false, WIDTH, HEIGHT);
 	}
@@ -203,6 +203,21 @@ public class PrizmPathGame extends Game {
 		playButtons[1] = PrizmPathGame.getAssets()
 				.get(PrizmPathGame.TEXTURE_PATH, TextureAtlas.class)
 				.createSprite("nextbuttondown");
+
+		for (int i = 0; i < 2; i++) {
+			homeButtons[i].setSize(
+					25 * (Gdx.graphics.getWidth() / (float) WIDTH),
+					25 * (Gdx.graphics.getHeight() / (float) HEIGHT));
+			pauseButtons[i].setSize(
+					25 * (Gdx.graphics.getWidth() / (float) WIDTH),
+					25 * (Gdx.graphics.getHeight() / (float) HEIGHT));
+			restartButtons[i].setSize(
+					25 * (Gdx.graphics.getWidth() / (float) WIDTH),
+					25 * (Gdx.graphics.getHeight() / (float) HEIGHT));
+			playButtons[i].setSize(
+					25 * (Gdx.graphics.getWidth() / (float) WIDTH),
+					25 * (Gdx.graphics.getHeight() / (float) HEIGHT));
+		}
 
 		// Loads all the Prizm sprites
 		colorpacks = new Sprite[1][5][6][2];
@@ -449,7 +464,7 @@ public class PrizmPathGame extends Game {
 			ads = true;
 		}
 	}
-	
+
 	public void launchInterstitial() {
 		myRequestHandler.showOrLoadInterstital();
 	}
@@ -457,7 +472,7 @@ public class PrizmPathGame extends Game {
 	public boolean isShown() {
 		return myRequestHandler.shown();
 	}
-	
+
 	public OrthographicCamera getCam() {
 		return cam;
 	}

@@ -55,7 +55,9 @@ public class OptionScreen implements Screen {
 		this.p = p;
 
 		// Sets size of buttons
-		buttonSize = new Vector2(300, 60);
+		buttonSize = new Vector2(
+				300 * (Gdx.graphics.getWidth() / (float) PrizmPathGame.WIDTH),
+				60 * (Gdx.graphics.getHeight() / (float) PrizmPathGame.HEIGHT));
 	}
 
 	// Updates the screen
@@ -63,6 +65,8 @@ public class OptionScreen implements Screen {
 		// Clears the screen
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+		batch.setProjectionMatrix(p.getCam().combined);
 
 		// Starts drawing the background
 		PrizmPathGame.getBackground(PrizmPathGame.curBackground).setColor(
@@ -91,6 +95,10 @@ public class OptionScreen implements Screen {
 		// Button style
 		TextButtonStyle tbs = new TextButtonStyle();
 		tbs.font = g;
+
+		buttonSize = new Vector2(
+				300 * (Gdx.graphics.getWidth() / (float) PrizmPathGame.WIDTH),
+				60 * (Gdx.graphics.getHeight() / (float) PrizmPathGame.HEIGHT));
 
 		// Background button
 		background = new TextButton("Background: "
@@ -179,14 +187,14 @@ public class OptionScreen implements Screen {
 		LabelStyle lsg = new LabelStyle(g, Color.WHITE);
 		title = new Label("Options", ls);
 		title.setX(0);
-		title.setY(420);
+		title.setY(420 * (Gdx.graphics.getHeight() / (float) PrizmPathGame.HEIGHT));
 		title.setWidth(Gdx.graphics.getWidth());
 		title.setAlignment(Align.center);
 
 		// Info label
 		info = new Label("Click to continue...", lsg);
 		info.setX(0);
-		info.setY(110);
+		info.setY(110 * (Gdx.graphics.getHeight() / (float) PrizmPathGame.HEIGHT));
 		info.setWidth(Gdx.graphics.getWidth());
 		info.setAlignment(Align.center);
 
@@ -267,8 +275,9 @@ public class OptionScreen implements Screen {
 	// Checks if the screen should be exited
 	private void clickCheck() {
 		if (Gdx.input.isTouched()
-				&& (Gdx.input.getX() > 580 || Gdx.input.getX() < 220 || Gdx.input
-						.getY() > 400))
+				&& (Gdx.input.getX() > 580 * (Gdx.graphics.getWidth() / (float) PrizmPathGame.WIDTH)
+						|| Gdx.input.getX() < 220 * (Gdx.graphics.getWidth() / (float) PrizmPathGame.WIDTH) || Gdx.input
+						.getY() > 400 * (Gdx.graphics.getHeight() / (float) PrizmPathGame.HEIGHT)))
 			toStart();
 	}
 

@@ -65,9 +65,13 @@ public class StartScreen implements Screen {
 
 		// Initializes variables
 		if (Gdx.app.getType() == ApplicationType.Android)
-			buttonSize = new Vector2(300, 60);
+			buttonSize = new Vector2(
+					300 * (Gdx.graphics.getWidth() / (float) PrizmPathGame.WIDTH),
+					60 * (Gdx.graphics.getHeight() / (float) PrizmPathGame.HEIGHT));
 		else
-			buttonSize = new Vector2(300, 75);
+			buttonSize = new Vector2(
+					300 * (Gdx.graphics.getWidth() / (float) PrizmPathGame.WIDTH),
+					75 * (Gdx.graphics.getHeight() / (float) PrizmPathGame.HEIGHT));
 		delete = false;
 	}
 
@@ -76,6 +80,8 @@ public class StartScreen implements Screen {
 		// Clears the screen
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+		batch.setProjectionMatrix(p.getCam().combined);
 
 		// Starts drawing the background
 		PrizmPathGame.getBackground(PrizmPathGame.curBackground).setColor(
@@ -117,6 +123,15 @@ public class StartScreen implements Screen {
 			dStage = new Stage();
 		dStage.clear();
 
+		if (Gdx.app.getType() == ApplicationType.Android)
+			buttonSize = new Vector2(
+					300 * (Gdx.graphics.getWidth() / (float) PrizmPathGame.WIDTH),
+					60 * (Gdx.graphics.getHeight() / (float) PrizmPathGame.HEIGHT));
+		else
+			buttonSize = new Vector2(
+					300 * (Gdx.graphics.getWidth() / (float) PrizmPathGame.WIDTH),
+					75 * (Gdx.graphics.getHeight() / (float) PrizmPathGame.HEIGHT));
+
 		// Button style
 		TextButtonStyle tbs = new TextButtonStyle();
 		tbs.up = skin.getDrawable("buttonnormal");
@@ -128,9 +143,9 @@ public class StartScreen implements Screen {
 		start.setSize(buttonSize.x, buttonSize.y);
 		start.setX(Gdx.graphics.getWidth() / 2 - buttonSize.x / 2);
 		if (Gdx.app.getType() == ApplicationType.Android)
-			start.setY((4 * buttonSize.y) + 100);
+			start.setY(((4 * buttonSize.y) + 100));
 		else
-			start.setY((4 * buttonSize.y) + 15);
+			start.setY(((4 * buttonSize.y) + 15));
 		start.addListener(new InputListener() {
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
@@ -266,7 +281,7 @@ public class StartScreen implements Screen {
 		LabelStyle ls = new LabelStyle(f, Color.WHITE);
 		title = new Label("PrizmPath", ls);
 		title.setX(0);
-		title.setY(420);
+		title.setY(420 * (Gdx.graphics.getHeight() / (float) PrizmPathGame.HEIGHT));
 		title.setWidth(Gdx.graphics.getWidth());
 		title.setAlignment(Align.center);
 

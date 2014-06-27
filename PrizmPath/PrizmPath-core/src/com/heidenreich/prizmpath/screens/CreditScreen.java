@@ -50,6 +50,8 @@ public class CreditScreen implements Screen {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+		batch.setProjectionMatrix(p.getCam().combined);
+
 		// Starts drawing the background
 		PrizmPathGame.getBackground(PrizmPathGame.curBackground).setColor(
 				new Color(Color.LIGHT_GRAY));
@@ -83,7 +85,7 @@ public class CreditScreen implements Screen {
 		// Title label
 		title = new Label("Credits", ls);
 		title.setX(0);
-		title.setY(420);
+		title.setY(420 * (Gdx.graphics.getHeight() / (float) PrizmPathGame.HEIGHT));
 		title.setWidth(Gdx.graphics.getWidth());
 		title.setAlignment(Align.center);
 
@@ -92,7 +94,7 @@ public class CreditScreen implements Screen {
 				"This game was created by \nHunter Heidenreich. It is his first \napp. Hope you enjoy, and \nif you have any feedback visit \nwww.huntermusicandtv.com",
 				lsg);
 		info.setX(0);
-		info.setY(150);
+		info.setY(150 * (Gdx.graphics.getHeight() / (float) PrizmPathGame.HEIGHT));
 		info.setWidth(Gdx.graphics.getWidth());
 		info.setAlignment(Align.center);
 

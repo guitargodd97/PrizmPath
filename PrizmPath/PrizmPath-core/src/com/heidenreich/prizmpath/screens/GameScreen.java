@@ -44,11 +44,13 @@ public class GameScreen implements Screen {
 
 	private BitmapFont f;
 	private BitmapFont g;
+	private boolean loseBuffer;
 	private ImageButton home;
 	private ImageButton next;
 	private ImageButton pause;
 	private ImageButton play;
 	private ImageButton restart;
+	private int adShown;
 	private int clickBuffer;
 	private int curClick;
 	private int gameState;
@@ -80,7 +82,9 @@ public class GameScreen implements Screen {
 		maxClick = new int[4];
 
 		// Sets the size of buttons
-		buttonSize = new Vector2(60, 60);
+		buttonSize = new Vector2(
+				60 * (Gdx.graphics.getWidth() / (float) PrizmPathGame.WIDTH),
+				60 * (Gdx.graphics.getHeight() / (float) PrizmPathGame.HEIGHT));
 
 		// 0 = running, 1 = options, 2 = gameover, 3 = level won, 4 = tutorial
 		gameState = 0;
@@ -97,6 +101,7 @@ public class GameScreen implements Screen {
 
 		// Creates a new Solutions for move checking
 		answers = new Solutions(level);
+		loseBuffer = false;
 	}
 
 	// Updates the screen
@@ -104,6 +109,8 @@ public class GameScreen implements Screen {
 		// Clears the screen
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+		batch.setProjectionMatrix(p.getCam().combined);
 
 		// Starts drawing the background
 		PrizmPathGame.getBackground(PrizmPathGame.curBackground).setColor(
@@ -125,9 +132,13 @@ public class GameScreen implements Screen {
 		// If the game is running
 		if (gameState == 0) {
 			if (Gdx.input.isTouched() && clickBuffer == 0) {
+
 				// Convert click to work with Rectangles
-				Vector2 t = new Vector2(Gdx.input.getX(),
-						Gdx.graphics.getHeight() - Gdx.input.getY());
+				Vector2 t = new Vector2(
+						Gdx.input.getX()
+								/ (Gdx.graphics.getWidth() / (float) PrizmPathGame.WIDTH),
+						(Gdx.graphics.getHeight() - Gdx.input.getY())
+								/ (Gdx.graphics.getHeight() / (float) PrizmPathGame.HEIGHT));
 
 				// Sort through collection
 				for (int i = 0; i < collection.length; i++) {
@@ -204,8 +215,22 @@ public class GameScreen implements Screen {
 			batch.begin();
 			box.draw(batch);
 			batch.end();
+			if (!loseBuffer) {
+				loseBuffer = true;
+				PrizmPathGame.LOSE++;
+			}
 		} else if (gameState == 3) { // Game is in ads
+			if (adShown == 0
+					&& (PrizmPathGame.LOSE >= 5 || PrizmPathGame.TIME >= 300)) {
+				p.launchInterstitial();
+				if (PrizmPathGame.LOSE >= 5)
+					PrizmPathGame.LOSE = 0;
+				if (PrizmPathGame.TIME >= 300)
+					PrizmPathGame.TIME = 0;
+			} else
 				nextScreen(postAd);
+			if (p.isShown())
+				adShown++;
 		} else if (gameState == 4) {// Game is won
 			batch.begin();
 			box.draw(batch);
@@ -311,6 +336,10 @@ public class GameScreen implements Screen {
 		stage.clear();
 		Gdx.input.setInputProcessor(stage);
 
+		buttonSize = new Vector2(
+				60 * (Gdx.graphics.getWidth() / (float) PrizmPathGame.WIDTH),
+				60 * (Gdx.graphics.getHeight() / (float) PrizmPathGame.HEIGHT));
+
 		// Label Styles
 		LabelStyle ls = new LabelStyle(f, Color.WHITE);
 		LabelStyle lsg = new LabelStyle(g, Color.WHITE);
@@ -318,22 +347,22 @@ public class GameScreen implements Screen {
 		// Title Label
 		title = new Label("Level " + level, ls);
 		title.setX(0);
-		title.setY(420);
+		title.setY(420 * (Gdx.graphics.getHeight() / (float) PrizmPathGame.HEIGHT));
 		title.setWidth(Gdx.graphics.getWidth());
 		title.setAlignment(Align.center);
 
 		// Click Label
 		click = new Label(
 				"Clicks: " + curClick + "/" + maxClick[maxClickIndex], ls);
-		click.setX(400);
-		click.setY(420);
+		click.setX(400 * (Gdx.graphics.getWidth() / (float) PrizmPathGame.WIDTH));
+		click.setY(420 * (Gdx.graphics.getHeight() / (float) PrizmPathGame.HEIGHT));
 		click.setWidth(Gdx.graphics.getWidth() / 2);
 		click.setAlignment(Align.center);
 
 		// Info Label
 		info = new Label("Info", lsg);
 		info.setX(0);
-		info.setY(250);
+		info.setY(300 * (Gdx.graphics.getHeight() / (float) PrizmPathGame.HEIGHT));
 		info.setWidth(Gdx.graphics.getWidth());
 		info.setAlignment(Align.center);
 		info.setVisible(false);
@@ -512,7 +541,9 @@ public class GameScreen implements Screen {
 					.get(PrizmPathGame.TEXTURE_PATH, TextureAtlas.class)
 					.createSprite("tut" + (i + 1));
 			tuts[i].setPosition(
-					(Gdx.graphics.getWidth() - tuts[i].getWidth()) / 2, 115);
+					(Gdx.graphics.getWidth() - (tuts[i].getWidth() * (Gdx.graphics
+							.getWidth() / (float) PrizmPathGame.WIDTH))) / 2,
+					115 * (Gdx.graphics.getHeight() / (float) PrizmPathGame.HEIGHT));
 		}
 
 		// Constructs the level
@@ -1878,7 +1909,7 @@ public class GameScreen implements Screen {
 			break;
 		}
 	}
-	
+
 	public void setPostAd(int postAd) {
 		this.postAd = postAd;
 		gameState = 3;
